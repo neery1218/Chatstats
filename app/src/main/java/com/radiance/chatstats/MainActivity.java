@@ -35,8 +35,8 @@ public class MainActivity extends ActionBarActivity {
         sCursor = getContentResolver().query(Uri.parse("content://sms/sent"),new String [] {"address", "body", "date"},null,null,null);
         conversationThread = new ConversationThread(rCursor,sCursor,address);
         messages = conversationThread.getConversations();
-      //  Analytics analytics = new Analytics (conversationThread);
-       // text.setText(""+ analytics.getResponseTime());
+       Analytics analytics = new Analytics (conversationThread);
+       text.setText(""+ analytics.getResponseTime());
         // mCursor.moveToFirst();
 
     }
