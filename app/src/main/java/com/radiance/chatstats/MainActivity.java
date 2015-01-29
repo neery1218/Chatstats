@@ -27,10 +27,12 @@ public class MainActivity extends ActionBarActivity {
 
         //set references
         text = (TextView)findViewById((R.id.textView));
+       // text.setText("hi");
         //get Contact address, any one
 // arbitrary position, just checking if messages work
         // address =  cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-        address = "+1647968596809";
+
+        address = "+16479685968";
         rCursor = getContentResolver().query(Uri.parse("content://sms/inbox"),new String [] {"address", "body", "date"},null,null,null);
         sCursor = getContentResolver().query(Uri.parse("content://sms/sent"),new String [] {"address", "body", "date"},null,null,null);
         conversationThread = new ConversationThread(rCursor,sCursor,address);
