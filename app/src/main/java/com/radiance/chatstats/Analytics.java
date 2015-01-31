@@ -20,6 +20,8 @@ public class Analytics {
         ArrayList<StatPoint> temp = new ArrayList<StatPoint> ();
         for (int i = 0; i< EMOTICONS.length; i++){
             temp.add(searchFor(EMOTICONS[i]));
+            //nothing really changed
+            //ok
         }
         return temp;
     }
