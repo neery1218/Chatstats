@@ -21,7 +21,7 @@ public class MainActivity extends ActionBarActivity {
     ArrayList<Conversation> messages;
     int i = 0;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {//pushing with 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //need to add fragments now
