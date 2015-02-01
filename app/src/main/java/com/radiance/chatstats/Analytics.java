@@ -128,7 +128,7 @@ public class Analytics {// returns statistics to the fragments for display
             }
         }
         Log.v("Time", "" + timeSent + "    " + timeReceived);
-        timeSent /= (responsesSent*60000);//returns it in minutes
+        timeSent /= (responsesSent*60000);//returns it in minutes right
         timeReceived /= (responsesReceived*60000);// responsesSent = sentSize, we're duplicating code here
 
         return new StatPoint(timeSent, timeReceived);
