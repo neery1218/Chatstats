@@ -9,7 +9,7 @@ import com.radiance.chatstats.SMS.Status;
 //Static Class
 public class Analytics {// returns statistics to the fragments for display
 
-    private static ArrayList<String> commonWords;
+    private static ArrayList<String> commonWords;//testing
     private static ArrayList<String> emoticons;
     private static ConversationThread c;
     private static final String [] EMOTICONS = {":p", ":)", ";)",":S"};
