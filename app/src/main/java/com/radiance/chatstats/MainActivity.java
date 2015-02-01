@@ -24,7 +24,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //need to add fragments now
         //set references
         text = (TextView)findViewById((R.id.textView));
        // text.setText("hi");
