@@ -131,6 +131,6 @@ public class Analytics {// returns statistics to the fragments for display
         timeSent /= (responsesSent*60000);//returns it in minutes right
         timeReceived /= (responsesReceived*60000);// responsesSent = sentSize, we're duplicating code here
 
-        return new StatPoint(timeSent, timeReceived);
+        return new StatPoint(timeSent, timeReceived);//uses statpoint object
     }
 }
