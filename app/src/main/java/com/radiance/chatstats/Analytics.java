@@ -17,7 +17,7 @@ public class Analytics {// returns statistics to the fragments for display
     public Analytics (ConversationThread c){// basic constructor, accepts the conversationThread
         this.c = c;
 
-
+        //Hello
 
     }
     public static ArrayList<StatPoint> getEmoticonCount (){// returns an ArrayList of Statpoints signifying the number of each emoticon used
