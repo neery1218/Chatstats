@@ -123,10 +123,11 @@ public class ConversationThread {
         }
     }
 
-    private boolean matchAddress(String temp, String key)
+    private boolean matchAddress(String temp, String key)//needs to be finalised
     {
         //Processes temp to get rid of brackets and stuff
         String temptemp = "";
+        String tempkey = "";
         for (int i = 0; i < temp.length(); i++)
         {
             if (Character.isDigit(temp.charAt(i)))
@@ -134,11 +135,22 @@ public class ConversationThread {
                 temptemp += temp.charAt(i);
             }
         }
+        for (int i = 0; i < key.length(); i++)
+        {
+            if (Character.isDigit(key.charAt(i)))
+            {
+                tempkey += key.charAt(i);
+            }
+        }
         //Log.v("Flaga",temptemp);
+        /*
         if (key.indexOf(temptemp)!= -1 & key.indexOf(temptemp) + temptemp.length() == key.length())
         {
             return true;
         }
+        */
+        if (temptemp.indexOf(tempkey)!=-1 || tempkey.indexOf(temptemp)!=-1 & temptemp.length() > 9 & tempkey.length()>9)//works for general ten digit numbers, but also pushes in five digit numbers
+            return true;
 
         return false;
     }

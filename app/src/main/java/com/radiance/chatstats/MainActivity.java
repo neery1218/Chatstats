@@ -16,19 +16,22 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements StatsFragment.OnFragmentInteractionListener{
+public class MainActivity extends ActionBarActivity implements StatsFragment.OnFragmentInteractionListener, ContactsFragment.OnFragmentInteractionListener
+{
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    ContactsFragment contactsFragment;
+    StatsFragment statsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {//pushing with
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        StatsFragment statsFragment = new StatsFragment();
-        fragmentTransaction.add(R.id.fragment_container,statsFragment);
+        contactsFragment = new ContactsFragment();
+         fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container,contactsFragment);
         fragmentTransaction.commit();
-
-
     }
 
     @Override
@@ -37,7 +40,10 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
+    @Override
+    public void onBackPressed (){
+      fragmentManager.popBackStack();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -54,7 +60,13 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
     }
 
     @Override
-    public void onFragmentInteraction(){
+    public void onFragmentInteraction(String id){
+        statsFragment = new StatsFragment();
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container,statsFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
 }

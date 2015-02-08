@@ -87,7 +87,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 // arbitrary position, just checking if messages work
         // address =  cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-        address = "+16479685968";
+        address = "6479685968";
         rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"),new String [] {"address", "body", "date"},null,null,null);
         sCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/sent"),new String [] {"address", "body", "date"},null,null,null);
         conversationThread = new ConversationThread(rCursor,sCursor,address);
@@ -147,7 +147,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction();
+        public void onFragmentInteraction(String id);
     }
 
 }
