@@ -73,12 +73,13 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+           address= getArguments().getString("address");
+
         }
-        */
+
+
         //need to add fragments now
         //set references
 
@@ -87,7 +88,6 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 // arbitrary position, just checking if messages work
         // address =  cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-        address = "6479685968";
         rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"),new String [] {"address", "body", "date"},null,null,null);
         sCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/sent"),new String [] {"address", "body", "date"},null,null,null);
         conversationThread = new ConversationThread(rCursor,sCursor,address);

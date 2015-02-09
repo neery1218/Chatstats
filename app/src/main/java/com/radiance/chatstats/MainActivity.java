@@ -24,14 +24,18 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
     StatsFragment statsFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {//pushing with
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        contactsFragment = new ContactsFragment();
+
+        contactsFragment = new ContactsFragment();//initializing first fragment being used
+
+        //initialize transaction and add to viewgroup
          fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container,contactsFragment);
         fragmentTransaction.commit();
+
     }
 
     @Override
@@ -61,7 +65,12 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
 
     @Override
     public void onFragmentInteraction(String id){
+
         statsFragment = new StatsFragment();
+        Bundle args = new Bundle();
+        args.putString("address", id);
+        statsFragment.setArguments(args);
+
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container,statsFragment);

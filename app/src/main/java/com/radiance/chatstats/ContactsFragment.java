@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,8 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
     private OnFragmentInteractionListener mListener;
     private AbsListView mListView;//The fragment's ListView/GridView.
     private ListAdapter mAdapter;//The Adapter which will be used to populate the ListView/GridView
+    private CursorAdapter cAdapter;
+    ArrayList<String> numbers;
 
 
     // TODO: Rename and change types of parameters
@@ -60,10 +64,21 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
     public ArrayList<String> getContacts (){
         Cursor cCursor = getActivity().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
         ArrayList<String> test = new ArrayList<String> ();
+         numbers = new ArrayList<String> ();
         if (cCursor.getCount() > 0){
             while (cCursor.moveToNext()){
-                if (Integer.parseInt(cCursor.getString(cCursor.getColumnIndex( ContactsContract.Contacts.HAS_PHONE_NUMBER )))==1)
-                    test.add(cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));
+                if (Integer.parseInt(cCursor.getString(cCursor.getColumnIndex( ContactsContract.Contacts.HAS_PHONE_NUMBER )))==1){
+                    test.add(cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));// get name
+                    Cursor pCursor = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts._ID))}, null);
+                    //get phone number
+                   pCursor.moveToFirst();
+                    numbers.add(pCursor.getString(pCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+                    pCursor.close();
+
+
+
+                }
+
             }
         }
         return test;
@@ -107,7 +122,8 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction("6479685968");//return the address
+            Log.v("number",numbers.get(position));
+            mListener.onFragmentInteraction(numbers.get(position));//return the address
         }
     }
 
