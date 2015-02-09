@@ -23,7 +23,6 @@ public class ConversationThread {
     private ArrayList<Conversation> conversations;
 
     private String address;
-    //Neerajen is a god
     public ConversationThread(Cursor r, Cursor s, String address)
     {
         this.address = address;
@@ -34,18 +33,14 @@ public class ConversationThread {
         this.responses = new ArrayList<Response>();
         this.conversations = new ArrayList<Conversation>();
 
-        //I pimped it up yooooo
-        this.received = retrieve(r, Status.RECEIVED);// can you do this with arrayLists?
+
+        this.received = retrieve(r, Status.RECEIVED);
         this.sent = retrieve(s, Status.SENT);
 
         messages.addAll(received);
         messages.addAll(sent);
 
-        Collections.sort(messages);// sorts them in ascending order (i think)
-        //Collections.sort(sent);
-        //Collections.sort(received);
-
-        Log.v("Flag", "WTF");
+        Collections.sort(messages);// sorts them in ascending chronological order
         initializeResponses();
         initializeConversations();
     }
@@ -166,7 +161,6 @@ public class ConversationThread {
 
                 long date = c.getLong(c.getColumnIndexOrThrow("date"));
                 String body = c.getString(c.getColumnIndexOrThrow("body"));
-                //TODO How do i check if message is sent or received
                 messages.add(new SMS(date, body, status));
             }
         }

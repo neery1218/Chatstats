@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class ContactsFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class ContactsFragment extends Fragment implements AbsListView.OnItemClickListener {//displays a list of contacts for running statistics
 
 
     private OnFragmentInteractionListener mListener;
@@ -41,8 +41,6 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
     private CursorAdapter cAdapter;
     ArrayList<String> numbers;
 
-
-    // TODO: Rename and change types of parameters
     public static ContactsFragment newInstance(String param1, String param2) {
         ContactsFragment fragment = new ContactsFragment();
         return fragment;
@@ -55,16 +53,16 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ArrayList<String> test = getContacts();
-        // TODO: Change Adapter to display your content
+        ArrayList<String> test = getContacts();//gets contacts from a cursor
         mAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, android.R.id.text1, test);
     }
 
-    public ArrayList<String> getContacts (){
+    public ArrayList<String> getContacts (){//queries the contacts from a content provider
         Cursor cCursor = getActivity().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
         ArrayList<String> test = new ArrayList<String> ();
-         numbers = new ArrayList<String> ();
+        numbers = new ArrayList<String> ();
+
         if (cCursor.getCount() > 0){
             while (cCursor.moveToNext()){
                 if (Integer.parseInt(cCursor.getString(cCursor.getColumnIndex( ContactsContract.Contacts.HAS_PHONE_NUMBER )))==1){
@@ -118,12 +116,13 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
 
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {//called when a number is selected
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            Log.v("number",numbers.get(position));
+            Log.v("number",numbers.get(position));//testing purposes
             mListener.onFragmentInteraction(numbers.get(position));//return the address
+            //TODO: change the argument so it's passed through a bundle
         }
     }
 

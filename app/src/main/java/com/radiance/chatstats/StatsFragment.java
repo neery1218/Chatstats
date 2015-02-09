@@ -23,16 +23,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class StatsFragment extends Fragment implements View.OnClickListener {
-    /*
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-*/
     private Cursor rCursor, sCursor;
     TextView text;
     String address;
@@ -43,23 +34,9 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StatsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static StatsFragment newInstance(String param1, String param2) {
         StatsFragment fragment = new StatsFragment();
-        /*
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        */
+
 
         return fragment;
     }
@@ -78,16 +55,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
            address= getArguments().getString("address");
 
         }
-
-
-        //need to add fragments now
-        //set references
-
-        // text.setText("hi");
-        //get Contact address, any one
-// arbitrary position, just checking if messages work
-        // address =  cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
+        //calling all the cursors
         rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"),new String [] {"address", "body", "date"},null,null,null);
         sCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/sent"),new String [] {"address", "body", "date"},null,null,null);
         conversationThread = new ConversationThread(rCursor,sCursor,address);
