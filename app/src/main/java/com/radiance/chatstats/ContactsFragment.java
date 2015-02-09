@@ -120,6 +120,9 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
+          //  Bundle args = new Bundle();
+         //   args.putString("address",numbers.get(position));
+          //  setArguments(args);
             Log.v("number",numbers.get(position));//testing purposes
             mListener.onFragmentInteraction(numbers.get(position));//return the address
             //TODO: change the argument so it's passed through a bundle

@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
 
         statsFragment = new StatsFragment();
         Bundle args = new Bundle();
-        args.putString("address", address);
+        args.putString("address",address);
         statsFragment.setArguments(args);
 
         //swap fragments
