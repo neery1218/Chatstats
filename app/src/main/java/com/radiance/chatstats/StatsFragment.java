@@ -1,10 +1,10 @@
 package com.radiance.chatstats;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,15 +24,18 @@ import java.util.ArrayList;
  */
 public class StatsFragment extends Fragment implements View.OnClickListener {
 
-    private Cursor rCursor, sCursor;
     TextView text;
     String address;
     ConversationThread conversationThread;
     ArrayList<Conversation> messages;
     Analytics analytics;
     int i = 0;
-
+    private Cursor rCursor, sCursor;
     private OnFragmentInteractionListener mListener;
+
+    public StatsFragment() {
+        // Required empty public constructor
+    }
 
     public static StatsFragment newInstance(String param1, String param2) {
         StatsFragment fragment = new StatsFragment();
@@ -41,26 +44,24 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
-    public StatsFragment() {
-        // Required empty public constructor
-    }
-    public void displayMessage (View view){
+    public void displayMessage(View view) {
 
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-           address= getArguments().getString("address");
+            address = getArguments().getString("address");
 
         }
         //calling all the cursors
-        rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"),new String [] {"address", "body", "date"},null,null,null);
-        sCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/sent"),new String [] {"address", "body", "date"},null,null,null);
-        conversationThread = new ConversationThread(rCursor,sCursor,address);
+        rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"), new String[]{"address", "body", "date"}, null, null, null);
+        sCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/sent"), new String[]{"address", "body", "date"}, null, null, null);
+        conversationThread = new ConversationThread(rCursor, sCursor, address);
         messages = conversationThread.getConversations();
-        analytics = new Analytics (conversationThread);
+        analytics = new Analytics(conversationThread);
 
         // mCursor.moveToFirst();
     }
@@ -71,17 +72,18 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
 
-        text = (TextView)view.findViewById((R.id.textView));
-        text.setText(" "+ analytics.getResponseTime());
+        text = (TextView) view.findViewById((R.id.textView));
+        text.setText(" " + analytics.getResponseTime());
         Button button = (Button) view.findViewById((R.id.button));
         button.setOnClickListener(this);
         return view;
     }
+
     @Override
     public void onClick(View v) {
-        text.setText(messages.get(i).toString()+ "\n Date End:" + messages.get(i).getDateEnd() + "\n Date Start:"+messages.get(i).getDateStart() );
+        text.setText(messages.get(i).toString() + "\n Date End:" + messages.get(i).getDateEnd() + "\n Date Start:" + messages.get(i).getDateStart());
         i++;
-        i%=messages.size();
+        i %= messages.size();
         //mCursor.moveToNext();
 
     }
@@ -103,16 +105,6 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         public void onFragmentInteraction(String id);
     }

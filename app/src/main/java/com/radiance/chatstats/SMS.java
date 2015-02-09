@@ -2,19 +2,14 @@ package com.radiance.chatstats;
 
 import java.util.Date;
 
-public class SMS implements Comparable<SMS>
+public class SMS implements Comparable<SMS>//class storing the sms message from the query
 {
     private long date;
     private String body;
     //Enum
-    private Status status;
-/*      
-        public static void main (String [] args)
-        {
-                
-        }*/
+    private Status status;//status used to determined if sent or received
 
-    public SMS (long date, String body, Status status)
+    public SMS(long date, String body, Status status)//constructor
     {
         this.date = date;
         this.body = body;
@@ -38,13 +33,13 @@ public class SMS implements Comparable<SMS>
     }
 
     //Gets message length in words
-    public int wordLength()
+    public int wordLength()//uses regex to find wordlength
     {
         String [] words = body.split("[ ]{1,}");
         return words.length;
     }
 
-    public  int getNumOf (String s){
+    public int getNumOf(String s) {//finds occurrences of parameter s in the SMS body
         String [] words = body.split("[ ]{1,}");
         int n = 0;
         for (int i = 0; i < words.length; i++){

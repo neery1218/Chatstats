@@ -1,15 +1,10 @@
 package com.radiance.chatstats;
 
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,65 +13,52 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.provider.ContactsContract;
-
 
 import java.util.ArrayList;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Large screen devices (such as tablets) are supported by replacing the ListView
- * with a GridView.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
- * interface.
- */
+
 public class ContactsFragment extends Fragment implements AbsListView.OnItemClickListener {//displays a list of contacts for running statistics
 
 
+    ArrayList<String> numbers;
     private OnFragmentInteractionListener mListener;
     private AbsListView mListView;//The fragment's ListView/GridView.
     private ListAdapter mAdapter;//The Adapter which will be used to populate the ListView/GridView
-    private CursorAdapter cAdapter;
-    ArrayList<String> numbers;
-
-    public static ContactsFragment newInstance(String param1, String param2) {
-        ContactsFragment fragment = new ContactsFragment();
-        return fragment;
-    }
 
     public ContactsFragment() {//mandatory constructor
+    }
+
+    public static ContactsFragment newInstance() {
+        ContactsFragment fragment = new ContactsFragment();
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ArrayList<String> test = getContacts();//gets contacts from a cursor
+        ArrayList<String> contacts = getContacts();//gets contacts from a cursor
         mAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, test);
+                android.R.layout.simple_list_item_1, android.R.id.text1, contacts);
+
     }
 
     public ArrayList<String> getContacts (){//queries the contacts from a content provider
-        Cursor cCursor = getActivity().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
+
+        Cursor cCursor = getActivity().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);//initial query gets all contacts
         ArrayList<String> test = new ArrayList<String> ();
         numbers = new ArrayList<String> ();
-
+        //some contacts don't have phone numbers, so they must be taken out
         if (cCursor.getCount() > 0){
             while (cCursor.moveToNext()){
-                if (Integer.parseInt(cCursor.getString(cCursor.getColumnIndex( ContactsContract.Contacts.HAS_PHONE_NUMBER )))==1){
+                if (Integer.parseInt(cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) == 1) {//if the contact has a phone number, it is added to contacts
                     test.add(cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));// get name
+                    //another query for all the phone numbers, only first one is used
                     Cursor pCursor = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts._ID))}, null);
-                    //get phone number
                    pCursor.moveToFirst();
                     numbers.add(pCursor.getString(pCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-                    pCursor.close();
-
-
-
+                    pCursor.close();//finalise cursor
                 }
-
             }
         }
         return test;
@@ -117,23 +99,10 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {//called when a number is selected
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-          //  Bundle args = new Bundle();
-         //   args.putString("address",numbers.get(position));
-          //  setArguments(args);
-            Log.v("number",numbers.get(position));//testing purposes
-            mListener.onFragmentInteraction(numbers.get(position));//return the address
-            //TODO: change the argument so it's passed through a bundle
-        }
+        if (null != mListener)
+            mListener.onFragmentInteraction(numbers.get(position));//returns address to MainActivity
     }
 
-    /**
-     * The default content for this Fragment has a TextView that is shown when
-     * the list is empty. If you would like to change the text, call this method
-     * to supply the text it should use.
-     */
     public void setEmptyText(CharSequence emptyText) {
         View emptyView = mListView.getEmptyView();
 
@@ -144,8 +113,8 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
 
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(String id);
+
+        public void onFragmentInteraction(String address);
     }
 
 }

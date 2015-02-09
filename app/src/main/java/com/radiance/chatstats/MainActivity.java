@@ -2,22 +2,13 @@ package com.radiance.chatstats;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.database.Cursor;
-import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements StatsFragment.OnFragmentInteractionListener, ContactsFragment.OnFragmentInteractionListener
-{
+public class MainActivity extends ActionBarActivity implements StatsFragment.OnFragmentInteractionListener, ContactsFragment.OnFragmentInteractionListener {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ContactsFragment contactsFragment;
@@ -31,9 +22,9 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
         contactsFragment = new ContactsFragment();//initializing first fragment being used
 
         //initialize transaction and add to viewgroup
-         fragmentManager = getFragmentManager();
+        fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container,contactsFragment);
+        fragmentTransaction.add(R.id.fragment_container, contactsFragment);
         fragmentTransaction.commit();
 
     }
@@ -44,38 +35,36 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
-    public void onBackPressed (){
-      fragmentManager.popBackStack();
+    public void onBackPressed() {
+        fragmentManager.popBackStack();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
+        int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onFragmentInteraction(String address){
-
+    public void onFragmentInteraction(String address) {//only one case: number has been selected
+        //create new statsFragment and a Bundle with the address parameter
         statsFragment = new StatsFragment();
         Bundle args = new Bundle();
-        args.putString("address",address);
+        args.putString("address", address);
         statsFragment.setArguments(args);
 
         //swap fragments
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container,statsFragment);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.fragment_container, statsFragment);
+        fragmentTransaction.addToBackStack(null);//so the back button works
         fragmentTransaction.commit();
 
     }
