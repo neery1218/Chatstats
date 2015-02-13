@@ -1,6 +1,10 @@
 package com.radiance.chatstats;
 
+import android.util.Log;
+
+import java.util.Arrays;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class SMS implements Comparable<SMS>
 {
@@ -8,11 +12,6 @@ public class SMS implements Comparable<SMS>
     private String body;
     //Enum
     private Status status;
-/*      
-        public static void main (String [] args)
-        {
-                
-        }*/
 
     public SMS (long date, String body, Status status)
     {
@@ -44,17 +43,31 @@ public class SMS implements Comparable<SMS>
         return words.length;
     }
 
-    public  int getNumOf (String s){
+    public  int getNumOf (String s, boolean regex)
+    {
         String [] words = body.split("[ ]{1,}");
+        //Log.d("YOLO", Arrays.toString(words));
         int n = 0;
-        for (int i = 0; i < words.length; i++){
-            if (words[i].toUpperCase().equals(s.toUpperCase())){
-                n++;
+        if (!regex)
+        {
+            for (int i = 0; i < words.length; i++) {
+                if (words[i].toUpperCase().equals(s.toUpperCase())) {
+                    n++;
+                }
+            }
+        }
+
+        else
+        {
+            for (int i = 0; i < words.length; i++) {
+                //Log.d("YOLO", words[i].matches(s)+"");
+                if (words[i].matches(s)) {
+                    n++;
+                }
             }
         }
         return n;
     }
-
     //Getters
     public long getDate() {
         return date;

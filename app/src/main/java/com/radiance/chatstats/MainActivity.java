@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 
@@ -31,7 +30,7 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
         contactsFragment = new ContactsFragment();//initializing first fragment being used
 
         //initialize transaction and add to viewgroup
-         fragmentManager = getFragmentManager();
+        fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container,contactsFragment);
         fragmentTransaction.commit();
@@ -44,10 +43,12 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public void onBackPressed (){
       fragmentManager.popBackStack();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -56,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings){
             return true;
         }
 
@@ -77,6 +78,5 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
         fragmentTransaction.replace(R.id.fragment_container,statsFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
     }
 }

@@ -33,7 +33,6 @@ public class ConversationThread {
         this.responses = new ArrayList<Response>();
         this.conversations = new ArrayList<Conversation>();
 
-
         this.received = retrieve(r, Status.RECEIVED);
         this.sent = retrieve(s, Status.SENT);
 

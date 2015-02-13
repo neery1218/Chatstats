@@ -1,59 +1,90 @@
 package com.radiance.chatstats;
 
 import android.util.Log;
-
 import java.util.ArrayList;
 import com.radiance.chatstats.SMS.Status;
 
 //Static Class
 //Static Class
-public class Analytics {// returns statistics to the fragments for display
+public class Analytics
+{
+    //Dictionaries
+    private static ArrayList<String> commonWords;
+    private static final String [] EMOTICONS = {":p", ":)", ";)",":S", ":D", ":P"};
 
-    private static ArrayList<String> commonWords;//testing
-    private static ArrayList<String> emoticons;
-    private static ConversationThread c;
-    private static final String [] EMOTICONS = {":p", ":)", ";)",":S"};
+    //Variables
+    private ConversationThread c;
+    private ArrayList <StatPoint> emoticonCount;
+    private StatPoint sentAndReceived;
+    private StatPoint avgMessageLengthWords;
+    private StatPoint initiateCount;
+    private StatPoint responseTime;
 
-    public Analytics (ConversationThread c){// basic constructor, accepts the conversationThread
+    public Analytics (ConversationThread c)
+    {
         this.c = c;
-
-        //Hello
-
+        emoticonCount = calcEmoticonCount();
+        sentAndReceived = calcSentAndReceived();
+        avgMessageLengthWords = calcAvgMessageLengthWords();
+        initiateCount = calcInitiateCount();
+        responseTime = calcResponseTime();
     }
-    public static ArrayList<StatPoint> getEmoticonCount (){// returns an ArrayList of Statpoints signifying the number of each emoticon used
+
+    public ArrayList<StatPoint> getEmoticonCount() {
+        return emoticonCount;
+    }
+
+    public StatPoint getSentAndReceived() {
+        return sentAndReceived;
+    }
+
+    public StatPoint getAvgMessageLengthWords() {
+        return avgMessageLengthWords;
+    }
+
+    public StatPoint getInitiateCount() {
+        return initiateCount;
+    }
+
+    public StatPoint getResponseTime() {
+        return responseTime;
+    }
+
+    public ArrayList<StatPoint> searchFor (String [] str, Boolean regex)
+    {
         ArrayList<StatPoint> temp = new ArrayList<StatPoint> ();
-        for (int i = 0; i< EMOTICONS.length; i++){
-            temp.add(searchFor(EMOTICONS[i]));
-            //nothing really changed
-            //ok
+        for (int i = 0; i< str.length; i++){
+            temp.add(searchFor(str[i], regex));
         }
         return temp;
     }
-    private static StatPoint searchFor (String s){// private method used to search the SMS messages for a passed string
+
+    public StatPoint searchFor (String s, Boolean regex) // initializes used to search the SMS messages for a passed string
+    {
+
         ArrayList<SMS> searchArray = c.getMessages();
         int S =0, R = 0;
 
         for (int i = 0; i < searchArray.size(); i++){
 
-
             if (searchArray.get(i).getStatus() == Status.SENT)// checks enum for type of message
-                S+=searchArray.get(i).getNumOf(s);
+                S+=searchArray.get(i).getNumOf(s, regex);
             else
-                R+=searchArray.get(i).getNumOf(s);
-
+                R+=searchArray.get(i).getNumOf(s, regex);
         }
+
         return (new StatPoint(S,R));
     }
 
-    //\/\/\/\/\/\/\/\WHO'S WINNING/\/\/\/\/\/\/\/\/\/\/\/\/
-    public static StatPoint sentAndReceived()// returns amount of sent messages vs received
+    public StatPoint calcSentAndReceived() // initializes amount of sent messages vs received
     {// maybe responses instead?
         int S = c.getSent().size();
         int R = c.getReceived().size();
         return (new StatPoint(S, R));
     }
 
-    public static StatPoint getAvgMessageLengthWords() {// returns the average message length
+    public StatPoint calcAvgMessageLengthWords() // initializes the average message length
+    {
         double S = 0.0, R = 0.0;
 
         double sentSize = 0, receivedSize = 0;
@@ -82,7 +113,13 @@ public class Analytics {// returns statistics to the fragments for display
         return (new StatPoint(S, R));
     }
 
-    public static StatPoint getInitiateCount ()// returns the amount of initiations per user
+    public ArrayList<StatPoint> calcEmoticonCount() // initializes an ArrayList of Statpoints signifying the number of each emoticon used
+    {
+
+        return searchFor(EMOTICONS, false);
+    }
+
+    public StatPoint calcInitiateCount() // initializes the amount of initiations per user
     {
         ArrayList<Conversation> conversations = c.getConversations();
 
@@ -98,7 +135,7 @@ public class Analytics {// returns statistics to the fragments for display
         return (new StatPoint(S,R));
     }
 
-    public static StatPoint getResponseTime ()// returns average response time
+    public StatPoint calcResponseTime() // initializes average response time
     {
         ArrayList<Response> temp;
         ArrayList<Conversation> conversations = c.getConversations();
@@ -129,6 +166,7 @@ public class Analytics {// returns statistics to the fragments for display
 
             }
         }
+
         Log.v("Time", "" + timeSent + "    " + timeReceived);
         timeSent /= (responsesSent*60000);//returns it in minutes right
         timeReceived /= (responsesReceived*60000);// responsesSent = sentSize, we're duplicating code here

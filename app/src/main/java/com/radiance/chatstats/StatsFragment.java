@@ -72,18 +72,20 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
 
         text = (TextView)view.findViewById((R.id.textView));
-        text.setText(" "+ analytics.getResponseTime());
+        text.setText(" "+ analytics.calcResponseTime());
         Button button = (Button) view.findViewById((R.id.button));
         button.setOnClickListener(this);
         return view;
     }
+
     @Override
     public void onClick(View v) {
-        text.setText(messages.get(i).toString()+ "\n Date End:" + messages.get(i).getDateEnd() + "\n Date Start:"+messages.get(i).getDateStart() );
+        /*text.setText(messages.get(i).toString()+ "\n Date End:" + messages.get(i).getDateEnd() + "\n Date Start:"+messages.get(i).getDateStart() );
         i++;
-        i%=messages.size();
-        //mCursor.moveToNext();
-
+        i%=messages.size();*/
+        //text.setText(""+analytics.searchFor(" *[hH]ey*", true));
+        text.setText("" + analytics.getEmoticonCount() + "\n" + analytics.getSentAndReceived()+ "\n" +
+                analytics.getAvgMessageLengthWords()+ "\n" + analytics.getResponseTime()+ "\n" + analytics.getInitiateCount());
     }
 
     @Override
