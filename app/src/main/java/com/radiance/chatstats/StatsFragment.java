@@ -30,7 +30,6 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     ConversationThread conversationThread;
     ArrayList<Conversation> messages;
     Analytics analytics;
-    int i = 0;
 
     private OnFragmentInteractionListener mListener;
 
