@@ -3,17 +3,17 @@ package com.radiance.chatstats;
 /**
  * Created by Neerajen on 28/01/2015.
  */
-import java.util.ArrayList;
-import java.util.Collections;
-
-import com.radiance.chatstats.SMS.Status;
-
 
 import android.database.Cursor;
 import android.util.Log;
 
-public class ConversationThread {
+import com.radiance.chatstats.SMS.Status;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class ConversationThread {//holds array of conversations
+    //TODO retrieve method doesn't error check for null case...
     private static long threshold = 1000*3600;
 
     private ArrayList<SMS> messages;
@@ -23,7 +23,8 @@ public class ConversationThread {
     private ArrayList<Conversation> conversations;
 
     private String address;
-    public ConversationThread(Cursor r, Cursor s, String address)
+
+    public ConversationThread(Cursor r, Cursor s, String address)//basic constructor
     {
         this.address = address;
 
@@ -73,7 +74,7 @@ public class ConversationThread {
         return conversations;
     }
 
-    private void initializeResponses() {
+    private void initializeResponses() {//sorts the SMS messages into blocks of responses
         int begin = 0, end = 0;
         Status key = messages.get(0).getStatus();
         Response temp;
@@ -97,7 +98,7 @@ public class ConversationThread {
 
     }
 
-    private void initializeConversations()
+    private void initializeConversations()//arranges the responses into Conversations based on time interval between next response
     {
         int begin = 0, end = 0;
         Conversation temp;
@@ -117,44 +118,37 @@ public class ConversationThread {
         }
     }
 
-    private boolean matchAddress(String temp, String key)//needs to be finalised
+    private boolean matchAddress(String temp, String key)//checks if two addresses are the same
     {
         //Processes temp to get rid of brackets and stuff
-        String temptemp = "";
-        String tempkey = "";
-        for (int i = 0; i < temp.length(); i++)
+        String tempProcessed = "";
+        String keyProcessed = "";
+        for (int i = 0; i < temp.length(); i++)//remove all non-digit characters ( ')',')','+','-')
         {
             if (Character.isDigit(temp.charAt(i)))
             {
-                temptemp += temp.charAt(i);
+                tempProcessed += temp.charAt(i);
             }
         }
-        for (int i = 0; i < key.length(); i++)
+        for (int i = 0; i < key.length(); i++)//same as above, but for keyProcessed
         {
             if (Character.isDigit(key.charAt(i)))
             {
-                tempkey += key.charAt(i);
+                keyProcessed += key.charAt(i);
             }
         }
-        //Log.v("Flaga",temptemp);
-        /*
-        if (key.indexOf(temptemp)!= -1 & key.indexOf(temptemp) + temptemp.length() == key.length())
-        {
-            return true;
-        }
-        */
-        if (temptemp.indexOf(tempkey)!=-1 || tempkey.indexOf(temptemp)!=-1 & temptemp.length() > 9 & tempkey.length()>9)//works for general ten digit numbers, but also pushes in five digit numbers
+
+        if (tempProcessed.contains(keyProcessed) || keyProcessed.contains(tempProcessed) & tempProcessed.length() > 9 & keyProcessed.length() > 9)//works for general ten digit numbers, but also pushes in five digit numbers
             return true;
 
         return false;
     }
 
-    private ArrayList<SMS> retrieve(Cursor c, Status status){ //ok
+    private ArrayList<SMS> retrieve(Cursor c, Status status) { //retrieves all messages from the cursor via query
         ArrayList<SMS> messages = new ArrayList<SMS>();
         for (int i = 0; i < c.getCount(); i++)
         {
             c.moveToPosition(i);
-            // Log.v("FLAG",""+c.getString(c.getColumnIndexOrThrow("address")).equals(address) );
             if (matchAddress(c.getString(c.getColumnIndexOrThrow("address")),address))
             {
 
