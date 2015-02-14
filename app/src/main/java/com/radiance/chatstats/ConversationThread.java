@@ -121,6 +121,7 @@ public class ConversationThread {//holds array of conversations
     private boolean matchAddress(String temp, String key)//checks if two addresses are the same
     {
         //Processes temp to get rid of brackets and stuff
+        Log.d("TAG", "FIRST: " + temp + "SECOND" + key);
         String tempProcessed = "";
         String keyProcessed = "";
         for (int i = 0; i < temp.length(); i++)//remove all non-digit characters ( ')',')','+','-')

@@ -1,12 +1,15 @@
 package com.radiance.chatstats;
 
+import java.util.ArrayList;
+
 /**
  * Created by Neerajen on 11/02/2015.
  */
 public class Contact {
-    private String name, address;
+    private String name;
+    private ArrayList<String> address;
 
-    public Contact(String name, String address) {
+    public Contact(String name, ArrayList<String> address) {
         this.name = name;
         this.address = address;
     }
@@ -15,13 +18,13 @@ public class Contact {
         return name;
     }
 
-    public String getAddress() {
+    public ArrayList<String> getAddress() {
         return address;
     }
 
     @Override
     public String toString() {
-        return name;
+        return name + ": " + address.toString();
     }
 
 }

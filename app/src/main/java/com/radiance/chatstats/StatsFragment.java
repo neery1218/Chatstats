@@ -26,7 +26,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 
     private Cursor rCursor, sCursor;
     TextView text;
-    String address;
+    ArrayList<String> address;
     ConversationThread conversationThread;
     ArrayList<Conversation> messages;
     Analytics analytics;
@@ -39,8 +39,6 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 
     public static StatsFragment newInstance(String param1, String param2) {
         StatsFragment fragment = new StatsFragment();
-
-
         return fragment;
     }
 
@@ -53,13 +51,13 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            address = getArguments().getString("address");
+            address = getArguments().getStringArrayList("address");
 
         }
         //calling all the cursors
         rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"), new String[]{"address", "body", "date"}, null, null, null);
         sCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/sent"), new String[]{"address", "body", "date"}, null, null, null);
-        conversationThread = new ConversationThread(rCursor, sCursor, address);
+        conversationThread = new ConversationThread(rCursor, sCursor, address.get(0));
         messages = conversationThread.getConversations();
         analytics = new Analytics(conversationThread);
 
@@ -73,16 +71,14 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
 
         text = (TextView)view.findViewById((R.id.textView));
-        text.setText(" "+ analytics.getResponseTime());
+        text.setText(" "+ analytics.getSentAndReceived());
         Button button = (Button) view.findViewById((R.id.button));
         button.setOnClickListener(this);
         return view;
     }
     @Override
     public void onClick(View v) {
-        text.setText(messages.get(i).toString()+ "\n Date End:" + messages.get(i).getDateEnd() + "\n Date Start:"+messages.get(i).getDateStart() );
-        i++;
-        i%=messages.size();
+        text.setText("Yolo");
         //mCursor.moveToNext();
 
     }
@@ -105,7 +101,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     }
 
     public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(String id);
+        public void onFragmentInteraction(ArrayList<String> id);
     }
 
 }

@@ -10,6 +10,6 @@
         android:height="?android:attr/listPreferredItemHeight"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffffff"
-        android:textStyle="bold" />
+        android:textColor="#00ff7f"
+        android:textStyle="italic" />
 </LinearLayout>

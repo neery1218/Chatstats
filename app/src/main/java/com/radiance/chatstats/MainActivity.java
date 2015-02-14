@@ -63,11 +63,11 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
     }
 
     @Override
-    public void onFragmentInteraction(String address){
+    public void onFragmentInteraction(ArrayList<String> address){
 
         statsFragment = new StatsFragment();
         Bundle args = new Bundle();
-        args.putString("address",address);
+        args.putStringArrayList("address",address);
         statsFragment.setArguments(args);
 
         //swap fragments
