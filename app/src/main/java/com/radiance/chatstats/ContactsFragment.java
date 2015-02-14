@@ -60,6 +60,7 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
                     Cursor pCursor = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts._ID))}, null);
                    pCursor.moveToFirst();
                     number = (pCursor.getString(pCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+                    if (number.length() > 9)
                     contacts.add(new Contact(test, number));
                     pCursor.close();//finalise cursor
                 }

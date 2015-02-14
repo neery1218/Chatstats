@@ -9,7 +9,5 @@
         android:layout_height="match_parent"
         android:height="?android:attr/listPreferredItemHeight"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffffff"
-        android:textStyle="bold" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 </LinearLayout>
