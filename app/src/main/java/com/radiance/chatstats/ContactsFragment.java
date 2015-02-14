@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class ContactsFragment extends Fragment implements AbsListView.OnItemClickListener {//displays a list of contacts for running statistics
@@ -49,19 +51,40 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
 
         Cursor cCursor = getActivity().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);//initial query gets all contacts
         String test = "";
-        String number = "";
+        String tempNumber;
+        ArrayList<String> number = new ArrayList<String>();
+
+
         ArrayList<Contact> contacts = new ArrayList<Contact>();
         //some contacts don't have phone numbers, so they must be taken out
         if (cCursor.getCount() > 0){
             while (cCursor.moveToNext()){
-                if (Integer.parseInt(cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) == 1) {//if the contact has a phone number, it is added to contacts
+                number.clear();
+                if (Integer.parseInt(cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) == 1) //if the contact has a phone number, it is added to contacts
+                {
+
                     test = (cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));// get name
-                    //another query for all the phone numbers, only first one is used
-                    Cursor pCursor = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts._ID))}, null);
-                   pCursor.moveToFirst();
-                    number = (pCursor.getString(pCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-                    if (number.length() > 9)
-                    contacts.add(new Contact(test, number));
+
+                    //Queries a list of phone numbers for each contact
+                    Cursor pCursor = getActivity().getContentResolver().query
+                            (ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                    null,
+                                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                                    new String[]{cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts._ID))}, null);
+
+                    pCursor.moveToFirst();
+
+                    //Stores all the numbers of a contact
+                    while(!pCursor.isAfterLast()) {
+                        tempNumber = (pCursor.getString(pCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+                        number.add(tempNumber);
+                        pCursor.moveToNext();
+                    }
+
+                    //Clones to avoid referencing the same object
+                    Contact tempContact = new Contact(test,(ArrayList<String>)number.clone());
+                    contacts.add(tempContact);
+
                     pCursor.close();//finalise cursor
                 }
             }
@@ -104,8 +127,11 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {//called when a number is selected
-        if (null != mListener)
+        if (null != mListener) {
+            Log.d("TAG", contacts.get(position).getName());
+            Log.d("TAG", contacts.get(position).getAddress().toString());
             mListener.onFragmentInteraction(contacts.get(position).getAddress());//returns address to MainActivity
+        }
     }
 
     public void setEmptyText(CharSequence emptyText) {
@@ -119,7 +145,7 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
 
     public interface OnFragmentInteractionListener {
 
-        public void onFragmentInteraction(String address);
+        public void onFragmentInteraction(ArrayList<String> address);
     }
 
 }
