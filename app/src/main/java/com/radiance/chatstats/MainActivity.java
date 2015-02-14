@@ -2,25 +2,21 @@ package com.radiance.chatstats;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.database.Cursor;
-import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements StatsFragment.OnFragmentInteractionListener, ContactsFragment.OnFragmentInteractionListener
+public class MainActivity extends ActionBarActivity implements ContactPhoneNumberFragment.OnPhoneNumberSelectedListener, StatsFragment.OnToBeDeterminedListener, ContactsFragment.OnContactSelectedListener
 {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ContactsFragment contactsFragment;
     StatsFragment statsFragment;
+    ContactPhoneNumberFragment contactPhoneNumberFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,19 +59,46 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnF
     }
 
     @Override
-    public void onFragmentInteraction(ArrayList<String> address){
+    public void onContactSelected(ArrayList<String> address){
 
+        contactPhoneNumberFragment = new ContactPhoneNumberFragment();
+        Bundle args = new Bundle();
+        args.putStringArrayList("address", address);
+        contactPhoneNumberFragment.setArguments(args);
+
+        /*statsFragment = new StatsFragment();
+        Bundle args = new Bundle();
+        args.putStringArrayList("address", address);
+        statsFragment.setArguments(args);*/
+
+        //swap fragments
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        //fragmentTransaction.replace(R.id.fragment_container,statsFragment);
+        fragmentTransaction.replace(R.id.fragment_container,contactPhoneNumberFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+    }
+
+    @Override
+    public void onToBeDetermined(ArrayList<String> id) {
+
+    }
+
+    @Override
+    public void onPhoneNumberSelected(String phoneNumber) {
         statsFragment = new StatsFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList("address",address);
+        args.putString("phoneNumber", phoneNumber);
         statsFragment.setArguments(args);
 
         //swap fragments
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
+        //fragmentTransaction.replace(R.id.fragment_container,statsFragment);
         fragmentTransaction.replace(R.id.fragment_container,statsFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
     }
 }

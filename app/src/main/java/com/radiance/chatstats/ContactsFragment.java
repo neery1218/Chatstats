@@ -15,13 +15,11 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
 
 public class ContactsFragment extends Fragment implements AbsListView.OnItemClickListener {//displays a list of contacts for running statistics
 
 
-    private OnFragmentInteractionListener mListener;
+    private OnContactSelectedListener mListener;
     private AbsListView mListView;//The fragment's ListView/GridView.
     private ListAdapter mAdapter;//The Adapter which will be used to populate the ListView/GridView
     private ContactAdapter contactAdapter;
@@ -62,7 +60,6 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
                 number.clear();
                 if (Integer.parseInt(cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) == 1) //if the contact has a phone number, it is added to contacts
                 {
-
                     test = (cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));// get name
 
                     //Queries a list of phone numbers for each contact
@@ -111,10 +108,10 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
     public void onAttach(Activity activity) {//called when attached to fragment
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnContactSelectedListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnContactSelectedListener");
         }
     }
 
@@ -124,13 +121,12 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
         mListener = null;
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {//called when a number is selected
         if (null != mListener) {
             Log.d("TAG", contacts.get(position).getName());
             Log.d("TAG", contacts.get(position).getAddress().toString());
-            mListener.onFragmentInteraction(contacts.get(position).getAddress());//returns address to MainActivity
+            mListener.onContactSelected(contacts.get(position).getAddress());//returns address to MainActivity
         }
     }
 
@@ -142,10 +138,9 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
         }
     }
 
+    public interface OnContactSelectedListener {
 
-    public interface OnFragmentInteractionListener {
-
-        public void onFragmentInteraction(ArrayList<String> address);
+        public void onContactSelected(ArrayList<String> address);
     }
 
 }

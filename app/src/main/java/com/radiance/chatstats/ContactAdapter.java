@@ -31,7 +31,6 @@ public class ContactAdapter extends ArrayAdapter {
 
         textView.setText(contacts.get(position).getName());
 
-
         return rowView;
     }
 }
