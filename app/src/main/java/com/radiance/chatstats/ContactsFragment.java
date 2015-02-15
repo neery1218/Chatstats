@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -157,17 +158,35 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
+        String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + " = '" + ("1") + "'";
+        String sortOrder = ContactsContract.Contacts.TIMES_CONTACTED + " COLLATE LOCALIZED DESC";
+        Uri contactsURI = ContactsContract.Contacts.CONTENT_URI;
+        switch (id) {
+            case 0:
+                // Returns a new CursorLoader
+                return new CursorLoader(
+                        getActivity(),   // Parent activity context
+                        contactsURI,        // Table to query
+                        null,     // Projection to return
+                        selection,            // No selection clause
+                        null,            // No selection arguments
+                        sortOrder             // Default sort order
+                );
+            default:
+                // An invalid id was passed in
+                return null;
+        }
+
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        //gets sent to cursorAdapter
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        //no idea
     }
 
 
