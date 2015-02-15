@@ -1,10 +1,13 @@
 package com.radiance.chatstats;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +19,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ContactsFragment extends Fragment implements AbsListView.OnItemClickListener {//displays a list of contacts for running statistics
+public class ContactsFragment extends Fragment implements AbsListView.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {//displays a list of contacts for running statistics
 
 
     private OnContactSelectedListener mListener;
@@ -25,12 +28,22 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
     private ContactAdapter contactAdapter;
     private ArrayList<Contact> contacts;
 
+
     public ContactsFragment() {//mandatory constructor
     }
 
     public static ContactsFragment newInstance() {
         ContactsFragment fragment = new ContactsFragment();
         return fragment;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        // Always call the super method first
+        super.onActivityCreated(savedInstanceState);
+
+        // Initializes the loader
+        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -43,11 +56,14 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
                 android.R.layout.simple_list_item_1, android.R.id.text1, contacts);*/
         contactAdapter = new ContactAdapter(getActivity(), contacts);
 
+
     }
 
     public ArrayList<Contact> getContacts() {//queries the contacts from a content provider
-
-        Cursor cCursor = getActivity().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);//initial query gets all contacts
+        String selection = ContactsContract.Contacts.HAS_PHONE_NUMBER + " = '" + ("1") + "'";
+        String sortOrder = ContactsContract.Contacts.TIMES_CONTACTED + " COLLATE LOCALIZED DESC";
+        Uri contactsURI = ContactsContract.Contacts.CONTENT_URI;
+        Cursor cCursor = getActivity().getContentResolver().query(contactsURI, null, selection, null, sortOrder);//initial query gets all contacts
         String test = "";
         String tempNumber;
         ArrayList<String> number = new ArrayList<String>();
@@ -58,8 +74,8 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
         if (cCursor.getCount() > 0){
             while (cCursor.moveToNext()){
                 number.clear();
-                if (Integer.parseInt(cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) == 1) //if the contact has a phone number, it is added to contacts
-                {
+                // if (Integer.parseInt(cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) == 1) //if the contact has a phone number, it is added to contacts
+                // {
                     test = (cCursor.getString(cCursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)));// get name
 
                     //Queries a list of phone numbers for each contact
@@ -84,7 +100,7 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
 
                     pCursor.close();//finalise cursor
                 }
-            }
+            // }
         }
         return contacts;
     }
@@ -100,6 +116,7 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+        contacts = getContacts();//gets contacts from a cursor
 
         return view;
     }
@@ -137,6 +154,22 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
             ((TextView) emptyView).setText(emptyText);
         }
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
 
     public interface OnContactSelectedListener {
 

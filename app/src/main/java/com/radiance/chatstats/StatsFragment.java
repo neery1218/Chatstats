@@ -1,10 +1,10 @@
 package com.radiance.chatstats;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +24,12 @@ import java.util.ArrayList;
  */
 public class StatsFragment extends Fragment implements View.OnClickListener {
 
-    private Cursor rCursor, sCursor;
     TextView text;
     String address;
     ConversationThread conversationThread;
     ArrayList<Conversation> messages;
     Analytics analytics;
-
+    private Cursor rCursor, sCursor;
     private OnToBeDeterminedListener mListener;
 
     public StatsFragment() {
@@ -70,12 +69,13 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
 
-        text = (TextView)view.findViewById((R.id.textView));
-        text.setText(" "+ analytics.getSentAndReceived());
+        text = (TextView) view.findViewById((R.id.textView));
+        text.setText(" " + analytics.getSentAndReceived());
         Button button = (Button) view.findViewById((R.id.button));
         button.setOnClickListener(this);
         return view;
     }
+
     @Override
     public void onClick(View v) {
         text.setText("Yolo");

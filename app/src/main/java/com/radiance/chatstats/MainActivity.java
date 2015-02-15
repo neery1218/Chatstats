@@ -1,17 +1,16 @@
 package com.radiance.chatstats;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements ContactPhoneNumberFragment.OnPhoneNumberSelectedListener, StatsFragment.OnToBeDeterminedListener, ContactsFragment.OnContactSelectedListener
-{
+public class MainActivity extends ActionBarActivity implements ContactPhoneNumberFragment.OnPhoneNumberSelectedListener, StatsFragment.OnToBeDeterminedListener, ContactsFragment.OnContactSelectedListener {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ContactsFragment contactsFragment;
@@ -26,9 +25,9 @@ public class MainActivity extends ActionBarActivity implements ContactPhoneNumbe
         contactsFragment = new ContactsFragment();//initializing first fragment being used
 
         //initialize transaction and add to viewgroup
-         fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container,contactsFragment);
+        fragmentTransaction.add(R.id.fragment_container, contactsFragment);
         fragmentTransaction.commit();
 
     }
@@ -39,10 +38,12 @@ public class MainActivity extends ActionBarActivity implements ContactPhoneNumbe
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
-    public void onBackPressed (){
-      fragmentManager.popBackStack();
+    public void onBackPressed() {
+        fragmentManager.popBackStack();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -59,7 +60,7 @@ public class MainActivity extends ActionBarActivity implements ContactPhoneNumbe
     }
 
     @Override
-    public void onContactSelected(ArrayList<String> address){
+    public void onContactSelected(ArrayList<String> address) {
 
         contactPhoneNumberFragment = new ContactPhoneNumberFragment();
         Bundle args = new Bundle();
@@ -72,10 +73,10 @@ public class MainActivity extends ActionBarActivity implements ContactPhoneNumbe
         statsFragment.setArguments(args);*/
 
         //swap fragments
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.replace(R.id.fragment_container,statsFragment);
-        fragmentTransaction.replace(R.id.fragment_container,contactPhoneNumberFragment);
+        fragmentTransaction.replace(R.id.fragment_container, contactPhoneNumberFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
@@ -94,10 +95,10 @@ public class MainActivity extends ActionBarActivity implements ContactPhoneNumbe
         statsFragment.setArguments(args);
 
         //swap fragments
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.replace(R.id.fragment_container,statsFragment);
-        fragmentTransaction.replace(R.id.fragment_container,statsFragment);
+        fragmentTransaction.replace(R.id.fragment_container, statsFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

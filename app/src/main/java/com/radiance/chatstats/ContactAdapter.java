@@ -14,15 +14,18 @@ import java.util.ArrayList;
  * Created by Neerajen on 11/02/2015.
  */
 public class ContactAdapter extends ArrayAdapter {
+    //private ArrayList<Color> backGround;
+    //private ArrayList<Color> text;
+    private final int[] textColor = {Color.parseColor("#50d07d")};
+    private final int[] backgroundColor = {Color.parseColor("#B2CECF")};
     private Context context;
     private ArrayList<Contact> contacts;
-    private ArrayList<Color> backGround;
-    private ArrayList<Color> text;
 
     public ContactAdapter(Context context, ArrayList<Contact> contacts) {
         super(context, R.layout.list_item, contacts);
         this.contacts = contacts;
         this.context = context;
+
     }
 
     @Override
@@ -31,10 +34,11 @@ public class ContactAdapter extends ArrayAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.list_item, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.text1);
-        textView.setTextColor(Color.parseColor("#50d07d"));
-        textView.setBackgroundColor(Color.parseColor("#B2CECF"));
-        textView.setText(contacts.get(position).getName());
 
+        textView.setText(contacts.get(position).getName());
+        position %= textColor.length;
+        textView.setTextColor(textColor[position]);
+        textView.setBackgroundColor(backgroundColor[position]);
         return rowView;
     }
 }
