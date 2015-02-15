@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link StatsFragment.OnFragmentInteractionListener} interface
+ * {@link com.radiance.chatstats.StatsFragment.OnToBeDeterminedListener} interface
  * to handle interaction events.
  * Use the {@link StatsFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -26,18 +26,18 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 
     private Cursor rCursor, sCursor;
     TextView text;
-    ArrayList<String> address;
+    String address;
     ConversationThread conversationThread;
     ArrayList<Conversation> messages;
     Analytics analytics;
 
-    private OnFragmentInteractionListener mListener;
+    private OnToBeDeterminedListener mListener;
 
     public StatsFragment() {
         // Required empty public constructor
     }
 
-    public static StatsFragment newInstance(String param1, String param2) {
+    public static StatsFragment newInstance() {
         StatsFragment fragment = new StatsFragment();
         return fragment;
     }
@@ -51,13 +51,13 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            address = getArguments().getStringArrayList("address");
+            address = getArguments().getString("phoneNumber");
 
         }
         //calling all the cursors
         rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"), new String[]{"address", "body", "date"}, null, null, null);
         sCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/sent"), new String[]{"address", "body", "date"}, null, null, null);
-        conversationThread = new ConversationThread(rCursor, sCursor, address.get(0));
+        conversationThread = new ConversationThread(rCursor, sCursor, address);
         messages = conversationThread.getConversations();
         analytics = new Analytics(conversationThread);
 
@@ -87,10 +87,10 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnToBeDeterminedListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnContactSelectedListener");
         }
     }
 
@@ -100,8 +100,8 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(ArrayList<String> id);
+    public interface OnToBeDeterminedListener {
+        public void onToBeDetermined(ArrayList<String> id);
     }
 
 }

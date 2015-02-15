@@ -35,7 +35,6 @@ public class ContactAdapter extends ArrayAdapter {
         textView.setBackgroundColor(Color.parseColor("#B2CECF"));
         textView.setText(contacts.get(position).getName());
 
-
         return rowView;
     }
 }
