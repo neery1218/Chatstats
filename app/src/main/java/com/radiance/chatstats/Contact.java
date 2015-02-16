@@ -20,6 +20,9 @@ public class Contact {
         this.ID = ID;
     }
 
+    public int getID() {
+        return ID;
+    }
     public String getName() {
         return name;
     }
