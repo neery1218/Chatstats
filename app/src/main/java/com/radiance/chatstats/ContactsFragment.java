@@ -102,31 +102,37 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
         mListener = null;
     }
 
+    public ArrayList<String> getAddress(Contact contact) {
+        String tempNumber;
+        ArrayList<String> number = new ArrayList<String>();
+        //Queries a list of phone numbers
+        Cursor pCursor = getActivity().getContentResolver().query
+                (ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                        null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                        new String[]{Integer.toString(contact.getID())}, null);
+
+        pCursor.moveToFirst();
+
+        //Stores all the numbers of a contact
+        while (!pCursor.isAfterLast()) {
+            tempNumber = (pCursor.getString(pCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+            number.add(tempNumber);
+            pCursor.moveToNext();
+        }
+        pCursor.close();//finalise cursor
+        return number;
+
+    }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {//called when a number is selected
         if (null != mListener) {
             Contact contact = contacts.get(position);
-            String tempNumber;
-            ArrayList<String> number = new ArrayList<String>();
-
+            contact.setAddress(getAddress(contact));
             //Queries a list of phone numbers
-            Cursor pCursor = getActivity().getContentResolver().query
-                    (ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{Integer.toString(contact.getID())}, null);
 
-            pCursor.moveToFirst();
 
-            //Stores all the numbers of a contact
-            while (!pCursor.isAfterLast()) {
-                tempNumber = (pCursor.getString(pCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
-                number.add(tempNumber);
-                pCursor.moveToNext();
-            }
-            pCursor.close();//finalise cursor
-
-            mListener.onContactSelected(number);//returns address to MainActivity
+            mListener.onContactSelected(contact);//returns address to MainActivity
         }
     }
 
@@ -140,7 +146,8 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
 
     public interface OnContactSelectedListener {
 
-        public void onContactSelected(ArrayList<String> address);
+        public void onContactSelected(Contact contact);
+
     }
 
 }

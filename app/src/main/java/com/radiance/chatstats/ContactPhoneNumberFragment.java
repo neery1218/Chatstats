@@ -17,6 +17,7 @@ public class ContactPhoneNumberFragment extends Fragment implements ListView.OnI
     private OnPhoneNumberSelectedListener mListener;
     private ListView listView;
     private ArrayList<String> address;
+    private Contact contact;
     private PhoneNumberAdapter phoneNumberAdapter;
 
     public ContactPhoneNumberFragment() {
@@ -31,7 +32,10 @@ public class ContactPhoneNumberFragment extends Fragment implements ListView.OnI
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        address = getArguments().getStringArrayList("address");
+        address = getArguments().getStringArrayList("phoneNumber");
+
+        contact = new Contact(getArguments().getString("name"), address, getArguments().getInt("id"));
+
     }
 
     @Override
@@ -65,10 +69,14 @@ public class ContactPhoneNumberFragment extends Fragment implements ListView.OnI
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.d("TAG", address.get(position));
-        mListener.onPhoneNumberSelected(address.get(position));
+        String temp = address.get(position);
+        address = new ArrayList<String>();
+        address.add(temp);
+        contact.setAddress(address);
+        mListener.onPhoneNumberSelected(contact);
     }
 
     public interface OnPhoneNumberSelectedListener {
-        public void onPhoneNumberSelected(String phoneNumber);
+        public void onPhoneNumberSelected(Contact contact);
     }
 }

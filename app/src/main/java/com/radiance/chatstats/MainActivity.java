@@ -60,22 +60,19 @@ public class MainActivity extends ActionBarActivity implements ContactPhoneNumbe
     }
 
     @Override
-    public void onContactSelected(ArrayList<String> address) {
+    public void onContactSelected(Contact contact) {
 
         contactPhoneNumberFragment = new ContactPhoneNumberFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList("address", address);
-        contactPhoneNumberFragment.setArguments(args);
+        args.putStringArrayList("phoneNumber", contact.getAddress());
+        args.putString("name", contact.getName());
+        args.putInt("id", contact.getID());
 
-        /*statsFragment = new StatsFragment();
-        Bundle args = new Bundle();
-        args.putStringArrayList("address", address);
-        statsFragment.setArguments(args);*/
+        contactPhoneNumberFragment.setArguments(args);
 
         //swap fragments
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.replace(R.id.fragment_container,statsFragment);
         fragmentTransaction.replace(R.id.fragment_container, contactPhoneNumberFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
@@ -88,10 +85,12 @@ public class MainActivity extends ActionBarActivity implements ContactPhoneNumbe
     }
 
     @Override
-    public void onPhoneNumberSelected(String phoneNumber) {
+    public void onPhoneNumberSelected(Contact contact) {
         statsFragment = new StatsFragment();
         Bundle args = new Bundle();
-        args.putString("phoneNumber", phoneNumber);
+        args.putStringArrayList("phoneNumber", contact.getAddress());
+        args.putString("name", contact.getName());
+        args.putInt("id", contact.getID());
         statsFragment.setArguments(args);
 
         //swap fragments

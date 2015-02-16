@@ -20,6 +20,12 @@ public class Contact {
         this.ID = ID;
     }
 
+    public Contact(String name, ArrayList<String> address, int ID) {
+        this.name = name;
+        this.address = address;
+        this.ID = ID;
+    }
+
     public int getID() {
         return ID;
     }
@@ -31,12 +37,12 @@ public class Contact {
         return address;
     }
 
+    public void setAddress(ArrayList<String> address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return name + ": " + address.toString();
-    }
-
-    public void setADDress(ArrayList<String> address) {
-        this.address = address;
     }
 }

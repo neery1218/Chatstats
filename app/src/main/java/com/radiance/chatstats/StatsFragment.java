@@ -25,10 +25,11 @@ import java.util.ArrayList;
 public class StatsFragment extends Fragment implements View.OnClickListener {
 
     TextView text;
-    String address;
+    ArrayList<String> address;
     ConversationThread conversationThread;
     ArrayList<Conversation> messages;
     Analytics analytics;
+    Contact contact;
     private Cursor rCursor, sCursor;
     private OnToBeDeterminedListener mListener;
 
@@ -50,13 +51,14 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            address = getArguments().getString("phoneNumber");
+            address = getArguments().getStringArrayList("phoneNumber");
+            contact = new Contact(getArguments().getString("name"), address, getArguments().getInt("id"));
 
         }
         //calling all the cursors
         rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"), new String[]{"address", "body", "date"}, null, null, null);
         sCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/sent"), new String[]{"address", "body", "date"}, null, null, null);
-        conversationThread = new ConversationThread(rCursor, sCursor, address);
+        conversationThread = new ConversationThread(rCursor, sCursor, address.get(0));
         messages = conversationThread.getConversations();
         analytics = new Analytics(conversationThread);
 
