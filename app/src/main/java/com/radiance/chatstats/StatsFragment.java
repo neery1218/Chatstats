@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +25,10 @@ import java.util.ArrayList;
  * Use the {@link StatsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StatsFragment extends Fragment implements View.OnClickListener {
+public class StatsFragment extends Fragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
+    private final int RECEIVED = 1;
+    private final int SENT = 0;
     TextView text;
     ArrayList<String> address;
     ConversationThread conversationThread;
@@ -32,6 +37,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     Contact contact;
     private Cursor rCursor, sCursor;
     private OnToBeDeterminedListener mListener;
+    private int loadersFinished;
 
     public StatsFragment() {
         // Required empty public constructor
@@ -49,18 +55,16 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        loadersFinished = 0;
         if (getArguments() != null) {
             address = getArguments().getStringArrayList("phoneNumber");
             contact = new Contact(getArguments().getString("name"), address, getArguments().getInt("id"));
 
         }
+        //TODO make Analytics accept a null first, because the cursorLoader has not finished creating the ConversationThread object yet
         //calling all the cursors
-        rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"), new String[]{"address", "body", "date"}, null, null, null);
-        sCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/sent"), new String[]{"address", "body", "date"}, null, null, null);
-        conversationThread = new ConversationThread(rCursor, sCursor, address.get(0));
-        messages = conversationThread.getConversations();
-        analytics = new Analytics(conversationThread);
+        getLoaderManager().initLoader(RECEIVED, null, this);
+        getLoaderManager().initLoader(SENT, null, this);
 
         // mCursor.moveToFirst();
     }
@@ -70,9 +74,10 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
-
+        //TODO an actual loading screen while the cursorLoaders finish
         text = (TextView) view.findViewById((R.id.textView));
-        text.setText(" " + analytics.getSentAndReceived());
+        //text.setText(" " + analytics.getSentAndReceived());
+        text.setText("testing");
         Button button = (Button) view.findViewById((R.id.button));
         button.setOnClickListener(this);
         return view;
@@ -100,6 +105,67 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+        switch (id) {
+            case SENT:
+                // Returns a new CursorLoader
+                return new CursorLoader(
+                        getActivity(),   // Parent activity context
+                        Uri.parse("content://sms/sent"),        // Table to query
+                        new String[]{"address", "body", "date"},     // Projection to return
+                        null,            // No selection clause
+                        null,            // No selection arguments
+                        null             // Default sort order
+                );
+            case RECEIVED:
+                // Returns a new CursorLoader
+                return new CursorLoader(
+                        getActivity(),   // Parent activity context
+                        Uri.parse("content://sms/inbox"),        // Table to query
+                        new String[]{"address", "body", "date"},     // Projection to return
+                        null,            // No selection clause
+                        null,            // No selection arguments
+                        null             // Default sort order
+                );
+
+            default:
+                // An invalid id was passed in
+                return null;
+        }
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        switch (loader.getId()) {
+            case RECEIVED:
+                rCursor = data;
+                loadersFinished++;
+                break;
+            case SENT:
+                sCursor = data;
+                loadersFinished++;
+                break;
+            default:
+                break;
+
+        }
+        if (loadersFinished == 2) {
+            conversationThread = new ConversationThread(rCursor, sCursor, address.get(0));
+            messages = conversationThread.getConversations();
+            analytics = new Analytics(conversationThread);
+            text.setText("done!");
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        //TODO figure out if we need anything here, or if LoaderManager takes care of garbage collection for us
     }
 
     public interface OnToBeDeterminedListener {
