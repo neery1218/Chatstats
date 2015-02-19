@@ -7,10 +7,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
 
-
-public class MainActivity extends ActionBarActivity implements ContactPhoneNumberFragment.OnPhoneNumberSelectedListener, StatsFragment.OnToBeDeterminedListener, ContactsFragment.OnContactSelectedListener {
+public class MainActivity extends ActionBarActivity implements ContactPhoneNumberFragment.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ContactsFragment contactsFragment;
@@ -80,7 +78,7 @@ public class MainActivity extends ActionBarActivity implements ContactPhoneNumbe
     }
 
     @Override
-    public void onToBeDetermined(ArrayList<String> id) {
+    public void onLoadingFinished() {
 
     }
 
