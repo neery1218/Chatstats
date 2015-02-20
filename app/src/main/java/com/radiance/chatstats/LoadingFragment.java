@@ -25,14 +25,7 @@ public class LoadingFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoadingFragment.
-     */
+
     public static LoadingFragment newInstance(String param1, String param2) {
         LoadingFragment fragment = new LoadingFragment();
         Bundle args = new Bundle();
@@ -43,7 +36,7 @@ public class LoadingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //start cursor query via asynctask,
     }
 
     @Override

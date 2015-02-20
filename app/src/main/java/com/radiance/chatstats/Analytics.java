@@ -1,17 +1,18 @@
 package com.radiance.chatstats;
 
 import android.util.Log;
-import java.util.ArrayList;
+
 import com.radiance.chatstats.SMS.Status;
+
+import java.util.ArrayList;
 
 //Static Class
 //Static Class
 public class Analytics
 {
+    private static final String [] EMOTICONS = {":p", ":)", ";)",":S", ":D", ":P"};
     //Dictionaries
     private static ArrayList<String> commonWords;
-    private static final String [] EMOTICONS = {":p", ":)", ";)",":S", ":D", ":P"};
-
     //Variables
     private ConversationThread c;
     private ArrayList <StatPoint> emoticonCount;
@@ -25,9 +26,23 @@ public class Analytics
         this.c = c;
         emoticonCount = calcEmoticonCount();
         sentAndReceived = calcSentAndReceived();
+
+        //the Big Three!
         avgMessageLengthWords = calcAvgMessageLengthWords();
         initiateCount = calcInitiateCount();
         responseTime = calcResponseTime();
+    }
+
+    public ArrayList<StatPoint> getBigThree() {//used by mainActivity to send to StatsFragment
+        ArrayList<StatPoint> bigThree = new ArrayList<StatPoint>();
+        bigThree.add(avgMessageLengthWords);
+        bigThree.add(initiateCount);
+        bigThree.add(responseTime);
+        return bigThree;
+    }
+
+    public ArrayList<StatPoint> getAll() {//returns all possible statistics
+        //TODO: how to store statpoint arrayLists with indices?
     }
 
     public ArrayList<StatPoint> getEmoticonCount() {

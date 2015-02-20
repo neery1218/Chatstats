@@ -79,7 +79,8 @@ public class MainActivity extends ActionBarActivity implements ContactPhoneNumbe
 
     @Override
     public void onLoadingFinished() {
-
+        //bigThree is ouputted here
+        //how about rest?
     }
 
     @Override
