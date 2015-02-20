@@ -41,9 +41,6 @@ public class Analytics
         return bigThree;
     }
 
-    public ArrayList<StatPoint> getAll() {//returns all possible statistics
-        //TODO: how to store statpoint arrayLists with indices?
-    }
 
     public ArrayList<StatPoint> getEmoticonCount() {
         return emoticonCount;

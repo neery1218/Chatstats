@@ -1,25 +1,33 @@
 package com.radiance.chatstats;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link LoadingFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link LoadingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class LoadingFragment extends Fragment {
+public class LoadingFragment extends Fragment implements View.OnClickListener {
 
+    private final Handler handler = new Handler();
+    Button button;
+    private Contact contact;
     private OnFragmentInteractionListener mListener;
+    private int cursorsFinished;
+    private TextView text;
+    private ArrayList<String> address;
+    private ConversationThread conversationThread;
+    private ArrayList<Conversation> messages;
+    private Analytics analytics;
+
 
     public LoadingFragment() {
         // Required empty public constructor
@@ -37,20 +45,34 @@ public class LoadingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //start cursor query via asynctask,
+        cursorsFinished = 0;
+
+        if (getArguments() != null) {
+            address = getArguments().getStringArrayList("phoneNumber");
+            contact = new Contact(getArguments().getString("name"), address, getArguments().getInt("id"));
+
+        }
+        //you need to use two load cursors
+        new Thread(new LoadCursor(address.get(0))).start();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_loading, container, false);
+        View view = inflater.inflate(R.layout.fragment_loading, container, false);
+        text = (TextView) view.findViewById((R.id.threadScreen));
+        button = (Button) view.findViewById((R.id.displayStats));
+        button.setVisibility(View.INVISIBLE);
+        text.setText("HI");
+        button.setOnClickListener(this);
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onLoadingFinished();
-        }
+    @Override
+    public void onClick(View v) {
+        mListener.onLoadingFinished(analytics.getBigThree());
+
     }
 
     @Override
@@ -82,7 +104,62 @@ public class LoadingFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onLoadingFinished();
+        public void onLoadingFinished(ArrayList<StatPoint> bigThree);
+    }
+
+    private class LoadCursor implements Runnable {
+        String address;
+
+        LoadCursor(String address) {
+            this.address = address;
+        }
+
+        @Override
+        public void run() {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    text.setText("Retreiving Messages...");
+                }
+            });
+
+            //TODO switch to Telephony.SMS content provider
+            //get sent messages
+            Cursor sCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/sent"), new String[]{"address", "body", "date"}, null, null, null);//initial query gets all contacts
+            cursorsFinished++;
+            //get received messages
+            Cursor rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"), new String[]{"address", "body", "date"}, null, null, null);//initial query gets all contacts
+            cursorsFinished++;
+
+            if (cursorsFinished == 2)
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        text.setText("Initialising ConversationThread");
+                    }
+                });
+            //get Analytics class
+            conversationThread = new ConversationThread(rCursor, sCursor, address);
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    text.setText("running Analytics...");
+                }
+            });
+            // messages = conversationThread.getConversations();
+            analytics = new Analytics(conversationThread);
+
+
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    text.setText("done");
+                    button.setVisibility(View.VISIBLE);
+                }
+            });
+
+
+        }
     }
 
 }

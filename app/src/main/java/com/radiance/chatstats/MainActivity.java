@@ -7,12 +7,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity implements ContactPhoneNumberFragment.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener {
+
+public class MainActivity extends ActionBarActivity implements StatsFragment.OnToBeDeterminedListener, ContactPhoneNumberFragment.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ContactsFragment contactsFragment;
     StatsFragment statsFragment;
+    LoadingFragment loadingFragment;
     ContactPhoneNumberFragment contactPhoneNumberFragment;
 
     @Override
@@ -78,26 +81,41 @@ public class MainActivity extends ActionBarActivity implements ContactPhoneNumbe
     }
 
     @Override
-    public void onLoadingFinished() {
+    public void onLoadingFinished(ArrayList<StatPoint> bigThree) {
         //bigThree is ouputted here
-        //how about rest?
+        statsFragment = new StatsFragment();
+        Bundle args = new Bundle();
+        args.putString("responseTime", bigThree.get(2).toString());
+        statsFragment.setArguments(args);
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, statsFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
     }
 
     @Override
-    public void onPhoneNumberSelected(Contact contact) {
-        statsFragment = new StatsFragment();
+    public void onPhoneNumberSelected(Contact contact) {//calls Loading fragment
+        //statsFragment = new StatsFragment();
+        loadingFragment = new LoadingFragment();
         Bundle args = new Bundle();
         args.putStringArrayList("phoneNumber", contact.getAddress());
         args.putString("name", contact.getName());
         args.putInt("id", contact.getID());
-        statsFragment.setArguments(args);
+        loadingFragment.setArguments(args);
+        //statsFragment.setArguments(args);
 
         //swap fragments
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.replace(R.id.fragment_container,statsFragment);
-        fragmentTransaction.replace(R.id.fragment_container, statsFragment);
+        fragmentTransaction.replace(R.id.fragment_container, loadingFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onToBeDetermined(ArrayList<String> id) {
+
     }
 }
