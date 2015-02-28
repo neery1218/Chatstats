@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity implements StatsFragment.OnToBeDeterminedListener, ContactPhoneNumberFragment.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener {
+
+    public static final String ARG_BIG_THREE = "bigThree";
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ContactsFragment contactsFragment;
@@ -85,6 +87,10 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
         //bigThree is ouputted here
         statsFragment = new StatsFragment();
         Bundle args = new Bundle();
+        ArrayList<String> input = new ArrayList<String>();
+        for (int i = 0; i < bigThree.size(); i++)
+            input.add(bigThree.toString());
+        args.putStringArrayList(ARG_BIG_THREE, input);
         args.putString("responseTime", bigThree.get(2).toString());
         statsFragment.setArguments(args);
         fragmentManager = getSupportFragmentManager();

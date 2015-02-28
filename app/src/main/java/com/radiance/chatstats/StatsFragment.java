@@ -25,6 +25,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     private static Analytics analytics;
     TextView text;
     ArrayList<String> address;
+    ArrayList<String> bigThree;
     Contact contact;
     private String responseTime;
     private OnToBeDeterminedListener mListener;
@@ -49,6 +50,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 
         if (getArguments() != null) {
             responseTime = getArguments().getString("responseTime");
+            bigThree = getArguments().getStringArrayList(MainActivity.ARG_BIG_THREE);
 
         }
 
@@ -63,7 +65,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
 
         text = (TextView) view.findViewById((R.id.textView));
-        text.setText(responseTime);
+        text.setText(bigThree.toString());
         Button button = (Button) view.findViewById((R.id.button));
         button.setOnClickListener(this);
         return view;
