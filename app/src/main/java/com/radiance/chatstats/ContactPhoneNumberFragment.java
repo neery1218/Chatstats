@@ -32,9 +32,9 @@ public class ContactPhoneNumberFragment extends Fragment implements ListView.OnI
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        address = getArguments().getStringArrayList("phoneNumber");
+        address = getArguments().getStringArrayList(MainActivity.ARG_ADDRESS);
 
-        contact = new Contact(getArguments().getString("name"), address, getArguments().getInt("id"));
+        contact = new Contact(getArguments().getString(MainActivity.ARG_NAME), address, getArguments().getInt(MainActivity.ARG_ID));
 
     }
 

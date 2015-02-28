@@ -48,9 +48,8 @@ public class LoadingFragment extends Fragment implements View.OnClickListener {
         cursorsFinished = 0;
 
         if (getArguments() != null) {
-            address = getArguments().getStringArrayList("phoneNumber");
-            contact = new Contact(getArguments().getString("name"), address, getArguments().getInt("id"));
-
+            address = getArguments().getStringArrayList(MainActivity.ARG_ADDRESS);
+            contact = new Contact(getArguments().getString(MainActivity.ARG_NAME), address, getArguments().getInt(MainActivity.ARG_ID));
         }
         //you need to use two load cursors
         new Thread(new LoadCursor(address.get(0))).start();

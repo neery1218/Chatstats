@@ -49,7 +49,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            responseTime = getArguments().getString("responseTime");
+
             bigThree = getArguments().getStringArrayList(MainActivity.ARG_BIG_THREE);
 
         }
