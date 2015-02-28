@@ -11,7 +11,13 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements StatsFragment.OnToBeDeterminedListener, ContactPhoneNumberDialog.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements StatsFragment.OnToBeDeterminedListener, ContactPhoneNumberFragment.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener {
+
+    public static final String ARG_BIG_THREE = "bigThree";
+    public static final String ARG_ADDRESS = "phoneNumber";
+    public static final String ARG_NAME = "name";
+    public static final String ARG_ID = "id";
+
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ContactsFragment contactsFragment;
@@ -82,12 +88,19 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
     }
 
     @Override
-    public void onLoadingFinished(ArrayList<StatPoint> bigThree) {
+    public void onLoadingFinished(Analytics analytics) {
         //bigThree is ouputted here
         statsFragment = new StatsFragment();
         Bundle args = new Bundle();
-        args.putString("responseTime", bigThree.get(2).toString());
-        statsFragment.setArguments(args);
+        ArrayList<String> input = new ArrayList<String>();
+
+        // for (int i = 0; i < bigThree.size(); i++)
+        //     input.add(bigThree.toString());
+
+        // args.putStringArrayList(ARG_BIG_THREE, input);
+        //args.putString("responseTime", bigThree.get(2).toString());
+        statsFragment.setAnalytics(analytics);
+        // statsFragment.setArguments(args);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, statsFragment);

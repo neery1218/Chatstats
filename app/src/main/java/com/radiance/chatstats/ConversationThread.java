@@ -5,7 +5,6 @@ package com.radiance.chatstats;
  */
 
 import android.database.Cursor;
-import android.util.Log;
 
 import com.radiance.chatstats.SMS.Status;
 
@@ -20,7 +19,7 @@ public class ConversationThread {//holds array of conversations
     //TODO initializeConversation method is terrible
 
 
-    private static long threshold = 1000*3600;
+    private static long threshold = 2000 * 3600;
 
     private ArrayList<SMS> messages;
     private ArrayList<SMS> sent;
@@ -118,7 +117,7 @@ public class ConversationThread {//holds array of conversations
             temp = new Conversation(new ArrayList<Response>(responses.subList(begin, end + 1)));
             conversations.add(temp);
 
-            Log.v("Flag", "(" + begin + ", " + end + ")");
+            // Log.v("Flag", "(" + begin + ", " + end + ")");
             //Log.v("Flag", temp.toString());
             begin = end + 1;
         }
@@ -127,7 +126,7 @@ public class ConversationThread {//holds array of conversations
     private boolean matchAddress(String temp, String key)//checks if two addresses are the same
     {
         //Processes temp to get rid of brackets and stuff
-        Log.d("TAG", "FIRST: " + temp + "SECOND" + key);
+        // Log.d("TAG", "FIRST: " + temp + "SECOND" + key);
         String tempProcessed = "";
         String keyProcessed = "";
         for (int i = 0; i < temp.length(); i++)//remove all non-digit characters ( ')',')','+','-')
