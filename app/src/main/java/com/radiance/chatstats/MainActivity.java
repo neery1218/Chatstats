@@ -87,19 +87,19 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
     }
 
     @Override
-    public void onLoadingFinished(ArrayList<StatPoint> bigThree) {
+    public void onLoadingFinished(Analytics analytics) {
         //bigThree is ouputted here
         statsFragment = new StatsFragment();
         Bundle args = new Bundle();
         ArrayList<String> input = new ArrayList<String>();
 
-        for (int i = 0; i < bigThree.size(); i++)
-            input.add(bigThree.toString());
+        // for (int i = 0; i < bigThree.size(); i++)
+        //     input.add(bigThree.toString());
 
-        args.putStringArrayList(ARG_BIG_THREE, input);
+        // args.putStringArrayList(ARG_BIG_THREE, input);
         //args.putString("responseTime", bigThree.get(2).toString());
-
-        statsFragment.setArguments(args);
+        statsFragment.setAnalytics(analytics);
+        // statsFragment.setArguments(args);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, statsFragment);
