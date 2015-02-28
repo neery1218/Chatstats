@@ -9,30 +9,31 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 
-public class LoadingFragment extends Fragment implements View.OnClickListener {
+public class LoadingFragment extends Fragment {
 
     private final Handler handler = new Handler();
-    Button button;
     private Contact contact;
     private OnFragmentInteractionListener mListener;
     private int cursorsFinished;
-    private TextView text;
+    private ImageView logoImage;
+    private ImageView logoName;
     private ArrayList<String> address;
     private ConversationThread conversationThread;
     private ArrayList<Conversation> messages;
     private Analytics analytics;
 
-
     public LoadingFragment() {
         // Required empty public constructor
     }
-
 
     public static LoadingFragment newInstance(String param1, String param2) {
         LoadingFragment fragment = new LoadingFragment();
@@ -48,8 +49,8 @@ public class LoadingFragment extends Fragment implements View.OnClickListener {
         cursorsFinished = 0;
 
         if (getArguments() != null) {
-            address = getArguments().getStringArrayList(MainActivity.ARG_ADDRESS);
-            contact = new Contact(getArguments().getString(MainActivity.ARG_NAME), address, getArguments().getInt(MainActivity.ARG_ID));
+            address = getArguments().getStringArrayList("phoneNumber");
+            contact = new Contact(getArguments().getString("name"), address, getArguments().getInt("id"));
         }
         //you need to use two load cursors
         new Thread(new LoadCursor(address.get(0))).start();
@@ -60,18 +61,9 @@ public class LoadingFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_loading, container, false);
-        text = (TextView) view.findViewById((R.id.threadScreen));
-        button = (Button) view.findViewById((R.id.displayStats));
-        button.setVisibility(View.INVISIBLE);
-        text.setText("HI");
-        button.setOnClickListener(this);
+        logoImage = (ImageView) view.findViewById((R.id.logoImage));
+        logoName = (ImageView) view.findViewById((R.id.logoName));
         return view;
-    }
-
-    @Override
-    public void onClick(View v) {
-        mListener.onLoadingFinished(analytics.getBigThree());
-
     }
 
     @Override
@@ -118,7 +110,13 @@ public class LoadingFragment extends Fragment implements View.OnClickListener {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    text.setText("Retreiving Messages...");
+                    logoImage.setImageResource(R.drawable.logoimage);
+                    logoName.setImageResource(R.drawable.logoname);
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                    anim.setDuration(1000);
+                    anim.setRepeatCount(10);
+                    anim.setRepeatMode(Animation.REVERSE);
+                    logoImage.startAnimation(anim);
                 }
             });
 
@@ -130,34 +128,24 @@ public class LoadingFragment extends Fragment implements View.OnClickListener {
             Cursor rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"), new String[]{"address", "body", "date"}, null, null, null);//initial query gets all contacts
             cursorsFinished++;
 
-            if (cursorsFinished == 2)
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        text.setText("Initialising ConversationThread");
-                    }
-                });
             //get Analytics class
             conversationThread = new ConversationThread(rCursor, sCursor, address);
-            handler.post(new Runnable() {
+
+            /*handler.post(new Runnable() {
                 @Override
                 public void run() {
                     text.setText("running Analytics...");
                 }
-            });
+            });*/
             // messages = conversationThread.getConversations();
             analytics = new Analytics(conversationThread);
-
 
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    text.setText("done");
-                    button.setVisibility(View.VISIBLE);
+                    mListener.onLoadingFinished(analytics.getBigThree());
                 }
             });
-
-
         }
     }
 

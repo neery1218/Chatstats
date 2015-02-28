@@ -1,19 +1,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
 
-    <Button
-        android:id="@+id/displayStats"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button" />
+        android:id="@+id/logoImage"
+        android:layout_weight="1"
+        android:layout_gravity="top" />
 
-    <TextView
-        android:id="@+id/threadScreen"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:text="New Text" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logoName"
+        android:layout_weight="1"
+        android:layout_gravity="bottom" />
 </LinearLayout>
