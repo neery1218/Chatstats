@@ -200,9 +200,9 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
-
+        pieChart = (PieChart)view.findViewById(R.id.chart);
+        setPieGraph();
         text = (TextView) view.findViewById((R.id.textView));
-        text.setText(bigThree.toString());
         Button button = (Button) view.findViewById((R.id.button));
         button.setOnClickListener(this);
         return view;
