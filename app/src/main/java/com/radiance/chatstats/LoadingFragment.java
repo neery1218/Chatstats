@@ -30,6 +30,7 @@ public class LoadingFragment extends Fragment {
     private ConversationThread conversationThread;
     private ArrayList<Conversation> messages;
     private Analytics analytics;
+    private int phoneNumIndex = 0; //Which phone number??????
 
     public LoadingFragment() {
         // Required empty public constructor
@@ -51,9 +52,10 @@ public class LoadingFragment extends Fragment {
         if (getArguments() != null) {
             address = getArguments().getStringArrayList("phoneNumber");
             contact = new Contact(getArguments().getString("name"), address, getArguments().getInt("id"));
+            phoneNumIndex = getArguments().getInt("phoneNumIndex");
         }
         //you need to use two load cursors
-        new Thread(new LoadCursor(address.get(0))).start();
+        new Thread(new LoadCursor(address.get(phoneNumIndex))).start();
     }
 
     @Override

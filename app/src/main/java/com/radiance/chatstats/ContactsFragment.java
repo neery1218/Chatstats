@@ -130,8 +130,6 @@ public class ContactsFragment extends Fragment implements AbsListView.OnItemClic
             Contact contact = contacts.get(position);
             contact.setAddress(getAddress(contact));
             //Queries a list of phone numbers
-
-
             mListener.onContactSelected(contact);//returns address to MainActivity
         }
     }

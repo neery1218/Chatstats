@@ -16,8 +16,17 @@ import java.util.ArrayList;
 public class ContactAdapter extends ArrayAdapter {
     //private ArrayList<Color> backGround;
     //private ArrayList<Color> text;
-    private final int[] textColor = {Color.parseColor("#50d07d")};
-    private final int[] backgroundColor = {Color.parseColor("#B2CECF")};
+    private final int[] textColor = {Color.parseColor("#FFFFFF")};
+    private final int[] backgroundColor =
+            {Color.parseColor("#E84C3D"),
+                    Color.parseColor("#F1C40F"),
+                    Color.parseColor("#1BBC9B"),
+                    Color.parseColor("#3598DB"),
+                    Color.parseColor("#297FB8"),
+                    Color.parseColor("#16A086"),
+                    Color.parseColor("#2DCC70"),
+                    Color.parseColor("#34495E"),
+                    Color.parseColor("#8D44AD")};
     private Context context;
     private ArrayList<Contact> contacts;
 
@@ -25,7 +34,6 @@ public class ContactAdapter extends ArrayAdapter {
         super(context, R.layout.list_item, contacts);
         this.contacts = contacts;
         this.context = context;
-
     }
 
     @Override
@@ -36,9 +44,8 @@ public class ContactAdapter extends ArrayAdapter {
         TextView textView = (TextView) rowView.findViewById(R.id.text1);
 
         textView.setText(contacts.get(position).getName());
-        position %= textColor.length;
-        textView.setTextColor(textColor[position]);
-        textView.setBackgroundColor(backgroundColor[position]);
+        textView.setTextColor(textColor[position % textColor.length]);
+        textView.setBackgroundColor(backgroundColor[position % backgroundColor.length]);
         return rowView;
     }
 }

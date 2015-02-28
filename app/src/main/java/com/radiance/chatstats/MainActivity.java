@@ -1,6 +1,7 @@
 package com.radiance.chatstats;
-
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -10,13 +11,13 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements StatsFragment.OnToBeDeterminedListener, ContactPhoneNumberFragment.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements StatsFragment.OnToBeDeterminedListener, ContactPhoneNumberDialog.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ContactsFragment contactsFragment;
     StatsFragment statsFragment;
     LoadingFragment loadingFragment;
-    ContactPhoneNumberFragment contactPhoneNumberFragment;
+    DialogFragment contactPhoneNumberDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,22 +63,22 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
 
     @Override
     public void onContactSelected(Contact contact) {
-
-        contactPhoneNumberFragment = new ContactPhoneNumberFragment();
-        Bundle args = new Bundle();
-        args.putStringArrayList("phoneNumber", contact.getAddress());
-        args.putString("name", contact.getName());
-        args.putInt("id", contact.getID());
-
-        contactPhoneNumberFragment.setArguments(args);
-
-        //swap fragments
         fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, contactPhoneNumberFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
 
+        if (contact.getAddress().size() > 1) {
+            contactPhoneNumberDialog = new ContactPhoneNumberDialog();
+            Bundle args = new Bundle();
+            args.putStringArrayList("phoneNumber", contact.getAddress());
+            args.putString("name", contact.getName());
+            args.putInt("id", contact.getID());
+            contactPhoneNumberDialog.setArguments(args);
+            contactPhoneNumberDialog.show(fragmentManager, "TAG");
+        }
+
+        else
+        {
+            onPhoneNumberSelected(contact, 0);
+        }
     }
 
     @Override
@@ -92,17 +93,18 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
         fragmentTransaction.replace(R.id.fragment_container, statsFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
     }
 
     @Override
-    public void onPhoneNumberSelected(Contact contact) {//calls Loading fragment
+    public void onPhoneNumberSelected(Contact contact, int which) {//calls Loading fragment
         //statsFragment = new StatsFragment();
         loadingFragment = new LoadingFragment();
         Bundle args = new Bundle();
         args.putStringArrayList("phoneNumber", contact.getAddress());
         args.putString("name", contact.getName());
         args.putInt("id", contact.getID());
+        args.putInt("phoneNumIndex", which);
+
         loadingFragment.setArguments(args);
         //statsFragment.setArguments(args);
 
