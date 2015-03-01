@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dd.CircularProgressButton;
+
 import java.util.ArrayList;
 
 
@@ -27,13 +29,12 @@ public class LoadingFragment extends Fragment {
     private OnErrorListener nListener;
     private int cursorsFinished;
     private ImageView logoImage;
-    private ImageView logoName;
     private ArrayList<String> address;
     private ConversationThread conversationThread;
     private ArrayList<Conversation> messages;
     private Analytics analytics;
     private int phoneNumIndex = 0; //Which phone number??????
-    android.support.v4.app.FragmentManager fragmentManager;
+    private CircularProgressButton analyticsLoadingButton;
 
     public LoadingFragment() {
         // Required empty public constructor
@@ -67,7 +68,19 @@ public class LoadingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_loading, container, false);
         logoImage = (ImageView) view.findViewById((R.id.logoImage));
-        logoName = (ImageView) view.findViewById((R.id.logoName));
+        analyticsLoadingButton = (CircularProgressButton) view.findViewById(R.id.analyticsLoadingText);
+        analyticsLoadingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAG", "CLICKED");
+                if (analyticsLoadingButton.getProgress()!= 100) {}
+                else
+                {
+                    mListener.onLoadingFinished(analytics);
+                }
+            }
+        });
+
         return view;
     }
 
@@ -110,12 +123,13 @@ public class LoadingFragment extends Fragment {
                 @Override
                 public void run() {
                     logoImage.setImageResource(R.drawable.logoimage);
-                    logoName.setImageResource(R.drawable.logoname);
-                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                    analyticsLoadingButton.setIndeterminateProgressMode(true);
+                    analyticsLoadingButton.setProgress(50);
+                    /*AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                     anim.setDuration(1000);
                     anim.setRepeatCount(10);
                     anim.setRepeatMode(Animation.REVERSE);
-                    logoImage.startAnimation(anim);
+                    logoImage.startAnimation(anim);*/
                 }
             });
 
@@ -144,7 +158,7 @@ public class LoadingFragment extends Fragment {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            mListener.onLoadingFinished(analytics);
+                            analyticsLoadingButton.setProgress(100);
                         }
                     });
                 }

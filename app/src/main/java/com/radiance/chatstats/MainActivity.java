@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import java.util.ArrayList;
 
-
 public class MainActivity extends ActionBarActivity implements StatsFragment.OnToBeDeterminedListener, ContactPhoneNumberDialog.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener, LoadingFragment.OnErrorListener {
 
     public static final String ARG_BIG_THREE = "bigThree";
