@@ -5,13 +5,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements StatsFragment.OnToBeDeterminedListener, ContactPhoneNumberDialog.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements StatsFragment.OnToBeDeterminedListener, ContactPhoneNumberDialog.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener, LoadingFragment.OnErrorListener {
 
     public static final String ARG_BIG_THREE = "bigThree";
     public static final String ARG_ADDRESS = "phoneNumber";
@@ -126,6 +126,18 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, loadingFragment);
         fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onError()
+    {
+        Log.d("TAG", "ERROR");
+        ErrorDialog errorDialog = new ErrorDialog();
+        errorDialog.show(fragmentManager,"TAG");
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, contactsFragment);
         fragmentTransaction.commit();
     }
 

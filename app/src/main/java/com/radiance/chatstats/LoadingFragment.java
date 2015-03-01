@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class LoadingFragment extends Fragment {
     private final Handler handler = new Handler();
     private Contact contact;
     private OnFragmentInteractionListener mListener;
+    private OnErrorListener nListener;
     private int cursorsFinished;
     private ImageView logoImage;
     private ImageView logoName;
@@ -31,6 +33,7 @@ public class LoadingFragment extends Fragment {
     private ArrayList<Conversation> messages;
     private Analytics analytics;
     private int phoneNumIndex = 0; //Which phone number??????
+    android.support.v4.app.FragmentManager fragmentManager;
 
     public LoadingFragment() {
         // Required empty public constructor
@@ -73,6 +76,7 @@ public class LoadingFragment extends Fragment {
         super.onAttach(activity);
         try {
             mListener = (OnFragmentInteractionListener) activity;
+            nListener = (OnErrorListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -83,6 +87,7 @@ public class LoadingFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        nListener = null;
     }
 
 
@@ -114,7 +119,6 @@ public class LoadingFragment extends Fragment {
                 }
             });
 
-            //TODO switch to Telephony.SMS content provider
             //get sent messages
             Cursor sCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/sent"), new String[]{"address", "body", "date"}, null, null, null);//initial query gets all contacts
             cursorsFinished++;
@@ -122,25 +126,33 @@ public class LoadingFragment extends Fragment {
             Cursor rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"), new String[]{"address", "body", "date"}, null, null, null);//initial query gets all contacts
             cursorsFinished++;
 
-            //get Analytics class
-            conversationThread = new ConversationThread(rCursor, sCursor, address);
+                conversationThread = new ConversationThread(rCursor, sCursor, address);
 
-            /*handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    text.setText("running Analytics...");
+                if (conversationThread.isEmpty())
+                {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            nListener.onError();
+                        }
+                    });
                 }
-            });*/
-            // messages = conversationThread.getConversations();
-            analytics = new Analytics(conversationThread);
 
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onLoadingFinished(analytics);
+                else {
+                    analytics = new Analytics(conversationThread);
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mListener.onLoadingFinished(analytics);
+                        }
+                    });
                 }
-            });
         }
+    }
+
+    public interface OnErrorListener{
+        public void onError();
     }
 
 }

@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ConversationThread {//holds array of conversations
-    //TODO retrieve method doesn't error check for null case
-    //TODO retrieve method doesn't work if there's only 1 message
     //TODO improve retrieving method
     //TODO shorten matchAddress() method
     //TODO initializeConversation method is terrible
@@ -26,6 +24,7 @@ public class ConversationThread {//holds array of conversations
     private ArrayList<SMS> received;
     private ArrayList<Response> responses;
     private ArrayList<Conversation> conversations;
+    private boolean empty;
 
     private String address;
 
@@ -44,16 +43,22 @@ public class ConversationThread {//holds array of conversations
 
         messages.addAll(received);
         messages.addAll(sent);
-
         Collections.sort(messages);// sorts them in ascending chronological order
-        initializeResponses();
-        initializeConversations();
+
+        if (messages.size() == 0){empty = true;}
+        else {
+            empty = false;
+            initializeResponses();
+            initializeConversations();
+        }
     }
 
     public void adjustToDate()
     {
 
     }
+
+    public boolean isEmpty() {return empty;}
 
     public ArrayList<SMS> getMessages() {
         return messages;
