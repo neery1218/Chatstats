@@ -185,4 +185,8 @@ public class Analytics
 
         return new StatPoint(timeSent, timeReceived);//uses statpoint object
     }
+
+    public int getSize() {
+        return c.getMessages().size();
+    }
 }
