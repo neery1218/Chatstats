@@ -2,15 +2,16 @@ package com.radiance.chatstats;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -30,13 +31,10 @@ import java.util.ArrayList;
  * Use the {@link StatsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StatsFragment extends Fragment implements View.OnClickListener {
+public class StatsFragment extends Fragment {
 
     private static Analytics analytics;
-    TextView text;
-
     PieChart pieChart;
-    ArrayList<String> address;
     Contact contact;
     StatPoint responseTime;
     StatPoint initiateCount;
@@ -67,8 +65,8 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 
         }*/
 
-
         // mCursor.moveToFirst();
+
     }
 
     public void setPieGraph() {//for initiate Count
@@ -79,20 +77,20 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         pieChart.setHoleColor(Color.rgb(255, 255, 255));
         //pieChart.setHoleColorTransparent(true);
 
-        // tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        // typeFaceValue = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
-        // pieChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
+        pieChart.setCenterTextTypeface(MainActivity.ti);
 
-        pieChart.setHoleRadius(60f);
+        pieChart.setHoleRadius(50f);
         pieChart.setDescription("");
         pieChart.setDrawCenterText(true);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setRotationAngle(0);
-        pieChart.setTransparentCircleRadius(90f);
+        pieChart.setTransparentCircleRadius(60f);
 
 
         // enable rotation of the chart by touch
-        pieChart.setRotationEnabled(true);
+        pieChart.setRotationEnabled(false);
 
         // mChart.setUnit(" €");
         // mChart.setDrawUnitsInChart(true);
@@ -102,7 +100,8 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         // mChart.setTouchEnabled(false);
 
         pieChart.setCenterText("Initiate\nCount");
-
+        pieChart.setCenterTextSize(24f);
+        pieChart.setCenterTextColor(ColorTemplate.getHoloBlue());
 
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
@@ -117,7 +116,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 
         //title
         PieDataSet dataSet = new PieDataSet(yVals1, "");
-        dataSet.setSliceSpace(3f);
+        dataSet.setSliceSpace(6f);
 
         // colors for stuff
         ArrayList<Integer> colors = new ArrayList<Integer>();
@@ -144,9 +143,9 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 
         PieData data = new PieData(xVals, dataSet);
         data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(11f);
+        data.setValueTextSize(14f);
         data.setValueTextColor(Color.WHITE);
-        // data.setValueTypeface(tf);
+        data.setValueTypeface(MainActivity.typeFaceValue);
         pieChart.setData(data);
 
         // undo all highlights
@@ -158,10 +157,12 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         pieChart.animateXY(1500, 1500);
         pieChart.spin(2000, 0, 360);
 
-        //Legend l = pieChart.getLegend();
-        // l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
-        // l.setXEntrySpace(7f);
-        // l.setYEntrySpace(5f);
+        Legend l = pieChart.getLegend();
+        l.setEnabled(false);
+        l.setPosition(null);
+
+        l.setXEntrySpace(7f);
+        l.setYEntrySpace(5f);
     }
 
     public void setLineGraph() {
@@ -201,19 +202,15 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
         pieChart = (PieChart)view.findViewById(R.id.chart);
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point point = new Point();
+        display.getSize(point);
+        int height = point.y;
+        pieChart.setMinimumHeight(height);
         setPieGraph();
-        text = (TextView) view.findViewById((R.id.textView));
-        Button button = (Button) view.findViewById((R.id.button));
-        button.setOnClickListener(this);
         return view;
     }
 
-    @Override
-    public void onClick(View v) {
-        text.setText("Yolo");
-        //mCursor.moveToNext();
-
-    }
 
     @Override
     public void onAttach(Activity activity) {

@@ -1,7 +1,8 @@
 package com.radiance.chatstats;
+
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -17,7 +18,7 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
     public static final String ARG_ADDRESS = "phoneNumber";
     public static final String ARG_NAME = "name";
     public static final String ARG_ID = "id";
-
+    static Typeface typeFaceValue, ti;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ContactsFragment contactsFragment;
@@ -37,6 +38,9 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, contactsFragment);
         fragmentTransaction.commit();
+
+        typeFaceValue = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        ti = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
 
     }
 
