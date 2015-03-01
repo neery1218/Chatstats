@@ -77,9 +77,9 @@ public class StatsFragment extends Fragment {
         pieChart.setHoleColor(Color.rgb(255, 255, 255));
         //pieChart.setHoleColorTransparent(true);
 
-        // typeFaceValue = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        // typeFaceRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
-        pieChart.setCenterTextTypeface(MainActivity.ti);
+        pieChart.setCenterTextTypeface(MainActivity.typeFaceLight);
 
         pieChart.setHoleRadius(50f);
         pieChart.setDescription("");
@@ -145,7 +145,7 @@ public class StatsFragment extends Fragment {
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(14f);
         data.setValueTextColor(Color.WHITE);
-        data.setValueTypeface(MainActivity.typeFaceValue);
+        data.setValueTypeface(MainActivity.typeFaceRegular);
         pieChart.setData(data);
 
         // undo all highlights

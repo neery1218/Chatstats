@@ -17,7 +17,7 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
     public static final String ARG_ADDRESS = "phoneNumber";
     public static final String ARG_NAME = "name";
     public static final String ARG_ID = "id";
-    static Typeface typeFaceValue, ti;
+    static Typeface typeFaceRegular, typeFaceLight, typeFaceBold;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ContactsFragment contactsFragment;
@@ -38,8 +38,10 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
         fragmentTransaction.add(R.id.fragment_container, contactsFragment);
         fragmentTransaction.commit();
 
-        typeFaceValue = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-        ti = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
+        typeFaceRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        typeFaceLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
+        typeFaceBold = Typeface.createFromAsset(getAssets(), "OpenSans-Bold.ttf");
+
 
     }
 
