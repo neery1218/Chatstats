@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,8 @@ public class StatsFragment extends Fragment {
     StatPoint initiateCount;
     StatPoint avgMessageLength;
     private OnToBeDeterminedListener mListener;
+    StatsPagerAdapter statsPagerAdapter;
+    ViewPager viewPager;
 
 
     public StatsFragment() {
@@ -201,13 +204,16 @@ public class StatsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
-        pieChart = (PieChart)view.findViewById(R.id.chart);
+        /*pieChart = (PieChart)view.findViewById(R.id.chart);
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point point = new Point();
         display.getSize(point);
         int height = point.y;
         pieChart.setMinimumHeight(height);
-        setPieGraph();
+        setPieGraph();*/
+        statsPagerAdapter = new StatsPagerAdapter(getActivity().getSupportFragmentManager());
+        viewPager = (ViewPager)view.findViewById((R.id.pager));
+        viewPager.setAdapter(statsPagerAdapter);
         return view;
     }
 
