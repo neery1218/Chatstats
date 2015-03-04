@@ -1,7 +1,5 @@
 package com.radiance.chatstats;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,17 +8,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TotalMessagesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TotalMessagesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TotalMessagesFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+
+    public TotalMessagesFragment() {
+        // Required empty public constructor
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -40,26 +33,15 @@ public class TotalMessagesFragment extends Fragment {
         return fragment;
     }
 
-    public TotalMessagesFragment() {
-        // Required empty public constructor
-    }
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_total_messages, container, false);
-        TextView text = (TextView)view.findViewById(R.id.initialMessages);
+        TextView text = (TextView) view.findViewById(R.id.initialMessages);
         text.setText("Hi");
         return view;
     }
 
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
 
 }

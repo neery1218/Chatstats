@@ -2,11 +2,9 @@ package com.radiance.chatstats;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +19,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.PercentFormatter;
 import com.viewpagerindicator.LinePageIndicator;
-import com.viewpagerindicator.TitlePageIndicator;
-import com.viewpagerindicator.UnderlinePageIndicator;
 
 import java.util.ArrayList;
 
@@ -43,10 +39,10 @@ public class StatsFragment extends Fragment {
     StatPoint responseTime;
     StatPoint initiateCount;
     StatPoint avgMessageLength;
-    private OnToBeDeterminedListener mListener;
     StatsPagerAdapter statsPagerAdapter;
     ViewPager viewPager;
     LinePageIndicator titlePageIndicator;
+    private OnToBeDeterminedListener mListener;
 
 
     public StatsFragment() {
@@ -221,7 +217,8 @@ public class StatsFragment extends Fragment {
         titlePageIndicator = (LinePageIndicator)view.findViewById(R.id.titles);
         titlePageIndicator.setViewPager(viewPager);
 
-       final float density = getResources().getDisplayMetrics().density;
+
+        final float density = getResources().getDisplayMetrics().density;
         titlePageIndicator.setSelectedColor(0x88FF0000);
         titlePageIndicator.setUnselectedColor(0xFF888888);
         titlePageIndicator.setStrokeWidth(4 * density);
