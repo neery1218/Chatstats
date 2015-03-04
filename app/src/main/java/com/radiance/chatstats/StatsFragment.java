@@ -20,6 +20,9 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.PercentFormatter;
+import com.viewpagerindicator.LinePageIndicator;
+import com.viewpagerindicator.TitlePageIndicator;
+import com.viewpagerindicator.UnderlinePageIndicator;
 
 import java.util.ArrayList;
 
@@ -43,6 +46,7 @@ public class StatsFragment extends Fragment {
     private OnToBeDeterminedListener mListener;
     StatsPagerAdapter statsPagerAdapter;
     ViewPager viewPager;
+    LinePageIndicator titlePageIndicator;
 
 
     public StatsFragment() {
@@ -214,6 +218,14 @@ public class StatsFragment extends Fragment {
         statsPagerAdapter = new StatsPagerAdapter(getActivity().getSupportFragmentManager());
         viewPager = (ViewPager)view.findViewById((R.id.pager));
         viewPager.setAdapter(statsPagerAdapter);
+        titlePageIndicator = (LinePageIndicator)view.findViewById(R.id.titles);
+        titlePageIndicator.setViewPager(viewPager);
+
+       final float density = getResources().getDisplayMetrics().density;
+        titlePageIndicator.setSelectedColor(0x88FF0000);
+        titlePageIndicator.setUnselectedColor(0xFF888888);
+        titlePageIndicator.setStrokeWidth(4 * density);
+        titlePageIndicator.setLineWidth(30 * density);
         return view;
     }
 
