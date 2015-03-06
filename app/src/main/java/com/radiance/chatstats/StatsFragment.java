@@ -1,7 +1,6 @@
 package com.radiance.chatstats;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -10,14 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.PercentFormatter;
 import com.viewpagerindicator.LinePageIndicator;
 
 import java.util.ArrayList;
@@ -33,7 +27,7 @@ import java.util.ArrayList;
  */
 public class StatsFragment extends Fragment {
 
-    private static Analytics analytics;
+    public static Analytics analytics;
     PieChart pieChart;
     Contact contact;
     StatPoint responseTime;
@@ -54,7 +48,7 @@ public class StatsFragment extends Fragment {
         return fragment;
     }
 
-    public static void setAnalytics (Analytics analytic){
+    public static void setAnalytics(Analytics analytic) {
         analytics = analytic;
     }
 
@@ -72,101 +66,6 @@ public class StatsFragment extends Fragment {
 
     }
 
-    public void setPieGraph() {//for initiate Count
-
-        pieChart.setUsePercentValues(true);
-
-        // change the color of the center-hole
-        pieChart.setHoleColor(Color.rgb(255, 255, 255));
-        //pieChart.setHoleColorTransparent(true);
-
-        // typeFaceRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-
-        pieChart.setCenterTextTypeface(MainActivity.typeFaceLight);
-
-        pieChart.setHoleRadius(50f);
-        pieChart.setDescription("");
-        pieChart.setDrawCenterText(true);
-        pieChart.setDrawHoleEnabled(true);
-        pieChart.setRotationAngle(0);
-        pieChart.setTransparentCircleRadius(60f);
-
-
-        // enable rotation of the chart by touch
-        pieChart.setRotationEnabled(false);
-
-        // mChart.setUnit(" €");
-        // mChart.setDrawUnitsInChart(true);
-
-        // add a selection listener
-        //pieChart.setOnChartValueSelectedListener(this);
-        // mChart.setTouchEnabled(false);
-
-        pieChart.setCenterText("Initiate\nCount");
-        pieChart.setCenterTextSize(24f);
-        pieChart.setCenterTextColor(ColorTemplate.getHoloBlue());
-
-        ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-        ArrayList<String> xVals = new ArrayList<String>();
-
-        //data
-        yVals1.add(new Entry((float) analytics.getInitiateCount().getSent(), 0));
-        yVals1.add(new Entry((float) analytics.getInitiateCount().getReceived(), 1));
-
-        //labels
-        xVals.add("You");
-        xVals.add("Them");
-
-        //title
-        PieDataSet dataSet = new PieDataSet(yVals1, "");
-        dataSet.setSliceSpace(6f);
-
-        // colors for stuff
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-
-        //for (int c : ColorTemplate.VORDIPLOM_COLORS)
-        //    colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-/*
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);*/
-
-        colors.add(ColorTemplate.getHoloBlue());
-
-        dataSet.setColors(colors);
-
-
-        PieData data = new PieData(xVals, dataSet);
-        data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(14f);
-        data.setValueTextColor(Color.WHITE);
-        data.setValueTypeface(MainActivity.typeFaceRegular);
-        pieChart.setData(data);
-
-        // undo all highlights
-        pieChart.highlightValues(null);
-
-        pieChart.invalidate();
-
-
-        pieChart.animateXY(1500, 1500);
-        pieChart.spin(2000, 0, 360);
-
-        Legend l = pieChart.getLegend();
-        l.setEnabled(false);
-        l.setPosition(null);
-
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(5f);
-    }
 
     public void setLineGraph() {
         ArrayList<Entry> valsComp1 = new ArrayList<Entry>();
@@ -199,6 +98,7 @@ public class StatsFragment extends Fragment {
         //chart.setData(data);
         // chart.invalidate(); // refresh
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -212,9 +112,9 @@ public class StatsFragment extends Fragment {
         pieChart.setMinimumHeight(height);
         setPieGraph();*/
         statsPagerAdapter = new StatsPagerAdapter(getActivity().getSupportFragmentManager());
-        viewPager = (ViewPager)view.findViewById((R.id.pager));
+        viewPager = (ViewPager) view.findViewById((R.id.pager));
         viewPager.setAdapter(statsPagerAdapter);
-        titlePageIndicator = (LinePageIndicator)view.findViewById(R.id.titles);
+        titlePageIndicator = (LinePageIndicator) view.findViewById(R.id.titles);
         titlePageIndicator.setViewPager(viewPager);
 
 
@@ -243,6 +143,7 @@ public class StatsFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
     public interface OnToBeDeterminedListener {
         public void onToBeDetermined(ArrayList<String> id);
     }
