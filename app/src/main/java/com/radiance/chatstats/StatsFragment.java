@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class StatsFragment extends Fragment {
 
     public static Analytics analytics;
+    private static String name;
     PieChart pieChart;
     Contact contact;
     StatPoint responseTime;
@@ -52,20 +53,23 @@ public class StatsFragment extends Fragment {
         analytics = analytic;
     }
 
+    public static String getName() {
+        return name;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       /* if (getArguments() != null) {
+        if (getArguments() != null) {
 
-            bigThree = getArguments().getStringArrayList(MainActivity.ARG_BIG_THREE);
+            name = getArguments().getString(MainActivity.ARG_NAME);
 
-        }*/
+        }
 
         // mCursor.moveToFirst();
 
     }
-
 
     public void setLineGraph() {
         ArrayList<Entry> valsComp1 = new ArrayList<Entry>();
