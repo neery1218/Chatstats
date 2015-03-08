@@ -7,16 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+
+import java.util.ArrayList;
+
 
 public class MessageLengthFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    BarChart barChart;
 
 
     public MessageLengthFragment() {
@@ -34,27 +36,83 @@ public class MessageLengthFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static MessageLengthFragment newInstance(String param1, String param2) {
         MessageLengthFragment fragment = new MessageLengthFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
         return fragment;
+    }
+
+    public void setBarGraph() {
+        barChart.setDrawBarShadow(true);
+        barChart.setDrawValueAboveBar(true);
+
+        barChart.setDescription("");
+
+        // if more than 60 entries are displayed in the chart, no values will be
+        // drawn
+        barChart.setMaxVisibleValueCount(60);
+
+        // scaling can now only be done on x- and y-axis separately
+        barChart.setPinchZoom(false);
+
+        // draw shadows for each bar that show the maximum value
+        // mChart.setDrawBarShadow(true);
+
+        // mChart.setDrawXLabels(false);
+
+        barChart.setDrawGridBackground(false);
+        // mChart.setDrawYLabels(false)
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTypeface(MainActivity.typeFaceRegular);
+        xAxis.setDrawGridLines(false);
+
+        // ValueFormatter custom = new MyValueFormatter();
+
+        YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setTypeface(MainActivity.typeFaceRegular);
+        leftAxis.setLabelCount(8);
+        YAxis rightAxis = barChart.getAxisRight();
+        rightAxis.setEnabled(false);
+        ArrayList<String> xVals = new ArrayList<String>();
+
+        for (int i = 0; i < 5; i++) {
+            xVals.add("a" + i);
+        }
+
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+
+        for (int i = 0; i < 5; i++) {
+
+            yVals1.add(new BarEntry((float) i, i));
+        }
+
+        BarDataSet set1 = new BarDataSet(yVals1, "DataSet");
+        set1.setBarSpacePercent(35f);
+
+        ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+        dataSets.add(set1);
+
+        BarData data = new BarData(xVals, dataSets);
+//        data.setValueFormatter(new MyValueFormatter());
+        data.setValueTextSize(10f);
+        data.setValueTypeface(MainActivity.typeFaceRegular);
+
+        barChart.setData(data);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_message_length, container, false);
+        View view = inflater.inflate(R.layout.fragment_message_length, container, false);
+        barChart = (BarChart) view.findViewById(R.id.barChart);
+        setBarGraph();
+        return view;
     }
 
 

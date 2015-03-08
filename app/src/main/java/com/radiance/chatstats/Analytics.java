@@ -10,7 +10,7 @@ import java.util.ArrayList;
 //Static Class
 public class Analytics
 {
-    private static final String [] EMOTICONS = {":p", ":)", ";)",":S", ":D", ":P"};
+    public static final String[] EMOTICONS = {":p", ":)", ";)", ":S", ":D", "</3"};
     //Dictionaries
     private static ArrayList<String> commonWords;
     //Variables
@@ -20,6 +20,7 @@ public class Analytics
     private StatPoint avgMessageLengthWords;
     private StatPoint initiateCount;
     private StatPoint responseTime;
+
 
     public Analytics (ConversationThread c)
     {
