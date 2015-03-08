@@ -67,7 +67,7 @@ public class LoadingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_loading, container, false);
-        logoImage = (ImageView) view.findViewById((R.id.logoImage));
+        //logoImage = (ImageView) view.findViewById((R.id.logoImage));
         analyticsLoadingButton = (CircularProgressButton) view.findViewById(R.id.analyticsLoadingText);
         analyticsLoadingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +122,7 @@ public class LoadingFragment extends Fragment {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    logoImage.setImageResource(R.drawable.logoimage);
+                    //logoImage.setImageResource(R.drawable.logoimage);
                     analyticsLoadingButton.setIndeterminateProgressMode(true);
                     analyticsLoadingButton.setProgress(50);
                     /*AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
