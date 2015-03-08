@@ -6,19 +6,27 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ValueFormatter;
 
 import java.util.ArrayList;
 
 
 public class MessageLengthFragment extends Fragment {
-    BarChart barChart;
+    private HorizontalBarChart barChart;
+    private TextView titleTextView;
+    private TextView sentLengthTextView;
+    private TextView receivedLengthTextView;
+    private TextView sentNameTextView;
+    private TextView receivedNameTextView;
+    private StatPoint avgMessageLength;
 
 
     public MessageLengthFragment() {
@@ -41,67 +49,76 @@ public class MessageLengthFragment extends Fragment {
     }
 
     public void setBarGraph() {
-        barChart.setDrawBarShadow(true);
+
+        barChart.setDrawBarShadow(false);
         barChart.setDrawValueAboveBar(true);
-
         barChart.setDescription("");
-
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
         barChart.setMaxVisibleValueCount(60);
-
-        // scaling can now only be done on x- and y-axis separately
         barChart.setPinchZoom(false);
 
-        // draw shadows for each bar that show the maximum value
-        // mChart.setDrawBarShadow(true);
+        // barChart.setDrawBarShadow(true);
 
         // mChart.setDrawXLabels(false);
 
         barChart.setDrawGridBackground(false);
-        // mChart.setDrawYLabels(false)
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTypeface(MainActivity.typeFaceRegular);
-        xAxis.setDrawGridLines(false);
 
-        // ValueFormatter custom = new MyValueFormatter();
+        // mChart.setDrawYLabels(false);
 
-        YAxis leftAxis = barChart.getAxisLeft();
-        leftAxis.setTypeface(MainActivity.typeFaceRegular);
-        leftAxis.setLabelCount(8);
-        YAxis rightAxis = barChart.getAxisRight();
-        rightAxis.setEnabled(false);
-        ArrayList<String> xVals = new ArrayList<String>();
+        XAxis xl = barChart.getXAxis();
+        xl.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xl.setTypeface(MainActivity.typeFaceRegular);
+        xl.setDrawAxisLine(true);
+        xl.setDrawGridLines(false);
+        xl.setGridLineWidth(0.3f);
+        // xl.setEnabled(false);
 
-        for (int i = 0; i < 5; i++) {
-            xVals.add("a" + i);
+        YAxis yl = barChart.getAxisLeft();
+        yl.setTypeface(MainActivity.typeFaceRegular);
+        yl.setDrawAxisLine(true);
+        yl.setDrawGridLines(false);
+        barChart.getAxisLeft().setValueFormatter(
+                new ValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value) {
+                        return "" + (int) value;
+                    }
+
         }
+        );
+
+
+        YAxis yr = barChart.getAxisRight();
+        yr.setEnabled(false);
+
+        ArrayList<String> xVals = new ArrayList<String>();
+        xVals.add("a");
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+        ArrayList<BarEntry> yVals2 = new ArrayList<BarEntry>();
 
-        for (int i = 0; i < 5; i++) {
+        yVals1.add(new BarEntry((float) avgMessageLength.getSent(), 0));
+        yVals2.add(new BarEntry((float) avgMessageLength.getReceived(), 0));
 
-            yVals1.add(new BarEntry((float) i, i));
-        }
-
-        BarDataSet set1 = new BarDataSet(yVals1, "DataSet");
-        set1.setBarSpacePercent(35f);
+        BarDataSet set1 = new BarDataSet(yVals1, "");
+        BarDataSet set2 = new BarDataSet(yVals2, "");
+        // set1.setBarSpacePercent(0f);
 
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         dataSets.add(set1);
+        dataSets.add(set2);
 
         BarData data = new BarData(xVals, dataSets);
-//        data.setValueFormatter(new MyValueFormatter());
-        data.setValueTextSize(10f);
-        data.setValueTypeface(MainActivity.typeFaceRegular);
+        data.setValueTextSize(0f);
 
+        // data.setValueTypeface(MainActivity.typeFaceRegular);
         barChart.setData(data);
+        barChart.animateY(1000);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        avgMessageLength = StatsFragment.getAnalytics().getAvgMessageLengthWords();
 
     }
 
@@ -110,7 +127,23 @@ public class MessageLengthFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_message_length, container, false);
-        barChart = (BarChart) view.findViewById(R.id.barChart);
+        titleTextView = (TextView) view.findViewById(R.id.titleView);
+        titleTextView.setText("Average Message Length");
+        titleTextView.setTextSize(25f);
+        titleTextView.setTypeface(MainActivity.oswaldBold);
+        barChart = (HorizontalBarChart) view.findViewById(R.id.barChart);
+
+        sentLengthTextView = (TextView) view.findViewById(R.id.sentNameLength);
+        receivedLengthTextView = (TextView) view.findViewById(R.id.receivedLength);
+        sentNameTextView = (TextView) view.findViewById(R.id.sentName);
+        receivedNameTextView = (TextView) view.findViewById(R.id.receivedName);
+
+        receivedNameTextView.setText("" + StatsFragment.getName());
+        sentNameTextView.setText("You");
+
+        sentLengthTextView.setText(((int) (avgMessageLength.getSent() * 10) * 1.0) / 10 + " words");
+        receivedLengthTextView.setText(((int) (avgMessageLength.getReceived() * 10) * 1.0) / 10 + " words");
+
         setBarGraph();
         return view;
     }

@@ -184,7 +184,7 @@ public class InitiateCountFragment extends Fragment {
 
 
         pieChart.animateXY(1500, 1500);
-        pieChart.spin(2000, 0, 360);
+        //pieChart.spin(2000, 0, 360);
 
         Legend l = pieChart.getLegend();
         l.setEnabled(false);
