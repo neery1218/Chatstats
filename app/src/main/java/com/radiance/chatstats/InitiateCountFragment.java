@@ -5,13 +5,18 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -26,8 +31,8 @@ public class InitiateCountFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    TextView text;
     private PieChart pieChart;
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -70,11 +75,12 @@ public class InitiateCountFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_initiate_count, container, false);
         pieChart = (PieChart) view.findViewById(R.id.chart);
+        text = (TextView) view.findViewById(R.id.initiateCountText);
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point point = new Point();
         display.getSize(point);
         int height = point.y;
-        pieChart.setMinimumHeight(height);
+        // pieChart.setMinimumHeight(height);
         //pieChart.setLayoutHeight
         Log.v("tag", Integer.toString(height));
         setPieGraph();
@@ -83,22 +89,24 @@ public class InitiateCountFragment extends Fragment {
 
     public void setPieGraph() {//for initiate Count
 
-        pieChart.setUsePercentValues(true);
+        //  pieChart.setUsePercentValues(true);
 
         // change the color of the center-hole
         pieChart.setHoleColor(Color.rgb(255, 255, 255));
-        //pieChart.setHoleColorTransparent(true);
+        pieChart.setHoleColorTransparent(true);
 
         // typeFaceRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
-        pieChart.setCenterTextTypeface(MainActivity.typeFaceLight);
+        // pieChart.setCenterTextTypeface(MainActivity.typeFaceLight);
 
-        pieChart.setHoleRadius(50f);
+        pieChart.setHoleRadius(20f);
         pieChart.setDescription("");
         pieChart.setDrawCenterText(true);
+        //
+        //
         pieChart.setDrawHoleEnabled(true);
         pieChart.setRotationAngle(0);
-        pieChart.setTransparentCircleRadius(60f);
+        pieChart.setTransparentCircleRadius(20f);
 
 
         // enable rotation of the chart by touch
@@ -111,44 +119,60 @@ public class InitiateCountFragment extends Fragment {
         //pieChart.setOnChartValueSelectedListener(this);
         // mChart.setTouchEnabled(false);
 
-        pieChart.setCenterText("Initiate\nCount");
-        pieChart.setCenterTextSize(24f);
-        pieChart.setCenterTextColor(ColorTemplate.getHoloBlue());
+        // pieChart.setCenterText("Conversations\nStarted");
+        // pieChart.setCenterTextSize(24f);
+        // pieChart.setCenterTextColor(ColorTemplate.getHoloBlue());
+
 
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
-
+        double sent = StatsFragment.analytics.getInitiateCount().getSent();
+        double received = StatsFragment.analytics.getInitiateCount().getReceived();
         //data
-        yVals1.add(new Entry((float) StatsFragment.analytics.getInitiateCount().getSent(), 0));
-        yVals1.add(new Entry((float) StatsFragment.analytics.getInitiateCount().getReceived(), 1));
+        yVals1.add(new Entry((float) sent, 0));
+        yVals1.add(new Entry((float) received, 1));
+        text.setTypeface(MainActivity.typeFaceRegular);
+        Spanned t = Html.fromHtml("You start " + "<b>" + ((int) (sent * 1000 / (sent + received))) * 1.0 / 10 + "%</b>" + " of all conversations!");
+        text.setText(t + "\n\n");
+        AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+        text.startAnimation(fadeIn);
+        fadeIn.setDuration(200);
+        fadeIn.setFillAfter(true);
+        // text.setText("You start " +((int)(sent*1000/(sent+received)))*1.0/10 + "% of all conversations!");
+
+        text.setTextSize(25f);
+        text.setTextColor(ColorTemplate.getHoloBlue());
+        //text.setHeight();
+        //text.setHeight()
 
 
         //labels
-        xVals.add("You");
-        xVals.add("Them");
+        xVals.add("");
+        xVals.add("");
 
         //title
         PieDataSet dataSet = new PieDataSet(yVals1, "");
-        dataSet.setSliceSpace(6f);
+        dataSet.setSliceSpace(20f);
 
         // colors for stuff
         ArrayList<Integer> colors = new ArrayList<Integer>();
+        colors.add(ColorTemplate.VORDIPLOM_COLORS[0]);
+        colors.add(Color.GRAY);
+        // for (int c : ColorTemplate.VORDIPLOM_COLORS)
+        //  colors.add(c);
 
-        //for (int c : ColorTemplate.VORDIPLOM_COLORS)
-        //    colors.add(c);
-
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
+        /*for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);*/
 /*
         for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-
-        for (int c : ColorTemplate.PASTEL_COLORS)
             colors.add(c);*/
 
+        /*for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);*/
+
+       /* for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);*/
+        //ColorTemplate.
         colors.add(ColorTemplate.getHoloBlue());
 
         dataSet.setColors(colors);
@@ -156,7 +180,9 @@ public class InitiateCountFragment extends Fragment {
 
         PieData data = new PieData(xVals, dataSet);
         data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(14f);
+        data.setValueTextSize(0f);
+
+
         data.setValueTextColor(Color.WHITE);
         data.setValueTypeface(MainActivity.typeFaceRegular);
         pieChart.setData(data);
@@ -170,10 +196,9 @@ public class InitiateCountFragment extends Fragment {
         pieChart.animateXY(1500, 1500);
         pieChart.spin(2000, 0, 360);
 
-       /* Legend l = pieChart.getLegend();
+        Legend l = pieChart.getLegend();
         l.setEnabled(false);
-        l.setPosition(null);
-
+        /*l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
         l.setXEntrySpace(7f);
         l.setYEntrySpace(5f);*/
     }

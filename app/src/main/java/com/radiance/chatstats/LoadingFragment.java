@@ -10,11 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.dd.CircularProgressButton;
 
@@ -73,10 +69,9 @@ public class LoadingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("TAG", "CLICKED");
-                if (analyticsLoadingButton.getProgress()!= 100) {}
-                else
-                {
-                    mListener.onLoadingFinished(analytics);
+                if (analyticsLoadingButton.getProgress() != 100) {
+                } else {
+                    mListener.onLoadingFinished(analytics, contact);
                 }
             }
         });
@@ -107,7 +102,11 @@ public class LoadingFragment extends Fragment {
     public interface OnFragmentInteractionListener {
 
         // public void onLoadingFinished(ArrayList<StatPoint> bigThree);
-        public void onLoadingFinished(Analytics analytics);
+        public void onLoadingFinished(Analytics analytics, Contact contact);
+    }
+
+    public interface OnErrorListener {
+        public void onError();
     }
 
     private class LoadCursor implements Runnable {
@@ -140,33 +139,26 @@ public class LoadingFragment extends Fragment {
             Cursor rCursor = getActivity().getContentResolver().query(Uri.parse("content://sms/inbox"), new String[]{"address", "body", "date"}, null, null, null);//initial query gets all contacts
             cursorsFinished++;
 
-                conversationThread = new ConversationThread(rCursor, sCursor, address);
+            conversationThread = new ConversationThread(rCursor, sCursor, address);
 
-                if (conversationThread.isEmpty())
-                {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            nListener.onError();
-                        }
-                    });
-                }
+            if (conversationThread.isEmpty()) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        nListener.onError();
+                    }
+                });
+            } else {
+                analytics = new Analytics(conversationThread);
 
-                else {
-                    analytics = new Analytics(conversationThread);
-
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            analyticsLoadingButton.setProgress(100);
-                        }
-                    });
-                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        analyticsLoadingButton.setProgress(100);
+                    }
+                });
+            }
         }
-    }
-
-    public interface OnErrorListener{
-        public void onError();
     }
 
 }

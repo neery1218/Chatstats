@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity implements StatsFragment.OnToBeDeterminedListener, ContactPhoneNumberDialog.OnPhoneNumberSelectedListener, ContactsFragment.OnContactSelectedListener, LoadingFragment.OnFragmentInteractionListener, LoadingFragment.OnErrorListener {
@@ -85,21 +86,19 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
             args.putInt("id", contact.getID());
             contactPhoneNumberDialog.setArguments(args);
             contactPhoneNumberDialog.show(fragmentManager, "TAG");
-        }
-
-        else
-        {
+        } else {
             onPhoneNumberSelected(contact, 0);
         }
     }
 
     @Override
-    public void onLoadingFinished(Analytics analytics) {
+    public void onLoadingFinished(Analytics analytics, Contact contact) {
         //bigThree is ouputted here
         statsFragment = new StatsFragment();
         Bundle args = new Bundle();
         ArrayList<String> input = new ArrayList<String>();
-
+        args.putString(ARG_NAME, contact.getName());
+        statsFragment.setArguments(args);
         // for (int i = 0; i < bigThree.size(); i++)
         //     input.add(bigThree.toString());
 
@@ -136,11 +135,10 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
     }
 
     @Override
-    public void onError()
-    {
+    public void onError() {
         Log.d("TAG", "ERROR");
         ErrorDialog errorDialog = new ErrorDialog();
-        errorDialog.show(fragmentManager,"TAG");
+        errorDialog.show(fragmentManager, "TAG");
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, contactsFragment);
