@@ -1,11 +1,56 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.radiance.chatstats.TotalMessagesFragment">
+    tools:context="com.radiance.chatstats.TotalMessagesFragment"
+    android:orientation="vertical"
+    android:id="@+id/fragment_total_messages_linearlayout"
+    android:focusable="false"
+    android:gravity="center"
+    android:background="#ff1bbc9b">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        android:id = "@+id/initialMessages" />
 
-</FrameLayout>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/total_messages"
+        android:id="@+id/total_messages"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:layout_marginBottom="0dp"
+        android:includeFontPadding="false"
+        android:layout_marginTop="-50dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:id="@+id/total_messages_number"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_marginTop="-20dp"
+        android:includeFontPadding="false"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/total_conversations"
+        android:id="@+id/total_conversations"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:layout_marginTop="-10dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:id="@+id/total_conversations_number"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_marginTop="-20dp"
+        android:includeFontPadding="false"/>
+</LinearLayout>

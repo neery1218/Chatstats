@@ -64,6 +64,10 @@ public class ConversationThread {//holds array of conversations
         return messages;
     }
 
+    public int getNumMessages(){
+        return messages.size();
+    }
+
     public String getAddress() {
         return address;
     }
@@ -82,6 +86,11 @@ public class ConversationThread {//holds array of conversations
 
     public ArrayList<Conversation> getConversations() {
         return conversations;
+    }
+
+    public int getNumConversations()
+    {
+        return conversations.size();
     }
 
     private void initializeResponses() {//sorts the SMS messages into blocks of responses

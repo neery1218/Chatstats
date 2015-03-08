@@ -42,7 +42,6 @@ public class Analytics
         return bigThree;
     }
 
-
     public ArrayList<StatPoint> getEmoticonCount() {
         return emoticonCount;
     }
@@ -62,6 +61,12 @@ public class Analytics
     public StatPoint getResponseTime() {
         return responseTime;
     }
+
+    public int getTotalMessages(){
+        return c.getNumMessages();
+    }
+
+    public int getTotalConversations() {return c.getNumConversations();}
 
     public ArrayList<StatPoint> searchFor (String [] str, Boolean regex)
     {
@@ -128,7 +133,6 @@ public class Analytics
 
     public ArrayList<StatPoint> calcEmoticonCount() // initializes an ArrayList of Statpoints signifying the number of each emoticon used
     {
-
         return searchFor(EMOTICONS, false);
     }
 
