@@ -27,8 +27,7 @@ public class TotalMessagesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_total_messages, container, false);
 
@@ -38,6 +37,7 @@ public class TotalMessagesFragment extends Fragment {
         TextView totalConversations = (TextView) view.findViewById(R.id.total_conversations);
         TextView totalConversationsNumber = (TextView) view.findViewById(R.id.total_conversations_number);
 
+        StatsFragment.setLayoutColor("#ff1bbc9b");
         //Change text font size
         totalMessages.setTextSize(36);
         totalMessagesNumber.setTextSize(144);
@@ -63,8 +63,8 @@ public class TotalMessagesFragment extends Fragment {
         totalConversationsNumber.setBackgroundColor(Color.parseColor("#1BBC9B"));
 
         //Set texts
-        totalMessagesNumber.setText(StatsFragment.analytics.getTotalMessages() + "");
-        totalConversationsNumber.setText(StatsFragment.analytics.getTotalConversations()+"");
+        totalMessagesNumber.setText(StatsFragment.getAnalytics().getTotalMessages() + "");
+        totalConversationsNumber.setText(StatsFragment.getAnalytics().getTotalConversations() + "");
 
         return view;
     }

@@ -39,11 +39,12 @@ public class EmoticonsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        emoticons = StatsFragment.analytics.getEmoticonCount();
+
     }
 
     public void setRadarChart() {
         //Title
-        emoticons = StatsFragment.analytics.getEmoticonCount();
         Log.d("TAG", emoticons.toString());
         radarChart.setDescription("");
 

@@ -1,12 +1,14 @@
 package com.radiance.chatstats;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -29,6 +31,7 @@ public class StatsFragment extends Fragment {
 
     public static Analytics analytics;
     private static String name;
+    private static FrameLayout layout;
     PieChart pieChart;
     Contact contact;
     StatPoint responseTime;
@@ -44,11 +47,17 @@ public class StatsFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static void setLayoutColor(String color) {
+        layout.setBackgroundColor(Color.parseColor(color));
+    }
     public static StatsFragment newInstance() {
         StatsFragment fragment = new StatsFragment();
         return fragment;
     }
 
+    public static Analytics getAnalytics() {
+        return analytics;
+    }
     public static void setAnalytics(Analytics analytic) {
         analytics = analytic;
     }
@@ -115,6 +124,7 @@ public class StatsFragment extends Fragment {
         int height = point.y;
         pieChart.setMinimumHeight(height);
         setPieGraph();*/
+        layout = (FrameLayout) view.findViewById(R.id.layout);
         statsPagerAdapter = new StatsPagerAdapter(getActivity().getSupportFragmentManager());
         viewPager = (ViewPager) view.findViewById((R.id.pager));
         viewPager.setAdapter(statsPagerAdapter);
