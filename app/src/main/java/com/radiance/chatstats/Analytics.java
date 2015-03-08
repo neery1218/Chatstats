@@ -8,22 +8,20 @@ import java.util.ArrayList;
 
 //Static Class
 //Static Class
-public class Analytics
-{
+public class Analytics {
     public static final String[] EMOTICONS = {":p", ":)", ";)", ":S", ":D", "</3"};
     //Dictionaries
     private static ArrayList<String> commonWords;
     //Variables
     private ConversationThread c;
-    private ArrayList <StatPoint> emoticonCount;
+    private ArrayList<StatPoint> emoticonCount;
     private StatPoint sentAndReceived;
     private StatPoint avgMessageLengthWords;
     private StatPoint initiateCount;
     private StatPoint responseTime;
 
 
-    public Analytics (ConversationThread c)
-    {
+    public Analytics(ConversationThread c) {
         this.c = c;
         emoticonCount = calcEmoticonCount();
         sentAndReceived = calcSentAndReceived();
@@ -62,36 +60,37 @@ public class Analytics
         return responseTime;
     }
 
-    public int getTotalMessages(){
+    public int getTotalMessages() {
         return c.getNumMessages();
     }
 
-    public int getTotalConversations() {return c.getNumConversations();}
+    public int getTotalConversations() {
+        return c.getNumConversations();
+    }
 
-    public ArrayList<StatPoint> searchFor (String [] str, Boolean regex)
-    {
-        ArrayList<StatPoint> temp = new ArrayList<StatPoint> ();
-        for (int i = 0; i< str.length; i++){
+    public ArrayList<StatPoint> searchFor(String[] str, Boolean regex) {
+        ArrayList<StatPoint> temp = new ArrayList<StatPoint>();
+        for (int i = 0; i < str.length; i++) {
             temp.add(searchFor(str[i], regex));
         }
         return temp;
     }
 
-    public StatPoint searchFor (String s, Boolean regex) // initializes used to search the SMS messages for a passed string
+    public StatPoint searchFor(String s, Boolean regex) // initializes used to search the SMS messages for a passed string
     {
 
         ArrayList<SMS> searchArray = c.getMessages();
-        int S =0, R = 0;
+        int S = 0, R = 0;
 
-        for (int i = 0; i < searchArray.size(); i++){
+        for (int i = 0; i < searchArray.size(); i++) {
 
             if (searchArray.get(i).getStatus() == Status.SENT)// checks enum for type of message
-                S+=searchArray.get(i).getNumOf(s, regex);
+                S += searchArray.get(i).getNumOf(s, regex);
             else
-                R+=searchArray.get(i).getNumOf(s, regex);
+                R += searchArray.get(i).getNumOf(s, regex);
         }
 
-        return (new StatPoint(S,R));
+        return (new StatPoint(S, R));
     }
 
     public StatPoint calcSentAndReceived() // initializes amount of sent messages vs received
@@ -112,14 +111,10 @@ public class Analytics
         for (int i = 0; i < responses.size(); i++)// cycles through the responses
         {
             temp = responses.get(i);
-            if (temp.getStatus() == Status.RECEIVED)
-            {
+            if (temp.getStatus() == Status.RECEIVED) {
                 R += temp.getLength();
                 receivedSize += 1;
-            }
-
-            else
-            {
+            } else {
                 S += temp.getLength();
                 sentSize += 1;
             }
@@ -131,7 +126,7 @@ public class Analytics
         return (new StatPoint(S, R));
     }
 
-    public ArrayList<StatPoint> calcEmoticonCount() // initializes an ArrayList of Statpoints signifying the number of each emoticon used
+    private ArrayList<StatPoint> calcEmoticonCount() // initializes an ArrayList of Statpoints signifying the number of each emoticon used
     {
         return searchFor(EMOTICONS, false);
     }
@@ -142,14 +137,15 @@ public class Analytics
 
         int S = 0, R = 0;
 
-        for (int i = 0; i < conversations.size(); i++)
-        {
-            if (conversations.get(i).getInitiator() == Status.RECEIVED) {R++;}
-
-            else {S++;}
+        for (int i = 0; i < conversations.size(); i++) {
+            if (conversations.get(i).getInitiator() == Status.RECEIVED) {
+                R++;
+            } else {
+                S++;
+            }
         }
 
-        return (new StatPoint(S,R));
+        return (new StatPoint(S, R));
     }
 
     public StatPoint calcResponseTime() // initializes average response time
@@ -162,22 +158,18 @@ public class Analytics
         double timeSent = 0.0, timeReceived = 0.0;
         double responsesSent = 0.0, responsesReceived = 0.0;
 
-        for (int i = 0; i < conversations.size(); i++)
-        {
+        for (int i = 0; i < conversations.size(); i++) {
             temp = conversations.get(i).getConversation();// returns arrayList of responses. i know, confusing af
             if (temp.get(0).getStatus() == Status.SENT)
                 responsesSent++;
             else
                 responsesReceived++;
-            for (int j = 1; j < temp.size(); j++)
-            {
-                if(temp.get(j).getStatus() == Status.SENT){
-                    timeSent+=(temp.get(j).getDateStart()-temp.get(j-1).getDateEnd());
+            for (int j = 1; j < temp.size(); j++) {
+                if (temp.get(j).getStatus() == Status.SENT) {
+                    timeSent += (temp.get(j).getDateStart() - temp.get(j - 1).getDateEnd());
                     responsesSent++;
-                }
-
-                else{
-                    timeReceived+=(temp.get(j).getDateStart()-temp.get(j-1).getDateEnd());
+                } else {
+                    timeReceived += (temp.get(j).getDateStart() - temp.get(j - 1).getDateEnd());
                     responsesReceived++;
                 }
 
@@ -185,8 +177,8 @@ public class Analytics
         }
 
         Log.v("Time", "" + timeSent + "    " + timeReceived);
-        timeSent /= (responsesSent*60000);//returns it in minutes right
-        timeReceived /= (responsesReceived*60000);// responsesSent = sentSize, we're duplicating code here
+        timeSent /= (responsesSent * 60000);//returns it in minutes right
+        timeReceived /= (responsesReceived * 60000);// responsesSent = sentSize, we're duplicating code here
 
         return new StatPoint(timeSent, timeReceived);//uses statpoint object
     }

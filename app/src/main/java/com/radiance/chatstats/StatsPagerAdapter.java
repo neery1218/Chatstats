@@ -8,12 +8,12 @@ import android.support.v4.app.FragmentPagerAdapter;
  * Created by Neerajen on 02/03/2015.
  */
 public class StatsPagerAdapter extends FragmentPagerAdapter {
-    TotalMessagesFragment totalMessagesFragment;
+ /*   TotalMessagesFragment totalMessagesFragment;
     InitiateCountFragment initiateCountFragment;
     ResponseTimeFragment responseTimeFragment;
     SummaryFragment summaryFragment;
     EmoticonsFragment emoticonsFragment;
-    MessageLengthFragment messageLengthFragment;
+    MessageLengthFragment messageLengthFragment;*/
 
 
     public StatsPagerAdapter(FragmentManager fm) {
@@ -25,47 +25,17 @@ public class StatsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                if (totalMessagesFragment != null)
-                    return totalMessagesFragment;
-                else {
-                    totalMessagesFragment = new TotalMessagesFragment();
-                    return totalMessagesFragment;
-                }
+                return new TotalMessagesFragment();
             case 1:
-                if (initiateCountFragment != null)
-                    return initiateCountFragment;
-                else {
-                    initiateCountFragment = new InitiateCountFragment();
-                    return initiateCountFragment;
-                }
+                return new InitiateCountFragment();
             case 2:
-                if (responseTimeFragment != null)
-                    return responseTimeFragment;
-                else {
-                    responseTimeFragment = new ResponseTimeFragment();
-                    return responseTimeFragment;
-                }
+                return new ResponseTimeFragment();
             case 3:
-                if (messageLengthFragment != null)
-                    return messageLengthFragment;
-                else {
-                    messageLengthFragment = new MessageLengthFragment();
-                    return messageLengthFragment;
-                }
+                return new MessageLengthFragment();
             case 4:
-                if (summaryFragment != null)
-                    return summaryFragment;
-                else {
-                    summaryFragment = new SummaryFragment();
-                    return summaryFragment;
-                }
+                return new SummaryFragment();
             case 5:
-                if (emoticonsFragment != null)
-                    return emoticonsFragment;
-                else {
-                    emoticonsFragment = new EmoticonsFragment();
-                    return emoticonsFragment;
-                }
+                return new EmoticonsFragment();
             default:
                 return new Fragment();
 

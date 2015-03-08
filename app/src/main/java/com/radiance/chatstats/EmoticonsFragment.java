@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class EmoticonsFragment extends Fragment {
     RadarChart radarChart;
-
+    ArrayList<StatPoint> emoticons;
 
     public EmoticonsFragment() {
         // Required empty public constructor
@@ -44,6 +44,7 @@ public class EmoticonsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        emoticons = StatsFragment.analytics.getEmoticonCount();
 
     }
 

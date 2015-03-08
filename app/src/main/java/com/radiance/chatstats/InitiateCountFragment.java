@@ -2,12 +2,10 @@ package com.radiance.chatstats;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +30,7 @@ public class InitiateCountFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     TextView text;
+    StatPoint initiateCount;
     private PieChart pieChart;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -63,10 +62,7 @@ public class InitiateCountFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        initiateCount = StatsFragment.getAnalytics().getInitiateCount();
     }
 
     @Override
@@ -77,12 +73,7 @@ public class InitiateCountFragment extends Fragment {
         pieChart = (PieChart) view.findViewById(R.id.chart);
         text = (TextView) view.findViewById(R.id.initiateCountText);
         Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point point = new Point();
-        display.getSize(point);
-        int height = point.y;
-        // pieChart.setMinimumHeight(height);
-        //pieChart.setLayoutHeight
-        Log.v("tag", Integer.toString(height));
+
         setPieGraph();
         return view;
     }
@@ -95,18 +86,17 @@ public class InitiateCountFragment extends Fragment {
         pieChart.setHoleColor(Color.rgb(255, 255, 255));
         pieChart.setHoleColorTransparent(true);
 
-        // typeFaceRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
-        // pieChart.setCenterTextTypeface(MainActivity.typeFaceLight);
+        pieChart.setCenterTextTypeface(MainActivity.typeFaceLight);
 
-        pieChart.setHoleRadius(20f);
+        pieChart.setHoleRadius(50f);
         pieChart.setDescription("");
         pieChart.setDrawCenterText(true);
         //
         //
         pieChart.setDrawHoleEnabled(true);
         pieChart.setRotationAngle(0);
-        pieChart.setTransparentCircleRadius(20f);
+        pieChart.setTransparentCircleRadius(40f);
 
 
         // enable rotation of the chart by touch
@@ -119,21 +109,21 @@ public class InitiateCountFragment extends Fragment {
         //pieChart.setOnChartValueSelectedListener(this);
         // mChart.setTouchEnabled(false);
 
-        // pieChart.setCenterText("Conversations\nStarted");
-        // pieChart.setCenterTextSize(24f);
-        // pieChart.setCenterTextColor(ColorTemplate.getHoloBlue());
+        pieChart.setCenterText("" + ((int) (initiateCount.getSent() * 1000 / (initiateCount.getSent() + initiateCount.getReceived()))) * 1.0 / 10 + "%");
+        pieChart.setCenterTextSize(24f);
+        pieChart.setCenterTextColor(ColorTemplate.getHoloBlue());
 
 
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
-        double sent = StatsFragment.analytics.getInitiateCount().getSent();
+       /* double sent = StatsFragment.analytics.getInitiateCount().getSent();
         double received = StatsFragment.analytics.getInitiateCount().getReceived();
-        //data
-        yVals1.add(new Entry((float) sent, 0));
-        yVals1.add(new Entry((float) received, 1));
+        *///data
+        yVals1.add(new Entry((float) initiateCount.getSent(), 0));
+        yVals1.add(new Entry((float) initiateCount.getReceived(), 1));
         text.setTypeface(MainActivity.typeFaceRegular);
-        Spanned t = Html.fromHtml("You start " + "<b>" + ((int) (sent * 1000 / (sent + received))) * 1.0 / 10 + "%</b>" + " of all conversations!");
-        text.setText(t + "\n\n");
+        Spanned t = Html.fromHtml("You start " + "<b>" + ((int) (initiateCount.getSent() * 1000 / (initiateCount.getSent() + initiateCount.getReceived()))) * 1.0 / 10 + "%</b>" + " of all conversations!");
+        text.setText("Conversations Started" + "\n\n");
         AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
         text.startAnimation(fadeIn);
         fadeIn.setDuration(200);
@@ -207,6 +197,7 @@ public class InitiateCountFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
+        StatsFragment.setLayoutColor("#ffffff");
     }
 
     @Override
