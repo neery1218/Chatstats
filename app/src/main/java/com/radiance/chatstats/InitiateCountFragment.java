@@ -87,8 +87,8 @@ public class InitiateCountFragment extends Fragment {
         pieChart.setHoleColorTransparent(true);
 
 
-        pieChart.setCenterTextTypeface(MainActivity.typeFaceLight);
-
+        pieChart.setCenterTextTypeface(MainActivity.oswaldLight);
+        pieChart.setCenterTextSize(48f);
         pieChart.setHoleRadius(50f);
         pieChart.setDescription("");
         pieChart.setDrawCenterText(true);
@@ -124,17 +124,17 @@ public class InitiateCountFragment extends Fragment {
         text.setTypeface(MainActivity.typeFaceRegular);
         Spanned t = Html.fromHtml("You start " + "<b>" + ((int) (initiateCount.getSent() * 1000 / (initiateCount.getSent() + initiateCount.getReceived()))) * 1.0 / 10 + "%</b>" + " of all conversations!");
         text.setText("Conversations Started" + "\n\n");
+        text.setTypeface(MainActivity.oswaldLight);
         AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
         text.startAnimation(fadeIn);
-        fadeIn.setDuration(200);
+        fadeIn.setDuration(2000);
         fadeIn.setFillAfter(true);
         // text.setText("You start " +((int)(sent*1000/(sent+received)))*1.0/10 + "% of all conversations!");
 
-        text.setTextSize(25f);
-        text.setTextColor(ColorTemplate.getHoloBlue());
+        text.setTextSize(48f);
+        text.setTextColor(Color.WHITE);
         //text.setHeight();
         //text.setHeight()
-
 
         //labels
         xVals.add("");
@@ -142,7 +142,7 @@ public class InitiateCountFragment extends Fragment {
 
         //title
         PieDataSet dataSet = new PieDataSet(yVals1, "");
-        dataSet.setSliceSpace(20f);
+        dataSet.setSliceSpace(0f);
 
         // colors for stuff
         ArrayList<Integer> colors = new ArrayList<Integer>();
