@@ -33,8 +33,6 @@ public class StatsPagerAdapter extends FragmentPagerAdapter {
             case 3:
                 return new MessageLengthFragment();
             case 4:
-                return new SummaryFragment();
-            case 5:
                 return new EmoticonsFragment();
             default:
                 return new Fragment();
@@ -46,6 +44,6 @@ public class StatsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 6;
+        return 5;
     }
 }
