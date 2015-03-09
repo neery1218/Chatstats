@@ -33,7 +33,6 @@ public class MessageLengthFragment extends Fragment {
     public MessageLengthFragment() {
         // Required empty public constructor
     }
-    // TODO: Rename and change types and number of parameters
     public static MessageLengthFragment newInstance(String param1, String param2) {
         MessageLengthFragment fragment = new MessageLengthFragment();
 
@@ -64,6 +63,7 @@ public class MessageLengthFragment extends Fragment {
         xl.setGridLineWidth(0.3f);
         xl.setAxisLineColor(Color.WHITE);
         xl.setAxisLineWidth(2f);
+        xl.setDrawLabels(false);
         // xl.setEnabled(false);
 
         YAxis yl = barChart.getAxisLeft();
@@ -72,6 +72,8 @@ public class MessageLengthFragment extends Fragment {
         yl.setDrawGridLines(false);
         yl.setAxisLineColor(Color.WHITE);
         yl.setAxisLineWidth(2f);
+
+
         barChart.getAxisLeft().setValueFormatter(
                 new ValueFormatter() {
                     @Override
@@ -79,7 +81,7 @@ public class MessageLengthFragment extends Fragment {
                         return "" + (int) value;
                     }
 
-        }
+                }
         );
 
 
@@ -108,6 +110,7 @@ public class MessageLengthFragment extends Fragment {
 
         // data.setValueTypeface(MainActivity.typeFaceRegular);
         barChart.setData(data);
+        barChart.getLegend().setEnabled(false);
         barChart.animateY(1000);
     }
 

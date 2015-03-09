@@ -54,6 +54,7 @@ public class EmoticonsFragment extends Fragment {
         radarChart.setWebAlpha(255);
         radarChart.setWebColor(Color.parseColor("#FFFFFF"));
         radarChart.setWebColorInner(Color.parseColor("#FFFFFF"));
+        radarChart.setNoDataTextDescription("No emoticons! D:");
 
         int count = Analytics.EMOTICONS.length;
 
@@ -116,7 +117,7 @@ public class EmoticonsFragment extends Fragment {
         yAxis.setTextSize(16f);
         yAxis.setTextColor(Color.parseColor("#FFFFFF"));
         yAxis.setStartAtZero(true);
-
+        radarChart.animateXY(1000, 1000);
         radarChart.setRotationEnabled(false);
     }
     @Override
