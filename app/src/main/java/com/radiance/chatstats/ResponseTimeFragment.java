@@ -88,7 +88,6 @@ public class ResponseTimeFragment extends Fragment {
         receivedNameTextView.setTextSize(40f);
         sentNameTextView.setTextSize(40f);
 
-
         setBarGraph();
         return view;
     }

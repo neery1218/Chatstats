@@ -36,8 +36,6 @@ public class StatsPagerAdapter extends FragmentPagerAdapter {
                 return new EmoticonsFragment();
             default:
                 return new Fragment();
-
-
         }
 
     }

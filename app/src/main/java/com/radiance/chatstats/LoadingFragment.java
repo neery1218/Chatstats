@@ -68,9 +68,8 @@ public class LoadingFragment extends Fragment {
         analyticsLoadingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "CLICKED");
-                if (analyticsLoadingButton.getProgress() != 100) {
-                } else {
+                if (analyticsLoadingButton.getProgress() != 100){}
+                else {
                     mListener.onLoadingFinished(analytics, contact);
                 }
             }
@@ -155,6 +154,7 @@ public class LoadingFragment extends Fragment {
                     @Override
                     public void run() {
                         analyticsLoadingButton.setProgress(100);
+                        analyticsLoadingButton.callOnClick();
                     }
                 });
             }
