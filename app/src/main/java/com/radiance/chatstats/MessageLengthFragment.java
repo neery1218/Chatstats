@@ -1,6 +1,7 @@
 package com.radiance.chatstats;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -32,15 +33,6 @@ public class MessageLengthFragment extends Fragment {
     public MessageLengthFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MessageLengthFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static MessageLengthFragment newInstance(String param1, String param2) {
         MessageLengthFragment fragment = new MessageLengthFragment();
@@ -70,12 +62,16 @@ public class MessageLengthFragment extends Fragment {
         xl.setDrawAxisLine(true);
         xl.setDrawGridLines(false);
         xl.setGridLineWidth(0.3f);
+        xl.setAxisLineColor(Color.WHITE);
+        xl.setAxisLineWidth(2f);
         // xl.setEnabled(false);
 
         YAxis yl = barChart.getAxisLeft();
         yl.setTypeface(MainActivity.typeFaceRegular);
         yl.setDrawAxisLine(true);
         yl.setDrawGridLines(false);
+        yl.setAxisLineColor(Color.WHITE);
+        yl.setAxisLineWidth(2f);
         barChart.getAxisLeft().setValueFormatter(
                 new ValueFormatter() {
                     @Override
@@ -129,8 +125,9 @@ public class MessageLengthFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_message_length, container, false);
         titleTextView = (TextView) view.findViewById(R.id.titleView);
         titleTextView.setText("Average Message Length");
-        titleTextView.setTextSize(25f);
-        titleTextView.setTypeface(MainActivity.oswaldBold);
+        titleTextView.setTextSize(36);
+        titleTextView.setTypeface(MainActivity.oswaldLight);
+        titleTextView.setTextColor(Color.WHITE);
         barChart = (HorizontalBarChart) view.findViewById(R.id.barChart);
 
         sentLengthTextView = (TextView) view.findViewById(R.id.sentNameLength);

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.radiance.chatstats.MessageLengthFragment">
+    tools:context="com.radiance.chatstats.MessageLengthFragment"
+    android:background="#ffff7066">
 
     <TextView
         android:id="@+id/titleView"
