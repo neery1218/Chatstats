@@ -133,16 +133,27 @@ public class MessageLengthFragment extends Fragment {
         titleTextView.setTypeface(MainActivity.oswaldBold);
         barChart = (HorizontalBarChart) view.findViewById(R.id.barChart);
 
-        sentLengthTextView = (TextView) view.findViewById(R.id.sentNameLength);
+        sentLengthTextView = (TextView) view.findViewById(R.id.sentLength);
         receivedLengthTextView = (TextView) view.findViewById(R.id.receivedLength);
         sentNameTextView = (TextView) view.findViewById(R.id.sentName);
         receivedNameTextView = (TextView) view.findViewById(R.id.receivedName);
 
-        receivedNameTextView.setText("" + StatsFragment.getName());
-        sentNameTextView.setText("You");
+        receivedNameTextView.setText("" + StatsFragment.getName() + ": ");
+        sentNameTextView.setText("You: ");
 
         sentLengthTextView.setText(((int) (avgMessageLength.getSent() * 10) * 1.0) / 10 + " words");
         receivedLengthTextView.setText(((int) (avgMessageLength.getReceived() * 10) * 1.0) / 10 + " words");
+
+        receivedNameTextView.setTypeface(MainActivity.typeFaceRegular);
+        sentNameTextView.setTypeface(MainActivity.typeFaceRegular);
+        receivedLengthTextView.setTypeface(MainActivity.typeFaceBold);
+        sentLengthTextView.setTypeface(MainActivity.typeFaceBold);
+
+        receivedLengthTextView.setTextSize(30f);
+        sentLengthTextView.setTextSize(30f);
+        receivedNameTextView.setTextSize(30f);
+        sentNameTextView.setTextSize(30f);
+
 
         setBarGraph();
         return view;
