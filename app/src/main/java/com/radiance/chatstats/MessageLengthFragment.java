@@ -138,7 +138,7 @@ public class MessageLengthFragment extends Fragment {
         sentNameTextView = (TextView) view.findViewById(R.id.sentName);
         receivedNameTextView = (TextView) view.findViewById(R.id.receivedName);
 
-        receivedNameTextView.setText("" + StatsFragment.getName() + ": ");
+        receivedNameTextView.setText("Them: ");
         sentNameTextView.setText("You: ");
 
         sentLengthTextView.setText(((int) (avgMessageLength.getSent() * 10) * 1.0) / 10 + " words");
