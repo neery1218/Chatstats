@@ -1,6 +1,7 @@
 package com.radiance.chatstats;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -61,8 +62,9 @@ public class ResponseTimeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_response_time, container, false);
         titleTextView = (TextView) view.findViewById(R.id.titleView);
         titleTextView.setText("Average Response Time");
-        titleTextView.setTextSize(25f);
-        titleTextView.setTypeface(MainActivity.oswaldBold);
+        titleTextView.setTextSize(36f);
+        titleTextView.setTypeface(MainActivity.oswaldLight);
+        titleTextView.setTextColor(Color.WHITE);
         barChart = (HorizontalBarChart) view.findViewById(R.id.barChart);
 
         sentTimeTextView = (TextView) view.findViewById(R.id.sentTime);
@@ -76,15 +78,15 @@ public class ResponseTimeFragment extends Fragment {
         sentTimeTextView.setText(((int) (responseTime.getSent() * 10) * 1.0) / 10 + " minutes");
         receivedTimeTextView.setText(((int) (responseTime.getReceived() * 10) * 1.0) / 10 + " minutes");
 
-        receivedNameTextView.setTypeface(MainActivity.typeFaceRegular);
-        sentNameTextView.setTypeface(MainActivity.typeFaceRegular);
-        receivedTimeTextView.setTypeface(MainActivity.typeFaceBold);
-        sentTimeTextView.setTypeface(MainActivity.typeFaceBold);
+        receivedNameTextView.setTypeface(MainActivity.oswaldLight);
+        sentNameTextView.setTypeface(MainActivity.oswaldLight);
+        receivedTimeTextView.setTypeface(MainActivity.oswaldRegular);
+        sentTimeTextView.setTypeface(MainActivity.oswaldRegular);
 
-        receivedTimeTextView.setTextSize(30f);
-        sentTimeTextView.setTextSize(30f);
-        receivedNameTextView.setTextSize(30f);
-        sentNameTextView.setTextSize(30f);
+        receivedTimeTextView.setTextSize(40f);
+        sentTimeTextView.setTextSize(40f);
+        receivedNameTextView.setTextSize(40f);
+        sentNameTextView.setTextSize(40f);
 
 
         setBarGraph();

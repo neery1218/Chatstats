@@ -86,32 +86,18 @@ public class InitiateCountFragment extends Fragment {
         pieChart.setHoleColor(Color.rgb(255, 255, 255));
         pieChart.setHoleColorTransparent(true);
 
-
-        pieChart.setCenterTextTypeface(MainActivity.oswaldLight);
-        pieChart.setCenterTextSize(48f);
         pieChart.setHoleRadius(50f);
-        pieChart.setDescription("");
         pieChart.setDrawCenterText(true);
-        //
-        //
         pieChart.setDrawHoleEnabled(true);
         pieChart.setRotationAngle(0);
         pieChart.setTransparentCircleRadius(40f);
 
-
-        // enable rotation of the chart by touch
         pieChart.setRotationEnabled(false);
 
-        // mChart.setUnit(" €");
-        // mChart.setDrawUnitsInChart(true);
-
-        // add a selection listener
-        //pieChart.setOnChartValueSelectedListener(this);
-        // mChart.setTouchEnabled(false);
-
         pieChart.setCenterText("" + ((int) (initiateCount.getSent() * 1000 / (initiateCount.getSent() + initiateCount.getReceived()))) * 1.0 / 10 + "%");
-        pieChart.setCenterTextSize(24f);
-        pieChart.setCenterTextColor(ColorTemplate.getHoloBlue());
+        pieChart.setCenterTextTypeface(MainActivity.oswaldLight);
+        pieChart.setCenterTextSize(48f);
+        pieChart.setCenterTextColor(Color.WHITE);
 
 
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
@@ -127,11 +113,11 @@ public class InitiateCountFragment extends Fragment {
         text.setTypeface(MainActivity.oswaldLight);
         AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
         text.startAnimation(fadeIn);
-        fadeIn.setDuration(2000);
+        fadeIn.setDuration(1000);
         fadeIn.setFillAfter(true);
         // text.setText("You start " +((int)(sent*1000/(sent+received)))*1.0/10 + "% of all conversations!");
 
-        text.setTextSize(48f);
+        text.setTextSize(36f);
         text.setTextColor(Color.WHITE);
         //text.setHeight();
         //text.setHeight()
