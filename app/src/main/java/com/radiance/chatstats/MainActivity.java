@@ -56,7 +56,10 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
 
     @Override
     public void onBackPressed() {
-        fragmentManager.popBackStack();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, contactsFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -109,7 +112,7 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, statsFragment);
-        fragmentTransaction.addToBackStack(null);
+        //fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -130,7 +133,7 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, loadingFragment);
-        fragmentTransaction.addToBackStack(null);
+        //fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 

@@ -95,9 +95,10 @@ public class ResponseTimeFragment extends Fragment {
 
         barChart.setDrawBarShadow(false);
         barChart.setDrawValueAboveBar(true);
-        barChart.setDescription("");
         barChart.setMaxVisibleValueCount(60);
         barChart.setPinchZoom(false);
+        barChart.setDoubleTapToZoomEnabled(false);
+
 
         // barChart.setDrawBarShadow(true);
 
@@ -105,7 +106,6 @@ public class ResponseTimeFragment extends Fragment {
 
         barChart.setDrawGridBackground(false);
 
-        // mChart.setDrawYLabels(false);
 
         XAxis xl = barChart.getXAxis();
         xl.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -113,12 +113,14 @@ public class ResponseTimeFragment extends Fragment {
         xl.setDrawAxisLine(true);
         xl.setDrawGridLines(false);
         xl.setGridLineWidth(0.3f);
+        xl.setDrawLabels(false);
         // xl.setEnabled(false);
 
         YAxis yl = barChart.getAxisLeft();
         yl.setTypeface(MainActivity.typeFaceRegular);
         yl.setDrawAxisLine(true);
         yl.setDrawGridLines(false);
+        yl.setDrawLabels(true);
         barChart.getAxisLeft().setValueFormatter(
                 new ValueFormatter() {
                     @Override
@@ -155,6 +157,7 @@ public class ResponseTimeFragment extends Fragment {
 
         // data.setValueTypeface(MainActivity.typeFaceRegular);
         barChart.setData(data);
+        barChart.getLegend().setEnabled(false);
         barChart.animateY(1000);
     }
     @Override
