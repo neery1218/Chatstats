@@ -1,29 +1,42 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_total_messages_linearlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ff34495e"
+    android:fillViewport="true"
+    android:focusable="false"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="10dp"
-    tools:context="com.radiance.chatstats.InitiateCountFragment"
-    android:background="#ffaaaaaa">
+    tools:context="com.radiance.chatstats.InitiateCountFragment">
 
-    <TextView
-        android:id="@+id/initiateCountText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_weight="4"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="" />
-
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:layout_weight="6"
+        android:layout_height="match_parent"
+        android:background="#ffaaaaaa"
+        android:orientation="vertical"
         android:padding="10dp"
-        android:paddingTop="0dp" />
+        tools:context="com.radiance.chatstats.InitiateCountFragment">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/initiateCountText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_weight="6"
+            android:padding="10dp"
+            android:paddingTop="0dp" />
+
+    </LinearLayout>
+</ScrollView>
