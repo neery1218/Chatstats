@@ -1,13 +1,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.radiance.chatstats.TotalMessagesFragment"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_total_messages_linearlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
     android:focusable="false"
     android:gravity="center"
-    android:background="#ff34495e"
-    android:fillViewport="true">
+    android:orientation="vertical"
+    tools:context="com.radiance.chatstats.TotalMessagesFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,46 +15,46 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/total_messages"
             android:id="@+id/total_messages"
-            android:layout_weight="0.5"
-            android:gravity="center"
-            android:includeFontPadding="false" />
-
-        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=""
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/total_messages"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
             android:id="@+id/total_messages_number"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:includeFontPadding="false"/>
-
-        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/total_conversations"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
             android:id="@+id/total_conversations"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:gravity="center"
-            android:includeFontPadding="false" />
+            android:includeFontPadding="false"
+            android:text="@string/total_conversations"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
+            android:id="@+id/total_conversations_number"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text=""
-            android:id="@+id/total_conversations_number"
             android:layout_weight="1"
             android:gravity="center"
-            android:includeFontPadding="false"/>
+            android:includeFontPadding="false"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        </LinearLayout>
+    </LinearLayout>
 
 
 </ScrollView>

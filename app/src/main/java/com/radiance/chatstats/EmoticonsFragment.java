@@ -2,7 +2,6 @@ package com.radiance.chatstats;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -23,7 +22,7 @@ import com.github.mikephil.charting.utils.ValueFormatter;
 import java.util.ArrayList;
 
 
-public class EmoticonsFragment extends Fragment {
+public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
     RadarChart radarChart;
     ArrayList<StatPoint> emoticons;
 
@@ -117,7 +116,7 @@ public class EmoticonsFragment extends Fragment {
         yAxis.setTextSize(16f);
         yAxis.setTextColor(Color.parseColor("#FFFFFF"));
         yAxis.setStartAtZero(true);
-        radarChart.animateXY(1000, 1000);
+
         radarChart.setRotationEnabled(false);
     }
     @Override
@@ -137,9 +136,6 @@ public class EmoticonsFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -151,4 +147,13 @@ public class EmoticonsFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onPauseFragment() {
+
+    }
+
+    @Override
+    public void onResumeFragment() {
+        radarChart.animateXY(1000, 1000);
+    }
 }

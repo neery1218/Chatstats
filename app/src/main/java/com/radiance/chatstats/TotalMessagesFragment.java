@@ -9,19 +9,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-public class TotalMessagesFragment extends Fragment {
+public class TotalMessagesFragment extends Fragment implements FragmentLifeCycle {
 
     public TotalMessagesFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static TotalMessagesFragment newInstance(String param1, String param2) {
         TotalMessagesFragment fragment = new TotalMessagesFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -37,7 +32,7 @@ public class TotalMessagesFragment extends Fragment {
         TextView totalConversations = (TextView) view.findViewById(R.id.total_conversations);
         TextView totalConversationsNumber = (TextView) view.findViewById(R.id.total_conversations_number);
 
-        StatsFragment.setLayoutColor("#ff1bbc9b");
+        // StatsFragment.setLayoutColor("#ff1bbc9b");
         //Change text font size
         totalMessages.setTextSize(36);
         totalMessagesNumber.setTextSize(144);
@@ -57,15 +52,23 @@ public class TotalMessagesFragment extends Fragment {
         totalConversationsNumber.setTextColor(Color.parseColor("#FFFFFF"));
 
         //Set Background Colors
-        totalMessages.setBackgroundColor(Color.parseColor("#1BBC9B"));
+       /* totalMessages.setBackgroundColor(Color.parseColor("#1BBC9B"));
         totalMessagesNumber.setBackgroundColor(Color.parseColor("#1BBC9B"));
         totalConversations.setBackgroundColor(Color.parseColor("#1BBC9B"));
-        totalConversationsNumber.setBackgroundColor(Color.parseColor("#1BBC9B"));
+        totalConversationsNumber.setBackgroundColor(Color.parseColor("#1BBC9B"));*/
 
         //Set texts
         totalMessagesNumber.setText(StatsFragment.getAnalytics().getTotalMessages() + "");
         totalConversationsNumber.setText(StatsFragment.getAnalytics().getTotalConversations() + "");
 
         return view;
+    }
+
+    @Override
+    public void onPauseFragment() {
+    }
+
+    @Override
+    public void onResumeFragment() {
     }
 }

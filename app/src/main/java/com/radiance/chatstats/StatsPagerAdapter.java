@@ -8,12 +8,12 @@ import android.support.v4.app.FragmentPagerAdapter;
  * Created by Neerajen on 02/03/2015.
  */
 public class StatsPagerAdapter extends FragmentPagerAdapter {
- /*   TotalMessagesFragment totalMessagesFragment;
-    InitiateCountFragment initiateCountFragment;
-    ResponseTimeFragment responseTimeFragment;
-    SummaryFragment summaryFragment;
-    EmoticonsFragment emoticonsFragment;
-    MessageLengthFragment messageLengthFragment;*/
+    private TotalMessagesFragment totalMessagesFragment;
+    private InitiateCountFragment initiateCountFragment;
+    private ResponseTimeFragment responseTimeFragment;
+    private SummaryFragment summaryFragment;
+    private EmoticonsFragment emoticonsFragment;
+    private MessageLengthFragment messageLengthFragment;
 
 
     public StatsPagerAdapter(FragmentManager fm) {
@@ -25,14 +25,16 @@ public class StatsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
+                StatsFragment.setLayoutColor("#ff1bbc9b");
                 return new TotalMessagesFragment();
             case 1:
+                StatsFragment.setLayoutColor("#ffaaaaaa");
                 return new InitiateCountFragment();
             case 2:
+                StatsFragment.setLayoutColor("#ffa483e6");
                 return new ResponseTimeFragment();
             case 3:
-                return new MessageLengthFragment();
-            case 4:
+                StatsFragment.setLayoutColor("#ff34495e");
                 return new EmoticonsFragment();
             default:
                 return new Fragment();
@@ -42,6 +44,6 @@ public class StatsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return 4;
     }
 }

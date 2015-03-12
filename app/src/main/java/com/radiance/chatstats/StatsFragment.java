@@ -5,12 +5,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -32,14 +32,9 @@ public class StatsFragment extends Fragment {
     public static Analytics analytics;
     private static String name;
     private static FrameLayout layout;
-    PieChart pieChart;
-    Contact contact;
-    StatPoint responseTime;
-    StatPoint initiateCount;
-    StatPoint avgMessageLength;
-    StatsPagerAdapter statsPagerAdapter;
-    ViewPager viewPager;
-    LinePageIndicator titlePageIndicator;
+    private MyPagerAdapter statsPagerAdapter;
+    private ViewPager viewPager;
+    private LinePageIndicator titlePageIndicator;
     private OnToBeDeterminedListener mListener;
 
 
@@ -50,6 +45,7 @@ public class StatsFragment extends Fragment {
     public static void setLayoutColor(String color) {
         layout.setBackgroundColor(Color.parseColor(color));
     }
+
     public static StatsFragment newInstance() {
         StatsFragment fragment = new StatsFragment();
         return fragment;
@@ -58,6 +54,7 @@ public class StatsFragment extends Fragment {
     public static Analytics getAnalytics() {
         return analytics;
     }
+
     public static void setAnalytics(Analytics analytic) {
         analytics = analytic;
     }
@@ -125,11 +122,17 @@ public class StatsFragment extends Fragment {
         pieChart.setMinimumHeight(height);
         setPieGraph();*/
         layout = (FrameLayout) view.findViewById(R.id.layout);
-        statsPagerAdapter = new StatsPagerAdapter(getActivity().getSupportFragmentManager());
+        //statsPagerAdapter = new StatsPagerAdapter(getActivity().getSupportFragmentManager());
+        statsPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
         viewPager = (ViewPager) view.findViewById((R.id.pager));
+
+
         viewPager.setAdapter(statsPagerAdapter);
+
+
         titlePageIndicator = (LinePageIndicator) view.findViewById(R.id.titles);
         titlePageIndicator.setViewPager(viewPager);
+        titlePageIndicator.setOnPageChangeListener(pageChangeListener);
 
 
         final float density = getResources().getDisplayMetrics().density;
@@ -140,6 +143,29 @@ public class StatsFragment extends Fragment {
         return view;
     }
 
+    private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
+
+        int currentPosition = 0;
+
+        @Override
+        public void onPageSelected(int newPosition) {
+
+            FragmentLifeCycle fragmentToHide = (FragmentLifeCycle) statsPagerAdapter.getItem(currentPosition);
+            fragmentToHide.onPauseFragment();
+
+            FragmentLifeCycle fragmentToShow = (FragmentLifeCycle) statsPagerAdapter.getItem(newPosition);
+            fragmentToShow.onResumeFragment();
+
+            currentPosition = newPosition;
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
+
+        public void onPageScrollStateChanged(int arg0) {
+        }
+    };
 
     @Override
     public void onAttach(Activity activity) {
@@ -161,5 +187,6 @@ public class StatsFragment extends Fragment {
     public interface OnToBeDeterminedListener {
         public void onToBeDetermined(ArrayList<String> id);
     }
+
 
 }

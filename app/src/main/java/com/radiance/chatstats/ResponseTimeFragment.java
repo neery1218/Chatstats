@@ -20,26 +20,18 @@ import com.github.mikephil.charting.utils.ValueFormatter;
 import java.util.ArrayList;
 
 
-public class ResponseTimeFragment extends Fragment {
-    HorizontalBarChart barChart;
-    StatPoint responseTime;
-    TextView titleTextView;
-    TextView sentNameTextView;
-    TextView receivedNameTextView;
-    TextView sentTimeTextView;
-    TextView receivedTimeTextView;
+public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle {
+    private HorizontalBarChart responseTimeChart;
+    private HorizontalBarChart messageLengthChart;
+    private StatPoint responseTime;
+    private StatPoint avgMessageLength;
+    private TextView responseTimeTextView;
+    private TextView messageLengthTextView;
+
     public ResponseTimeFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ResponseTimeFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static ResponseTimeFragment newInstance(String param1, String param2) {
         ResponseTimeFragment fragment = new ResponseTimeFragment();
@@ -50,6 +42,7 @@ public class ResponseTimeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         responseTime = StatsFragment.getAnalytics().getResponseTime();
+        avgMessageLength = StatsFragment.getAnalytics().getAvgMessageLengthWords();
         if (getArguments() != null) {
 
         }
@@ -60,69 +53,67 @@ public class ResponseTimeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_response_time, container, false);
-        titleTextView = (TextView) view.findViewById(R.id.titleView);
-        titleTextView.setText("Average Response Time");
-        titleTextView.setTextSize(36f);
-        titleTextView.setTypeface(MainActivity.oswaldLight);
-        titleTextView.setTextColor(Color.WHITE);
-        barChart = (HorizontalBarChart) view.findViewById(R.id.barChart);
+      /*  titleTextView = (TextView) view.findViewById(R.id.titleView);
+        titleTextView.setText("Average Response Time");*/
 
-        sentTimeTextView = (TextView) view.findViewById(R.id.sentTime);
-        receivedTimeTextView = (TextView) view.findViewById(R.id.receivedTime);
-        sentNameTextView = (TextView) view.findViewById(R.id.sentName);
-        receivedNameTextView = (TextView) view.findViewById(R.id.receivedName);
+        responseTimeTextView = (TextView) view.findViewById(R.id.responseLengthTitleView);
+        responseTimeTextView.setText("Average Response Time");
+        responseTimeTextView.setTextSize(36f);
+        responseTimeTextView.setTypeface(MainActivity.oswaldLight);
+        responseTimeTextView.setTextColor(Color.WHITE);
+        responseTimeChart = (HorizontalBarChart) view.findViewById(R.id.responseTimeChart);
 
-        receivedNameTextView.setText("Them: ");
-        sentNameTextView.setText("You: ");
+        messageLengthTextView = (TextView) view.findViewById(R.id.messageLengthTitleView);
+        messageLengthTextView.setText("Average Message Length");
+        messageLengthTextView.setTextSize(36f);
+        messageLengthTextView.setTypeface(MainActivity.oswaldLight);
+        messageLengthTextView.setTextColor(Color.WHITE);
 
-        sentTimeTextView.setText(((int) (responseTime.getSent() * 10) * 1.0) / 10 + " minutes");
-        receivedTimeTextView.setText(((int) (responseTime.getReceived() * 10) * 1.0) / 10 + " minutes");
+        responseTimeChart = (HorizontalBarChart) view.findViewById(R.id.responseTimeChart);
+        messageLengthChart = (HorizontalBarChart) view.findViewById(R.id.messageLengthChart);
 
-        receivedNameTextView.setTypeface(MainActivity.oswaldLight);
-        sentNameTextView.setTypeface(MainActivity.oswaldLight);
-        receivedTimeTextView.setTypeface(MainActivity.oswaldRegular);
-        sentTimeTextView.setTypeface(MainActivity.oswaldRegular);
 
-        receivedTimeTextView.setTextSize(40f);
-        sentTimeTextView.setTextSize(40f);
-        receivedNameTextView.setTextSize(40f);
-        sentNameTextView.setTextSize(40f);
-
-        setBarGraph();
+        setResponseTimeGraph();
+        setMessageLengthGraph();
         return view;
     }
 
-    public void setBarGraph() {
+    public void setMessageLengthGraph() {
 
-        barChart.setDrawBarShadow(false);
-        barChart.setDrawValueAboveBar(true);
-        barChart.setMaxVisibleValueCount(60);
-        barChart.setPinchZoom(false);
-        barChart.setDoubleTapToZoomEnabled(false);
+        messageLengthChart.setDrawBarShadow(false);
+        messageLengthChart.setDrawValueAboveBar(true);
+        messageLengthChart.setDescription("");
+        messageLengthChart.setMaxVisibleValueCount(60);
+        messageLengthChart.setPinchZoom(false);
 
-
-        // barChart.setDrawBarShadow(true);
+        // messageLengthChart.setDrawBarShadow(true);
 
         // mChart.setDrawXLabels(false);
 
-        barChart.setDrawGridBackground(false);
+        messageLengthChart.setDrawGridBackground(false);
 
+        // mChart.setDrawYLabels(false);
 
-        XAxis xl = barChart.getXAxis();
+        XAxis xl = messageLengthChart.getXAxis();
         xl.setPosition(XAxis.XAxisPosition.BOTTOM);
         xl.setTypeface(MainActivity.typeFaceRegular);
         xl.setDrawAxisLine(true);
         xl.setDrawGridLines(false);
         xl.setGridLineWidth(0.3f);
+        xl.setAxisLineColor(Color.WHITE);
+        xl.setAxisLineWidth(2f);
         xl.setDrawLabels(false);
         // xl.setEnabled(false);
 
-        YAxis yl = barChart.getAxisLeft();
+        YAxis yl = messageLengthChart.getAxisLeft();
         yl.setTypeface(MainActivity.typeFaceRegular);
         yl.setDrawAxisLine(true);
         yl.setDrawGridLines(false);
-        yl.setDrawLabels(true);
-        barChart.getAxisLeft().setValueFormatter(
+        yl.setAxisLineColor(Color.WHITE);
+        yl.setAxisLineWidth(2f);
+
+
+        messageLengthChart.getAxisLeft().setValueFormatter(
                 new ValueFormatter() {
                     @Override
                     public String getFormattedValue(float value) {
@@ -133,7 +124,78 @@ public class ResponseTimeFragment extends Fragment {
         );
 
 
-        YAxis yr = barChart.getAxisRight();
+        YAxis yr = messageLengthChart.getAxisRight();
+        yr.setEnabled(false);
+
+        ArrayList<String> xVals = new ArrayList<String>();
+        xVals.add("a");
+
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+        ArrayList<BarEntry> yVals2 = new ArrayList<BarEntry>();
+
+        yVals1.add(new BarEntry((float) avgMessageLength.getSent(), 0));
+        yVals2.add(new BarEntry((float) avgMessageLength.getReceived(), 0));
+
+        BarDataSet set1 = new BarDataSet(yVals1, "");
+        BarDataSet set2 = new BarDataSet(yVals2, "");
+        // set1.setBarSpacePercent(0f);
+
+        ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+        dataSets.add(set1);
+        dataSets.add(set2);
+
+        BarData data = new BarData(xVals, dataSets);
+        data.setValueTextSize(0f);
+
+        // data.setValueTypeface(MainActivity.typeFaceRegular);
+        messageLengthChart.setData(data);
+        messageLengthChart.getLegend().setEnabled(false);
+        messageLengthChart.animateY(1000);
+    }
+
+    public void setResponseTimeGraph() {
+
+        responseTimeChart.setDrawBarShadow(false);
+        responseTimeChart.setDrawValueAboveBar(true);
+        responseTimeChart.setMaxVisibleValueCount(60);
+        responseTimeChart.setPinchZoom(false);
+        responseTimeChart.setDoubleTapToZoomEnabled(false);
+        responseTimeChart.setDescription("");
+
+
+        // responseTimeChart.setDrawBarShadow(true);
+
+        // mChart.setDrawXLabels(false);
+
+        responseTimeChart.setDrawGridBackground(false);
+
+
+        XAxis xl = responseTimeChart.getXAxis();
+        xl.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xl.setTypeface(MainActivity.typeFaceRegular);
+        xl.setDrawAxisLine(true);
+        xl.setDrawGridLines(false);
+        xl.setGridLineWidth(0.3f);
+        xl.setDrawLabels(false);
+        // xl.setEnabled(false);
+
+        YAxis yl = responseTimeChart.getAxisLeft();
+        yl.setTypeface(MainActivity.typeFaceRegular);
+        yl.setDrawAxisLine(true);
+        yl.setDrawGridLines(false);
+        yl.setDrawLabels(true);
+        responseTimeChart.getAxisLeft().setValueFormatter(
+                new ValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value) {
+                        return "" + (int) value;
+                    }
+
+                }
+        );
+
+
+        YAxis yr = responseTimeChart.getAxisRight();
         yr.setEnabled(false);
 
         ArrayList<String> xVals = new ArrayList<String>();
@@ -148,7 +210,7 @@ public class ResponseTimeFragment extends Fragment {
         BarDataSet set1 = new BarDataSet(yVals1, "");
         BarDataSet set2 = new BarDataSet(yVals2, "");
         // set1.setBarSpacePercent(0f);
-
+        //TODO: Add color to graphs
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         dataSets.add(set1);
         dataSets.add(set2);
@@ -157,9 +219,9 @@ public class ResponseTimeFragment extends Fragment {
         data.setValueTextSize(0f);
 
         // data.setValueTypeface(MainActivity.typeFaceRegular);
-        barChart.setData(data);
-        barChart.getLegend().setEnabled(false);
-        barChart.animateY(1000);
+        responseTimeChart.setData(data);
+        responseTimeChart.getLegend().setEnabled(false);
+        responseTimeChart.animateY(1000);
     }
     @Override
     public void onAttach(Activity activity) {
@@ -171,4 +233,18 @@ public class ResponseTimeFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onPauseFragment() {
+
+
+    }
+
+    @Override
+    public void onResumeFragment() {
+
+        responseTimeChart.animateY(1000);
+        messageLengthChart.animateY(1000);
+        // StatsFragment.setLayoutColor()
+
+    }
 }

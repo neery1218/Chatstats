@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,38 +22,20 @@ import com.github.mikephil.charting.utils.PercentFormatter;
 import java.util.ArrayList;
 
 
-public class InitiateCountFragment extends Fragment {
+public class InitiateCountFragment extends Fragment implements FragmentLifeCycle {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    TextView text;
-    StatPoint initiateCount;
+    private TextView text;
+    private StatPoint initiateCount;
     private PieChart pieChart;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
 
     public InitiateCountFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment InitiateCountFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static InitiateCountFragment newInstance(String param1, String param2) {
         InitiateCountFragment fragment = new InitiateCountFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -108,7 +88,6 @@ public class InitiateCountFragment extends Fragment {
         yVals1.add(new Entry((float) initiateCount.getSent(), 0));
         yVals1.add(new Entry((float) initiateCount.getReceived(), 1));
         text.setTypeface(MainActivity.typeFaceRegular);
-        Spanned t = Html.fromHtml("You start " + "<b>" + ((int) (initiateCount.getSent() * 1000 / (initiateCount.getSent() + initiateCount.getReceived()))) * 1.0 / 10 + "%</b>" + " of all conversations!");
         text.setText("Conversations Started" + "\n\n");
         text.setTypeface(MainActivity.oswaldLight);
         AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
@@ -169,7 +148,6 @@ public class InitiateCountFragment extends Fragment {
         pieChart.invalidate();
 
 
-        pieChart.animateXY(1500, 1500);
         //pieChart.spin(2000, 0, 360);
         pieChart.setDescription("");
         Legend l = pieChart.getLegend();
@@ -182,8 +160,6 @@ public class InitiateCountFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        StatsFragment.setLayoutColor("#ffffff");
     }
 
     @Override
@@ -193,4 +169,13 @@ public class InitiateCountFragment extends Fragment {
     }
 
 
+    @Override
+    public void onPauseFragment() {
+
+    }
+
+    @Override
+    public void onResumeFragment() {
+        pieChart.animateXY(1500, 1500);
+    }
 }

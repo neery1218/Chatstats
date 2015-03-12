@@ -1,11 +1,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/emoticons_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    tools:context="com.radiance.chatstats.EmoticonsFragment"
     android:fillViewport="true"
-    android:id="@+id/emoticons_scroll_view"
-    android:background="#ff34495e">
+    tools:context="com.radiance.chatstats.EmoticonsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,15 +12,15 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/numberEmoticons"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/number_emoticons"
-            android:id="@+id/numberEmoticons"
-            android:gravity="center"
-            android:layout_weight="1"
             android:layout_gravity="top|center_horizontal"
-            android:paddingBottom="20dp"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="20dp"
+            android:text="@string/number_emoticons"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <com.github.mikephil.charting.charts.RadarChart
             android:id="@+id/radarChart"
@@ -29,6 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="50"
-            android:paddingTop="0dp"/>
+            android:paddingTop="0dp" />
     </LinearLayout>
 </ScrollView>

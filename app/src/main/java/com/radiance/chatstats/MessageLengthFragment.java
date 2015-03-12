@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 
 public class MessageLengthFragment extends Fragment {
-    private HorizontalBarChart barChart;
+    private HorizontalBarChart messageLengthChart;
     private TextView titleTextView;
     private TextView sentLengthTextView;
     private TextView receivedLengthTextView;
@@ -33,6 +33,7 @@ public class MessageLengthFragment extends Fragment {
     public MessageLengthFragment() {
         // Required empty public constructor
     }
+
     public static MessageLengthFragment newInstance(String param1, String param2) {
         MessageLengthFragment fragment = new MessageLengthFragment();
 
@@ -41,21 +42,21 @@ public class MessageLengthFragment extends Fragment {
 
     public void setBarGraph() {
 
-        barChart.setDrawBarShadow(false);
-        barChart.setDrawValueAboveBar(true);
-        barChart.setDescription("");
-        barChart.setMaxVisibleValueCount(60);
-        barChart.setPinchZoom(false);
+        messageLengthChart.setDrawBarShadow(false);
+        messageLengthChart.setDrawValueAboveBar(true);
+        messageLengthChart.setDescription("");
+        messageLengthChart.setMaxVisibleValueCount(60);
+        messageLengthChart.setPinchZoom(false);
 
-        // barChart.setDrawBarShadow(true);
+        // messageLengthChart.setDrawBarShadow(true);
 
         // mChart.setDrawXLabels(false);
 
-        barChart.setDrawGridBackground(false);
+        messageLengthChart.setDrawGridBackground(false);
 
         // mChart.setDrawYLabels(false);
 
-        XAxis xl = barChart.getXAxis();
+        XAxis xl = messageLengthChart.getXAxis();
         xl.setPosition(XAxis.XAxisPosition.BOTTOM);
         xl.setTypeface(MainActivity.typeFaceRegular);
         xl.setDrawAxisLine(true);
@@ -66,7 +67,7 @@ public class MessageLengthFragment extends Fragment {
         xl.setDrawLabels(false);
         // xl.setEnabled(false);
 
-        YAxis yl = barChart.getAxisLeft();
+        YAxis yl = messageLengthChart.getAxisLeft();
         yl.setTypeface(MainActivity.typeFaceRegular);
         yl.setDrawAxisLine(true);
         yl.setDrawGridLines(false);
@@ -74,7 +75,7 @@ public class MessageLengthFragment extends Fragment {
         yl.setAxisLineWidth(2f);
 
 
-        barChart.getAxisLeft().setValueFormatter(
+        messageLengthChart.getAxisLeft().setValueFormatter(
                 new ValueFormatter() {
                     @Override
                     public String getFormattedValue(float value) {
@@ -85,7 +86,7 @@ public class MessageLengthFragment extends Fragment {
         );
 
 
-        YAxis yr = barChart.getAxisRight();
+        YAxis yr = messageLengthChart.getAxisRight();
         yr.setEnabled(false);
 
         ArrayList<String> xVals = new ArrayList<String>();
@@ -109,9 +110,9 @@ public class MessageLengthFragment extends Fragment {
         data.setValueTextSize(0f);
 
         // data.setValueTypeface(MainActivity.typeFaceRegular);
-        barChart.setData(data);
-        barChart.getLegend().setEnabled(false);
-        barChart.animateY(1000);
+        messageLengthChart.setData(data);
+        messageLengthChart.getLegend().setEnabled(false);
+        messageLengthChart.animateY(1000);
     }
 
     @Override
@@ -131,7 +132,7 @@ public class MessageLengthFragment extends Fragment {
         titleTextView.setTextSize(36);
         titleTextView.setTypeface(MainActivity.oswaldLight);
         titleTextView.setTextColor(Color.WHITE);
-        barChart = (HorizontalBarChart) view.findViewById(R.id.barChart);
+        messageLengthChart = (HorizontalBarChart) view.findViewById(R.id.barChart);
 
         sentLengthTextView = (TextView) view.findViewById(R.id.sentLength);
         receivedLengthTextView = (TextView) view.findViewById(R.id.receivedLength);

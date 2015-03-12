@@ -3,7 +3,6 @@
     android:id="@+id/fragment_total_messages_linearlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff34495e"
     android:fillViewport="true"
     android:focusable="false"
     android:gravity="center"
@@ -11,77 +10,41 @@
     tools:context="com.radiance.chatstats.ResponseTimeFragment">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        android:background="#ffa483e6"
-    android:orientation="vertical"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context="com.radiance.chatstats.MessageLengthFragment">
 
-    <TextView
-        android:id="@+id/titleView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="New Text" />
-
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
         <TextView
-            android:id="@+id/sentName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="top|right"
+            android:id="@+id/responseLengthTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="New Text" />
 
+        <com.github.mikephil.charting.charts.HorizontalBarChart
+            android:id="@+id/responseTimeChart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2" />
+
         <TextView
-            android:id="@+id/sentTime"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="top|left"
+            android:id="@+id/messageLengthTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="New Text" />
 
+        <com.github.mikephil.charting.charts.HorizontalBarChart
+            android:id="@+id/messageLengthChart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2" />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/receivedName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-
-            android:gravity="right|top"
-            android:text="New Text" />
-
-        <TextView
-            android:id="@+id/receivedTime"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="left|top"
-            android:text="New Text" />
-
-    </LinearLayout>
-
-    <com.github.mikephil.charting.charts.HorizontalBarChart
-        android:id="@+id/barChart"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2" />
-</LinearLayout>
 </ScrollView>
