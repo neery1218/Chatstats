@@ -28,6 +28,7 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
     private TextView text;
     private StatPoint initiateCount;
     private PieChart pieChart;
+    private boolean animate;
 
 
     public InitiateCountFragment() {
@@ -42,6 +43,7 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        animate = true;
         initiateCount = StatsFragment.getAnalytics().getInitiateCount();
     }
 
@@ -52,6 +54,9 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
         View view = inflater.inflate(R.layout.fragment_initiate_count, container, false);
         pieChart = (PieChart) view.findViewById(R.id.chart);
         text = (TextView) view.findViewById(R.id.initiateCountText);
+        text.setText("Conversations Started" + "\n\n");
+        text.setTypeface(MainActivity.oswaldLight);
+        text.setVisibility(View.INVISIBLE);
         Display display = getActivity().getWindowManager().getDefaultDisplay();
 
         setPieGraph();
@@ -61,17 +66,17 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
     public void setPieGraph() {//for initiate Count
 
         //  pieChart.setUsePercentValues(true);
-
+        pieChart.setVisibility(View.INVISIBLE);
         // change the color of the center-hole
         pieChart.setHoleColor(Color.rgb(255, 255, 255));
         pieChart.setHoleColorTransparent(true);
-
+        pieChart.setClickable(false);
         pieChart.setHoleRadius(50f);
         pieChart.setDrawCenterText(true);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setRotationAngle(0);
         pieChart.setTransparentCircleRadius(40f);
-
+        pieChart.setTouchEnabled(false);
         pieChart.setRotationEnabled(false);
 
         pieChart.setCenterText("" + ((int) (initiateCount.getSent() * 1000 / (initiateCount.getSent() + initiateCount.getReceived()))) * 1.0 / 10 + "%");
@@ -88,12 +93,7 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
         yVals1.add(new Entry((float) initiateCount.getSent(), 0));
         yVals1.add(new Entry((float) initiateCount.getReceived(), 1));
         text.setTypeface(MainActivity.typeFaceRegular);
-        text.setText("Conversations Started" + "\n\n");
-        text.setTypeface(MainActivity.oswaldLight);
-        AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
-        text.startAnimation(fadeIn);
-        fadeIn.setDuration(1000);
-        fadeIn.setFillAfter(true);
+
         // text.setText("You start " +((int)(sent*1000/(sent+received)))*1.0/10 + "% of all conversations!");
 
         text.setTextSize(36f);
@@ -150,6 +150,7 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
 
         //pieChart.spin(2000, 0, 360);
         pieChart.setDescription("");
+        pieChart.setEnabled(false);
         Legend l = pieChart.getLegend();
         l.setEnabled(false);
         /*l.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
@@ -176,6 +177,17 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
 
     @Override
     public void onResumeFragment() {
-        pieChart.animateXY(1500, 1500);
+        if (animate) {
+            AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+            text.setVisibility(View.VISIBLE);
+            text.startAnimation(fadeIn);
+            fadeIn.setDuration(1000);
+            fadeIn.setFillAfter(true);
+            pieChart.setVisibility(View.VISIBLE);
+            pieChart.animateXY(1500, 1500);
+            animate = false;
+        }
+
+
     }
 }

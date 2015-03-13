@@ -57,6 +57,7 @@ public class TotalMessagesFragment extends Fragment implements FragmentLifeCycle
         totalConversations.setBackgroundColor(Color.parseColor("#1BBC9B"));
         totalConversationsNumber.setBackgroundColor(Color.parseColor("#1BBC9B"));*/
 
+
         //Set texts
         totalMessagesNumber.setText(StatsFragment.getAnalytics().getTotalMessages() + "");
         totalConversationsNumber.setText(StatsFragment.getAnalytics().getTotalConversations() + "");

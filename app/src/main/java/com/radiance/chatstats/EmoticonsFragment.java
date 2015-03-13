@@ -92,7 +92,7 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
         data.setValueTypeface(MainActivity.oswaldLight);
         data.setValueTextSize(16f);
         data.setDrawValues(false);
-
+        radarChart.setTouchEnabled(false);
         radarChart.setData(data);
         radarChart.getYAxis().setValueFormatter(
                 new ValueFormatter() {

@@ -27,6 +27,7 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
     private StatPoint avgMessageLength;
     private TextView responseTimeTextView;
     private TextView messageLengthTextView;
+    private boolean animate;
 
     public ResponseTimeFragment() {
         // Required empty public constructor
@@ -43,6 +44,7 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         super.onCreate(savedInstanceState);
         responseTime = StatsFragment.getAnalytics().getResponseTime();
         avgMessageLength = StatsFragment.getAnalytics().getAvgMessageLengthWords();
+        animate = true;
         if (getArguments() != null) {
 
         }
@@ -220,6 +222,7 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
 
         // data.setValueTypeface(MainActivity.typeFaceRegular);
         responseTimeChart.setData(data);
+        responseTimeChart.setTouchEnabled(false);
         responseTimeChart.getLegend().setEnabled(false);
         responseTimeChart.animateY(1000);
     }
@@ -241,10 +244,12 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
 
     @Override
     public void onResumeFragment() {
+        if (animate) {
+            responseTimeChart.animateY(1000);
+            messageLengthChart.animateY(1000);
+            animate = false;
+        }
 
-        responseTimeChart.animateY(1000);
-        messageLengthChart.animateY(1000);
-        // StatsFragment.setLayoutColor()
 
     }
 }

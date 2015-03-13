@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class StatsFragment extends Fragment {
 
     public static void setLayoutColor(String color) {
         layout.setBackgroundColor(Color.parseColor(color));
+        Log.v("color", color);
     }
 
     public static StatsFragment newInstance() {
@@ -140,32 +142,9 @@ public class StatsFragment extends Fragment {
         titlePageIndicator.setUnselectedColor(0xFF888888);
         titlePageIndicator.setStrokeWidth(4 * density);
         titlePageIndicator.setLineWidth(30 * density);
+        setLayoutColor("#1BBC9B");
         return view;
     }
-
-    private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
-
-        int currentPosition = 0;
-
-        @Override
-        public void onPageSelected(int newPosition) {
-
-            FragmentLifeCycle fragmentToHide = (FragmentLifeCycle) statsPagerAdapter.getItem(currentPosition);
-            fragmentToHide.onPauseFragment();
-
-            FragmentLifeCycle fragmentToShow = (FragmentLifeCycle) statsPagerAdapter.getItem(newPosition);
-            fragmentToShow.onResumeFragment();
-
-            currentPosition = newPosition;
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-        }
-
-        public void onPageScrollStateChanged(int arg0) {
-        }
-    };
 
     @Override
     public void onAttach(Activity activity) {
@@ -177,6 +156,30 @@ public class StatsFragment extends Fragment {
                     + " must implement OnContactSelectedListener");
         }
     }
+
+    private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
+
+        int currentPosition = 0;
+        String[] colors = {"#ff1bbc9b", "#ffaaaaaa", "#ffa483e6", "#ff34495e",};
+        @Override
+        public void onPageSelected(int newPosition) {
+
+            FragmentLifeCycle fragmentToHide = (FragmentLifeCycle) statsPagerAdapter.getItem(currentPosition);
+            fragmentToHide.onPauseFragment();
+
+            FragmentLifeCycle fragmentToShow = (FragmentLifeCycle) statsPagerAdapter.getItem(newPosition);
+            fragmentToShow.onResumeFragment();
+            setLayoutColor(colors[newPosition]);
+            currentPosition = newPosition;
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
+
+        public void onPageScrollStateChanged(int arg0) {
+        }
+    };
 
     @Override
     public void onDetach() {
