@@ -1,5 +1,6 @@
 package com.radiance.chatstats;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -56,10 +57,13 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
 
     @Override
     public void onBackPressed() {
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, contactsFragment);
-        fragmentTransaction.commit();
+
+        finish();
+        Intent i = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+
     }
 
     @Override
