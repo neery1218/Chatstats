@@ -5,8 +5,12 @@ package com.radiance.chatstats;
  */
 
 import android.database.Cursor;
+import android.util.Log;
 
 import com.radiance.chatstats.SMS.Status;
+
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,9 +19,6 @@ public class ConversationThread {//holds array of conversations
     //TODO improve retrieving method
     //TODO shorten matchAddress() method
     //TODO initializeConversation method is terrible
-
-
-    private static long threshold = 2000 * 3600;
 
     private ArrayList<SMS> messages;
     private ArrayList<SMS> sent;
@@ -52,6 +53,7 @@ public class ConversationThread {//holds array of conversations
             initializeConversations();
         }
     }
+
 
     public void adjustToDate()
     {
@@ -98,9 +100,34 @@ public class ConversationThread {//holds array of conversations
         Status key = messages.get(0).getStatus();
         Response temp;
 
+        //Calculates response threshold
+        DescriptiveStatistics stats = new DescriptiveStatistics();
+        for (int i = 0; i < messages.size() - 1; i++)
+        {
+            double delay = (double)(messages.get(i+1).getDate() - messages.get(i).getDate());
+            stats.addValue(delay);
+            Log.d("TAG", delay + "");
+        }
+
+        long responseThreshold = (long) stats.getPercentile(50);
+        /*double mean = stats.getMean(), median = stats.getPercentile(50), std = stats.getStandardDeviation();
+
+        for (int i = 5; i < 100; i+=5)
+        {
+            if (stats.getPercentile(i)>60000)
+            Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/60000 + " minutes");
+
+            else
+            Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/1000 + " seconds");
+        }
+
+        Log.d("TAG","MEAN: "+mean);
+        Log.d("TAG","STDEV: "+std);
+        Log.d("TAG","THRESHOLD: "+conversationThreshold);*/
+
         while (end != messages.size() - 1) {
             end = begin;
-            while (end < (messages.size() - 1) && messages.get(end + 1).getStatus() == key && (messages.get(end+1).getDate() - messages.get(end).getDate() < threshold)) {
+            while (end < (messages.size() - 1) && messages.get(end + 1).getStatus() == key && (messages.get(end+1).getDate() - messages.get(end).getDate() < responseThreshold)) {
                 end++;
             }
 
@@ -122,17 +149,39 @@ public class ConversationThread {//holds array of conversations
         int begin = 0, end = 0;
         Conversation temp;
 
+        //Calculates conversation threshold
+
+        DescriptiveStatistics stats = new DescriptiveStatistics();
+        for (int i = 0; i < responses.size() - 1; i++)
+        {
+            double delay = (double)(responses.get(i+1).getDateStart() - responses.get(i).getDateEnd());
+            stats.addValue(delay);
+            //og.d("TAG", delay + "");
+        }
+        long conversationThreshold = (long) stats.getPercentile(90);
+
+        /*for (int i = 5; i < 100; i+=5)
+        {
+            if (stats.getPercentile(i)>24*60*60*1000)
+            Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/(24*60*60*1000) + " days");
+            else if (stats.getPercentile(i)>60*60*1000)
+                Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/(60*60*1000) + " hours");
+            else if (stats.getPercentile(i)>60*1000)
+                Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/(60*1000) + " minutes");
+            else
+                Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/1000 + " seconds");
+        }*/
+
         while (end != responses.size() - 1) {
             end = begin;
-            while (end < (responses.size() - 1) && (responses.get(end+1).getDateStart() - responses.get(end).getDateEnd() < threshold)) {
+            while (end < (responses.size() - 1) && (responses.get(end+1).getDateStart() - responses.get(end).getDateEnd() < conversationThreshold)) {
                 end++;
             }
 
             temp = new Conversation(new ArrayList<Response>(responses.subList(begin, end + 1)));
+            Log.d("TAG",temp.toString());
             conversations.add(temp);
 
-            // Log.v("Flag", "(" + begin + ", " + end + ")");
-            //Log.v("Flag", temp.toString());
             begin = end + 1;
         }
     }
