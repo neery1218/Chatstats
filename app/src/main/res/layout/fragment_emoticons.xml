@@ -2,23 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/emoticons_scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:fillViewport="true"
+    android:focusable="false"
     tools:context="com.radiance.chatstats.EmoticonsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/numberEmoticons"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
+
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingBottom="20dp"
             android:text="@string/number_emoticons"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -26,9 +26,17 @@
             android:id="@+id/radarChart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="50"
-            android:paddingTop="0dp" />
+
+            android:layout_weight="50" />
+
+        <TextView
+            android:id="@+id/scale"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="10dp" />
+
 
     </LinearLayout>
 </ScrollView>

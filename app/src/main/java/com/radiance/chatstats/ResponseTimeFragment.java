@@ -104,7 +104,7 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
     }
 
     public void setMessageLengthGraph() {
-
+        messageLengthChart.setTouchEnabled(false);
         messageLengthChart.setDrawBarShadow(false);
         messageLengthChart.setDrawValueAboveBar(true);
         messageLengthChart.setDescription("");
@@ -180,7 +180,6 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         // data.setValueTypeface(MainActivity.typeFaceRegular);
         messageLengthChart.setData(data);
         messageLengthChart.getLegend().setEnabled(false);
-        messageLengthChart.animateY(1000);
     }
 
     public void setResponseTimeGraph() {
@@ -269,8 +268,6 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         responseTimeChart.setData(data);
         responseTimeChart.setTouchEnabled(false);
         responseTimeChart.getLegend().setEnabled(false);
-        responseTimeChart.animateY(1000);
-
     }
 
     private String getHMS (double timeInMilliSeconds)
@@ -295,7 +292,7 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
     @Override
     public void onPauseFragment() {
 
-
+        animate = false;
     }
 
     @Override

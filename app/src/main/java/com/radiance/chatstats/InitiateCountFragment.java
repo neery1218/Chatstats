@@ -167,7 +167,7 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
             fadeIn.setDuration(1000);
             fadeIn.setFillAfter(true);
 
-            pieChart.animateXY(1500, 1500);
+            pieChart.animateXY(1000, 1000);
             animate = false;
         }
         text.setVisibility(View.VISIBLE);
