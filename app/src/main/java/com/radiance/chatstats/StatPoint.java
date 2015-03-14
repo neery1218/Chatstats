@@ -19,6 +19,10 @@ public class StatPoint implements Parcelable {
     };
     private double sent, received;
 
+    public StatPoint()
+    {
+        this(0.0,0.0);
+    }
     public StatPoint(double sent, double received)
     {
         this.sent = sent;
@@ -42,10 +46,18 @@ public class StatPoint implements Parcelable {
         return sent;
     }
 
+    public void incrementSent(){sent++;}
+
     public double getReceived() {
         return received;
     }
 
+    public void incrementReceived(){received++;}
+
+    public double getTotal()
+    {
+        return sent+received;
+    }
     @Override
     public int describeContents() {
         return 0;

@@ -1,10 +1,12 @@
 package com.radiance.chatstats;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.radiance.chatstats.SMS.Status;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 //Static Class
 //Static Class
@@ -20,6 +22,7 @@ public class Analytics {
     private StatPoint initiateCount;
     private StatPoint responseTime;
     private ArrayList<DateFrequency> dateFrequencies;
+    private StatPoint[] hourFrequencies;
 
 
     public Analytics(ConversationThread c) {
@@ -31,6 +34,7 @@ public class Analytics {
         avgMessageLengthWords = calcAvgMessageLengthWords();
         initiateCount = calcInitiateCount();
         responseTime = calcResponseTime();
+        hourFrequencies = calcHourFrequencies();
     }
 
     public ArrayList<StatPoint> getBigThree() {//used by mainActivity to send to StatsFragment
@@ -182,6 +186,39 @@ public class Analytics {
         timeReceived /= (responsesReceived);// responsesSent = sentSize, we're duplicating code here
 
         return new StatPoint(timeSent, timeReceived);//uses statpoint object
+    }
+
+    private StatPoint[] calcHourFrequencies ()
+    {
+        ArrayList<SMS> messages = c.getMessages();
+        Calendar helper = Calendar.getInstance();
+        StatPoint[] temp = new StatPoint[24];
+        for (int i = 0; i < temp.length; i++)
+        {
+            temp[i] = new StatPoint();
+        }
+        for (int i = 0; i < messages.size(); i++)
+        {
+            SMS current = messages.get(i);
+            helper.setTimeInMillis(current.getDate());
+
+            //Get parameters
+            int hour = helper.get(Calendar.HOUR_OF_DAY);
+            Status status = current.getStatus();
+
+            Log.d("TAG", "Hour: " + hour);
+
+            if (status == Status.RECEIVED)
+                temp[hour].incrementReceived();
+            else
+                temp[hour].incrementSent();
+        }
+
+        for (int i = 0; i < temp.length; i++)
+        {
+            Log.d("TAG", i + " o clock: " + temp[i]);
+        }
+        return temp;
     }
 
     public int getSize() {
