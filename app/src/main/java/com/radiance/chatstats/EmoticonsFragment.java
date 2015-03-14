@@ -23,8 +23,8 @@ import java.util.ArrayList;
 
 
 public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
-    RadarChart radarChart;
-    ArrayList<StatPoint> emoticons;
+    private RadarChart radarChart;
+    private ArrayList<StatPoint> emoticons;
 
     public EmoticonsFragment() {
         // Required empty public constructor
@@ -51,16 +51,25 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
         radarChart.setWebLineWidth(2f);
         radarChart.setWebLineWidthInner(2f);
         radarChart.setWebAlpha(255);
-        radarChart.setWebColor(Color.parseColor("#FFFFFF"));
-        radarChart.setWebColorInner(Color.parseColor("#FFFFFF"));
-        radarChart.setNoDataTextDescription("No emoticons! D:");
+        // radarChart.setWebColor(Color.parseColor("#FFFFFF"));
+        // radarChart.setWebColorInner(Color.parseColor("#FFFFFF"));
+
+        radarChart.setNoDataText("No emoticons! D:");
+
 
         int count = Analytics.EMOTICONS.length;
+        int n = 0;
+        for (int i = 0; i < emoticons.size(); i++) {
+            n += emoticons.get(i).getSent();
+            n += emoticons.get(i).getReceived();
+        }
+
 
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<Entry> yVals2 = new ArrayList<Entry>();
 
         for (int i = 0; i < count; i++) {
+
             yVals1.add(new Entry((float) emoticons.get(i).getReceived(), i));
         }
 
@@ -93,11 +102,17 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
         data.setValueTextSize(16f);
         data.setDrawValues(false);
         radarChart.setTouchEnabled(false);
-        radarChart.setData(data);
+        if (n != 0) {
+            radarChart.setData(data);
+            radarChart.getLegend().setEnabled(false);
+
+        }
         radarChart.getYAxis().setValueFormatter(
                 new ValueFormatter() {
+
                     @Override
                     public String getFormattedValue(float value) {
+
                         return ""+(int)value;
                     }
                 }
@@ -131,7 +146,10 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
         numberEmoticons.setTextSize(48);
 
         radarChart = (RadarChart) view.findViewById(R.id.radarChart);
+
+
         setRadarChart();
+
 
         return view;
     }

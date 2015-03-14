@@ -179,15 +179,16 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
     public void onResumeFragment() {
         if (animate) {
             AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
-            text.setVisibility(View.VISIBLE);
+
             text.startAnimation(fadeIn);
             fadeIn.setDuration(1000);
             fadeIn.setFillAfter(true);
-            pieChart.setVisibility(View.VISIBLE);
+
             pieChart.animateXY(1500, 1500);
             animate = false;
         }
-
+        text.setVisibility(View.VISIBLE);
+        pieChart.setVisibility(View.VISIBLE);
 
     }
 }
