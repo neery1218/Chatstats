@@ -17,7 +17,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.ValueFormatter;
 
 import java.util.ArrayList;
 
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
     private RadarChart radarChart;
     private ArrayList<StatPoint> emoticons;
+    private TextView scaleTextView;
 
     public EmoticonsFragment() {
         // Required empty public constructor
@@ -67,20 +67,24 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
 
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-
+        double max = 0;
         for (int i = 0; i < count; i++) {
 
             yVals1.add(new Entry((float) emoticons.get(i).getReceived(), i));
+            if (emoticons.get(i).getReceived() > max)
+                max = emoticons.get(i).getReceived();
         }
 
         for (int i = 0; i < count; i++) {
             yVals2.add(new Entry((float) emoticons.get(i).getSent(), i));
+            if (emoticons.get(i).getSent() > max)
+                max = emoticons.get(i).getSent();
         }
 
         ArrayList<String> xVals = new ArrayList<String>();
 
         for (int i = 0; i < count; i++)
-            xVals.add(Analytics.EMOTICONS[i]+"  ");
+            xVals.add(Analytics.EMOTICONS[i]);
 
         RadarDataSet set1 = new RadarDataSet(yVals1, "Set 1");
         set1.setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
@@ -107,16 +111,23 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
             radarChart.getLegend().setEnabled(false);
 
         }
-        radarChart.getYAxis().setValueFormatter(
+        /*radarChart.getYAxis().setValueFormatter(
                 new ValueFormatter() {
 
                     @Override
                     public String getFormattedValue(float value) {
-
-                        return ""+(int)value;
+                        if (value==0)
+                            return"";
+                        else
+                         return ""+(int)value;
                     }
                 }
-        );
+        );*/
+
+        Log.v("max", "" + max);
+        radarChart.getYAxis().setValueFormatter(new MaxValueFormatter());
+        //TODO have a scale textview
+
         radarChart.getYAxis().setTextColor(Color.parseColor("#FFFFFF"));
         radarChart.invalidate();
 
@@ -132,6 +143,9 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
         yAxis.setTextColor(Color.parseColor("#FFFFFF"));
         yAxis.setStartAtZero(true);
 
+        scaleTextView.setText("Scale: " + (int) Math.ceil(((max / 6))));
+        // yAxis.setShowOnlyMinMax(true);
+        //yAxis.get
         radarChart.setRotationEnabled(false);
     }
     @Override
@@ -144,6 +158,11 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
         numberEmoticons.setTextColor(Color.WHITE);
         numberEmoticons.setTypeface(MainActivity.oswaldLight);
         numberEmoticons.setTextSize(48);
+
+        scaleTextView = (TextView) view.findViewById(R.id.scale);
+        scaleTextView.setTextColor(Color.WHITE);
+        scaleTextView.setTypeface(MainActivity.typeFaceLight);
+        scaleTextView.setTextSize(20);
 
         radarChart = (RadarChart) view.findViewById(R.id.radarChart);
 
