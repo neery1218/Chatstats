@@ -9,7 +9,7 @@ import java.util.ArrayList;
 //Static Class
 //Static Class
 public class Analytics {
-    public static final String[] EMOTICONS = {":p", ":)", ";)", ":S", ":D", "</3"};
+    public static final String[] EMOTICONS = {":p", ":)", ";)", "<3", ":D", "</3"};
     //Dictionaries
     private static ArrayList<String> commonWords;
     //Variables

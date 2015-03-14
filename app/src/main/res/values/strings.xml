@@ -12,5 +12,5 @@
     <string name="upload"></string>
     <string name="total_messages">Total Messages</string>
     <string name="total_conversations">Total Conversations</string>
-    <string name="number_emoticons">Emoticon statistics</string>
+    <string name="number_emoticons">Emoticon Usage</string>
 </resources>
