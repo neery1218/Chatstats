@@ -160,7 +160,7 @@ public class StatsFragment extends Fragment {
     private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
 
         int currentPosition = 0;
-        String[] colors = {"#ff1bbc9b", "#ffaaaaaa", "#ffa483e6", "#ff34495e",};
+        String[] colors = {"#ff1bbc9b", "#ffaaaaaa", "#ffe8b75a", "#ff34495e",};
         @Override
         public void onPageSelected(int newPosition) {
 

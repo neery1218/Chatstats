@@ -178,8 +178,8 @@ public class Analytics {
         }
 
         Log.v("Time", "" + timeSent + "    " + timeReceived);
-        timeSent /= (responsesSent * 60000);//returns it in minutes right
-        timeReceived /= (responsesReceived * 60000);// responsesSent = sentSize, we're duplicating code here
+        timeSent /= (responsesSent);//returns it in seconds right
+        timeReceived /= (responsesReceived);// responsesSent = sentSize, we're duplicating code here
 
         return new StatPoint(timeSent, timeReceived);//uses statpoint object
     }

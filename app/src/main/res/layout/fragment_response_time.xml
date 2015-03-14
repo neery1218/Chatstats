@@ -25,6 +25,15 @@
             android:gravity="center"
             android:text="New Text" />
 
+        <TextView
+            android:id="@+id/responseLengthStats"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="New Text" />
+
         <com.github.mikephil.charting.charts.HorizontalBarChart
             android:id="@+id/responseTimeChart"
             android:layout_width="match_parent"
@@ -33,6 +42,15 @@
 
         <TextView
             android:id="@+id/messageLengthTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="New Text" />
+
+        <TextView
+            android:id="@+id/messageLengthStats"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,13 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ValueFormatter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle {
@@ -26,7 +31,11 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
     private StatPoint responseTime;
     private StatPoint avgMessageLength;
     private TextView responseTimeTextView;
+    private TextView responseTimeStats;
     private TextView messageLengthTextView;
+    private TextView messageLengthStats;
+    private int maxValResponseTime;
+    private int maxValAvgMessageLength;
     private boolean animate;
 
     public ResponseTimeFragment() {
@@ -44,6 +53,8 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         super.onCreate(savedInstanceState);
         responseTime = StatsFragment.getAnalytics().getResponseTime();
         avgMessageLength = StatsFragment.getAnalytics().getAvgMessageLengthWords();
+        maxValResponseTime = (int)(Math.max(responseTime.getReceived(),responseTime.getSent())/5)*5+5;
+        maxValAvgMessageLength = (int)(Math.max(avgMessageLength.getReceived(),avgMessageLength.getSent())/5)*5+5;
         animate = true;
         if (getArguments() != null) {
 
@@ -65,11 +76,23 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         responseTimeTextView.setTextColor(Color.WHITE);
         responseTimeChart = (HorizontalBarChart) view.findViewById(R.id.responseTimeChart);
 
+        responseTimeStats= (TextView) view.findViewById(R.id.responseLengthStats);
+        responseTimeStats.setText("You: "+getHMS(responseTime.getSent())+ "\nThem: " + getHMS(responseTime.getReceived()));
+        responseTimeStats.setTextSize(24f);
+        responseTimeStats.setTypeface(MainActivity.oswaldLight);
+        responseTimeStats.setTextColor(Color.WHITE);
+
         messageLengthTextView = (TextView) view.findViewById(R.id.messageLengthTitleView);
         messageLengthTextView.setText("Average Message Length");
         messageLengthTextView.setTextSize(36f);
         messageLengthTextView.setTypeface(MainActivity.oswaldLight);
         messageLengthTextView.setTextColor(Color.WHITE);
+
+        messageLengthStats = (TextView) view.findViewById(R.id.messageLengthStats);
+        messageLengthStats.setText("You: " + (int)(avgMessageLength.getSent()*10)/10.0 + " words\nThem: " + (int)(avgMessageLength.getReceived()*10)/10.0 + " words");
+        messageLengthStats.setTextSize(24f);
+        messageLengthStats.setTypeface(MainActivity.oswaldLight);
+        messageLengthStats.setTextColor(Color.WHITE);
 
         responseTimeChart = (HorizontalBarChart) view.findViewById(R.id.responseTimeChart);
         messageLengthChart = (HorizontalBarChart) view.findViewById(R.id.messageLengthChart);
@@ -104,6 +127,7 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         xl.setGridLineWidth(0.3f);
         xl.setAxisLineColor(Color.WHITE);
         xl.setAxisLineWidth(2f);
+        xl.setTextColor(Color.WHITE);
         xl.setDrawLabels(false);
         // xl.setEnabled(false);
 
@@ -113,13 +137,14 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         yl.setDrawGridLines(false);
         yl.setAxisLineColor(Color.WHITE);
         yl.setAxisLineWidth(2f);
+        yl.setTextColor(Color.WHITE);
 
 
         messageLengthChart.getAxisLeft().setValueFormatter(
                 new ValueFormatter() {
                     @Override
                     public String getFormattedValue(float value) {
-                        return "" + (int) value;
+                        return "|";
                     }
 
                 }
@@ -144,7 +169,10 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
 
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         dataSets.add(set1);
+        dataSets.get(0).setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
         dataSets.add(set2);
+        dataSets.get(1).setColor(Color.GRAY);
+
 
         BarData data = new BarData(xVals, dataSets);
         data.setValueTextSize(0f);
@@ -164,7 +192,6 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         responseTimeChart.setDoubleTapToZoomEnabled(false);
         responseTimeChart.setDescription("");
 
-
         // responseTimeChart.setDrawBarShadow(true);
 
         // mChart.setDrawXLabels(false);
@@ -179,6 +206,9 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         xl.setDrawGridLines(false);
         xl.setGridLineWidth(0.3f);
         xl.setDrawLabels(false);
+        xl.setAxisLineColor(Color.WHITE);
+        xl.setAxisLineWidth(2f);
+        xl.setTextColor(Color.WHITE);
         // xl.setEnabled(false);
 
         YAxis yl = responseTimeChart.getAxisLeft();
@@ -186,15 +216,28 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         yl.setDrawAxisLine(true);
         yl.setDrawGridLines(false);
         yl.setDrawLabels(true);
+        yl.setAxisLineColor(Color.WHITE);
+        yl.setAxisLineWidth(2f);
+        yl.setTextColor(Color.WHITE);
         responseTimeChart.getAxisLeft().setValueFormatter(
                 new ValueFormatter() {
                     @Override
-                    public String getFormattedValue(float value) {
-                        return "" + (int) value;
+                    public String getFormattedValue(float value)
+                    {
+                        return "|";
+                       /* Log.d("TAG", value+"");
+                        if (value<Math.max(responseTime.getReceived(),responseTime.getSent()))
+                        {
+                            return "";
+                        }
+                        else
+                        {
+                            return maxValResponseTime + "";
+                        }*/
                     }
-
                 }
         );
+        Log.d("TAG",maxValResponseTime+"");
 
 
         YAxis yr = responseTimeChart.getAxisRight();
@@ -212,10 +255,12 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         BarDataSet set1 = new BarDataSet(yVals1, "");
         BarDataSet set2 = new BarDataSet(yVals2, "");
         // set1.setBarSpacePercent(0f);
-        //TODO: Add color to graphs
+
         ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
         dataSets.add(set1);
+        dataSets.get(0).setColor(ColorTemplate.VORDIPLOM_COLORS[0]);
         dataSets.add(set2);
+        dataSets.get(1).setColor(Color.GRAY);
 
         BarData data = new BarData(xVals, dataSets);
         data.setValueTextSize(0f);
@@ -225,7 +270,18 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         responseTimeChart.setTouchEnabled(false);
         responseTimeChart.getLegend().setEnabled(false);
         responseTimeChart.animateY(1000);
+
     }
+
+    private String getHMS (double timeInMilliSeconds)
+    {
+        long seconds = (long) timeInMilliSeconds / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
+        return hours % 24 + "h, " + minutes % 60 + "m, " + seconds % 60 + "s";
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

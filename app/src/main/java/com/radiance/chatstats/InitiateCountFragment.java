@@ -84,7 +84,6 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
         pieChart.setCenterTextSize(48f);
         pieChart.setCenterTextColor(Color.WHITE);
 
-
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
        /* double sent = StatsFragment.analytics.getInitiateCount().getSent();
@@ -113,22 +112,6 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
         ArrayList<Integer> colors = new ArrayList<Integer>();
         colors.add(ColorTemplate.VORDIPLOM_COLORS[0]);
         colors.add(Color.GRAY);
-        // for (int c : ColorTemplate.VORDIPLOM_COLORS)
-        //  colors.add(c);
-
-        /*for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);*/
-/*
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);*/
-
-        /*for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);*/
-
-       /* for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);*/
-        //ColorTemplate.
-        colors.add(ColorTemplate.getHoloBlue());
 
         dataSet.setColors(colors);
 
