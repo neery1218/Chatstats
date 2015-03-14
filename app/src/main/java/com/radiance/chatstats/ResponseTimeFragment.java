@@ -81,7 +81,7 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
     }
 
     public void setMessageLengthGraph() {
-
+        messageLengthChart.setTouchEnabled(false);
         messageLengthChart.setDrawBarShadow(false);
         messageLengthChart.setDrawValueAboveBar(true);
         messageLengthChart.setDescription("");
