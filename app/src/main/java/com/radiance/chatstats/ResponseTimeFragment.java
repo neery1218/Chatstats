@@ -152,7 +152,6 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         // data.setValueTypeface(MainActivity.typeFaceRegular);
         messageLengthChart.setData(data);
         messageLengthChart.getLegend().setEnabled(false);
-        messageLengthChart.animateY(1000);
     }
 
     public void setResponseTimeGraph() {
@@ -224,7 +223,6 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
         responseTimeChart.setData(data);
         responseTimeChart.setTouchEnabled(false);
         responseTimeChart.getLegend().setEnabled(false);
-        responseTimeChart.animateY(1000);
     }
     @Override
     public void onAttach(Activity activity) {
@@ -239,7 +237,7 @@ public class ResponseTimeFragment extends Fragment implements FragmentLifeCycle 
     @Override
     public void onPauseFragment() {
 
-
+        animate = false;
     }
 
     @Override

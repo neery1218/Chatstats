@@ -172,6 +172,6 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
 
     @Override
     public void onResumeFragment() {
-        radarChart.animateXY(1000, 1000);
+        radarChart.animateXY(0, 1000);
     }
 }
