@@ -19,6 +19,7 @@ public class Analytics {
     private StatPoint avgMessageLengthWords;
     private StatPoint initiateCount;
     private StatPoint responseTime;
+    private ArrayList<DateFrequency> dateFrequencies;
 
 
     public Analytics(ConversationThread c) {
