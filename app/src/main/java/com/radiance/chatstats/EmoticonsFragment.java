@@ -110,7 +110,8 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
             radarChart.setData(data);
             radarChart.getLegend().setEnabled(false);
 
-        }
+        } else
+            scaleTextView.setVisibility(View.INVISIBLE);
         /*radarChart.getYAxis().setValueFormatter(
                 new ValueFormatter() {
 

@@ -157,10 +157,16 @@ public class StatsFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
     private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
 
         int currentPosition = 0;
-        String[] colors = {"#ff1bbc9b", "#ffaaaaaa", "#ffe8b75a", "#ff34495e",};
+        String[] colors = {"#ff1bbc9b", "#ffaaaaaa", "#ffe8b75a", "#ff34495e", "#ff000000"};
         @Override
         public void onPageSelected(int newPosition) {
 
@@ -180,12 +186,6 @@ public class StatsFragment extends Fragment {
         public void onPageScrollStateChanged(int arg0) {
         }
     };
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     public interface OnToBeDeterminedListener {
         public void onToBeDetermined(ArrayList<String> id);

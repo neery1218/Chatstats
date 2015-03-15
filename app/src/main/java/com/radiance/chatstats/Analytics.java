@@ -1,7 +1,6 @@
 package com.radiance.chatstats;
 
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.radiance.chatstats.SMS.Status;
 
@@ -37,6 +36,9 @@ public class Analytics {
         hourFrequencies = calcHourFrequencies();
     }
 
+    public StatPoint[] getHourFrequencies() {
+        return hourFrequencies;
+    }
     public ArrayList<StatPoint> getBigThree() {//used by mainActivity to send to StatsFragment
         ArrayList<StatPoint> bigThree = new ArrayList<StatPoint>();
         bigThree.add(avgMessageLengthWords);
@@ -216,7 +218,7 @@ public class Analytics {
 
         for (int i = 0; i < temp.length; i++)
         {
-            Log.d("TAG", i + " o clock: " + temp[i]);
+            Log.d("freq", i + " o clock: " + temp[i]);
         }
         return temp;
     }

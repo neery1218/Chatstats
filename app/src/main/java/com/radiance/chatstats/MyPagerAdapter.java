@@ -19,6 +19,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     private SummaryFragment summaryFragment;
     private EmoticonsFragment emoticonsFragment;
     private MessageLengthFragment messageLengthFragment;
+    private HourFrequencyFragment hourFrequencyFragment;
 
     public MyPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -27,10 +28,12 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
         initiateCountFragment = new InitiateCountFragment();
         responseTimeFragment = new ResponseTimeFragment();
         emoticonsFragment = new EmoticonsFragment();
+        hourFrequencyFragment = new HourFrequencyFragment();
         fragments.add(totalMessagesFragment);
         fragments.add(initiateCountFragment);
         fragments.add(responseTimeFragment);
         fragments.add(emoticonsFragment);
+        fragments.add(hourFrequencyFragment);
     }
 
     @Override
