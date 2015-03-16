@@ -58,7 +58,6 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
 
     @Override
     public void onBackPressed() {
-
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if (f instanceof ContactsFragment) ;
         else {
@@ -68,20 +67,21 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
         }
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
+           *//* getFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, new SettingsFragment())
+                    .commit();*//*
+            *//*getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new SettingsFragment())
+                    .commit();*//*
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
