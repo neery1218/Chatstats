@@ -163,10 +163,14 @@ public class StatsFragment extends Fragment {
         mListener = null;
     }
 
+    public interface OnToBeDeterminedListener {
+        public void onToBeDetermined(ArrayList<String> id);
+    }
+
     private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
 
         int currentPosition = 0;
-        String[] colors = {"#ff1bbc9b", "#ffaaaaaa", "#ffe8b75a", "#ff34495e", "#ff000000"};
+        String[] colors = {"#ff1bbc9b", "#ffaaaaaa", "#ffD1A551", "#ff34495e", "#ff000000"};
         @Override
         public void onPageSelected(int newPosition) {
 
@@ -186,10 +190,6 @@ public class StatsFragment extends Fragment {
         public void onPageScrollStateChanged(int arg0) {
         }
     };
-
-    public interface OnToBeDeterminedListener {
-        public void onToBeDetermined(ArrayList<String> id);
-    }
 
 
 }
