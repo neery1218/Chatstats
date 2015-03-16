@@ -60,7 +60,7 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
     public void onBackPressed() {
 
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (f instanceof ContactsFragment);
+        if (f instanceof ContactsFragment) ;
         else {
             finish();
             Intent i = getBaseContext().getPackageManager()
