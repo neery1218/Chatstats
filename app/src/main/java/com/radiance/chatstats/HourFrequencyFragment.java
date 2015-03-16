@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +39,7 @@ public class HourFrequencyFragment extends Fragment implements FragmentLifeCycle
     private StatPoint[] hourFrequencies;
     private TextView mostFrequentTextView;
     private int[] frequency;
+    private int max;
     private String[] timesOfDay = {"Morning", "Afternoon", "Evening", "Night"};
     private int[] colorChoices = {ColorTemplate.VORDIPLOM_COLORS[0], ColorTemplate.VORDIPLOM_COLORS[1], ColorTemplate.VORDIPLOM_COLORS[2], ColorTemplate.getHoloBlue()};
 
@@ -137,7 +136,7 @@ public class HourFrequencyFragment extends Fragment implements FragmentLifeCycle
             colors.add(colorChoices[times[(i + 18) % 24]]);
         }
         dataSets.get(0).setColors(colors);
-        int max = 0;
+        max = 0;
         int min = 0;
         for (int i = 0; i < frequency.length; i++) {
             if (frequency[i] > frequency[max])
@@ -148,8 +147,10 @@ public class HourFrequencyFragment extends Fragment implements FragmentLifeCycle
 
 
         // mostFrequentTextView.setText(""+ timesOfDay[max]);
-        Spanned text = Html.fromHtml("Most Contacted Time\n<b>" + timesOfDay[max] + "</b>" + "\nLeast ContactedTime\n<b>" + timesOfDay[min] + "</b>");
-        mostFrequentTextView.setText(text);
+        //  Spanned text = Html.fromHtml("Most Contacted Time\n<b>" + timesOfDay[max] + "</b>" + "\nLeast ContactedTime\n<b>" + timesOfDay[min] + "</b>");
+        mostFrequentTextView.setText(timesOfDay[max]);
+        mostFrequentTextView.setTextColor(colorChoices[max]);
+
        /* for (int i = 0; i < valueTextViews.length; i++) {
             valueTextViews[i].setText("" + frequency[i]);
             valueTextViews[i].setTextColor(colorChoices[i]);
@@ -218,10 +219,11 @@ public class HourFrequencyFragment extends Fragment implements FragmentLifeCycle
         data.setValueTextColor(Color.WHITE);
         data.setValueTypeface(MainActivity.typeFaceRegular);
         pieChart.setData(data);
-        // pieChart.setHighlightEnabled(true);
-
+        pieChart.setHighlightEnabled(true);
+        pieChart.highlightTouch(new Highlight(max, 0));
+        //pieChart.chart
         // undo all highlights
-        pieChart.highlightValues(null);
+        // pieChart.highlightValues(null);
 
         pieChart.invalidate();
 
@@ -251,14 +253,18 @@ public class HourFrequencyFragment extends Fragment implements FragmentLifeCycle
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hour_frequency, container, false);
         titleTextView = (TextView) view.findViewById(R.id.hourFrequencyTitleView);
-        titleTextView.setText("Message Frequency");
+        titleTextView.setText("Most Active Time of Day");
         titleTextView.setTextSize(36f);
         titleTextView.setTypeface(MainActivity.oswaldLight);
+      /*  titleTextView.setTextSize(26f);
+        titleTextView.setTypeface(MainActivity.typeFaceRegular);*/
         titleTextView.setTextColor(Color.WHITE);
 
 
         mostFrequentTextView = (TextView) view.findViewById(R.id.mostFrequentTextView);
         mostFrequentTextView.setTextColor(Color.WHITE);
+        mostFrequentTextView.setTypeface(MainActivity.typeFaceRegular);
+        mostFrequentTextView.setTextSize(24f);
         // legendTextView = (TextView)view.findViewById(R.id.HourFrequencyLegend);
       /*  nameTextViews[0] = (TextView) view.findViewById(R.id.Title1);
         nameTextViews[1] = (TextView) view.findViewById(R.id.Title2);
@@ -306,10 +312,9 @@ public class HourFrequencyFragment extends Fragment implements FragmentLifeCycle
 
     @Override
     public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
-
+        pieChart.highlightValues(null);
         mostFrequentTextView.setText(timesOfDay[e.getXIndex()]);
-        mostFrequentTextView.setTypeface(MainActivity.typeFaceRegular);
-        mostFrequentTextView.setTextSize(24f);
+
         mostFrequentTextView.setTextColor(colorChoices[e.getXIndex()]);
         pieChart.setCenterText("" + (int) (frequency[e.getXIndex()] * 1000.0 / (frequency[0] + frequency[1] + frequency[2] + frequency[3])) * 1.0 / 10 + "%");
 
