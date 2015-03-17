@@ -30,6 +30,7 @@ import com.github.mikephil.charting.utils.ValueFormatter;
 import java.util.ArrayList;
 
 public class HourFrequencyFragment extends Fragment implements FragmentLifeCycle, OnChartValueSelectedListener {
+    boolean animate;
     private TextView titleTextView;
     private TextView legendTextView;
     private TextView[] valueTextViews;
@@ -243,6 +244,7 @@ public class HourFrequencyFragment extends Fragment implements FragmentLifeCycle
         hourFrequencies = StatsFragment.getAnalytics().getHourFrequencies();
         nameTextViews = new TextView[4];
         valueTextViews = new TextView[4];
+        animate = true;
 
 
 
@@ -307,7 +309,11 @@ public class HourFrequencyFragment extends Fragment implements FragmentLifeCycle
 
     @Override
     public void onResumeFragment() {
-        barChart.animateXY(0, 1000);
+        if (animate) {
+            barChart.animateXY(1000, 1000);
+            animate = false;
+        }
+
     }
 
     @Override

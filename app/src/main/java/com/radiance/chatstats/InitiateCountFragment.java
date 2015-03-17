@@ -8,7 +8,6 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -161,11 +160,11 @@ public class InitiateCountFragment extends Fragment implements FragmentLifeCycle
     @Override
     public void onResumeFragment() {
         if (animate) {
-            AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+            //  AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
 
-            text.startAnimation(fadeIn);
+         /*   text.startAnimation(fadeIn);
             fadeIn.setDuration(1000);
-            fadeIn.setFillAfter(true);
+            fadeIn.setFillAfter(true);*/
 
             pieChart.animateXY(1000, 1000);
             animate = false;
