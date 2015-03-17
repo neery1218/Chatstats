@@ -27,6 +27,7 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
     StatsFragment statsFragment;
     LoadingFragment loadingFragment;
     DialogFragment contactPhoneNumberDialog;
+    private Intent i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +158,24 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v("destroy", "destroy");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+    }
     @Override
     public void onToBeDetermined(ArrayList<String> id) {
 
