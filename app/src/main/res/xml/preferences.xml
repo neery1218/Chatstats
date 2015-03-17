@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- opens a subscreen of settings -->
-    <PreferenceScreen
-        android:key="button_voicemail_category_key"
-        android:title="Yolo"
-        android:persistent="false">
-        <ListPreference
-            android:key="button_voicemail_provider_key"
-            android:title="Hello" />
-        <!-- opens another nested subscreen -->
-        <PreferenceScreen
-            android:key="button_voicemail_setting_key"
-            android:title="VoiceMail"
-            android:persistent="false">
-        </PreferenceScreen>
-        <RingtonePreference
-            android:key="button_voicemail_ringtone_key"
-            android:title="Ringtone"
-            android:ringtoneType="notification"/>
-    </PreferenceScreen>
+
+    <MultiSelectListPreference
+        android:key="emoticons_key"
+        android:title="Select desired emoticons"
+        android:dialogTitle="Pick as many as you want!"
+        android:entries="@array/entries_emoticons"
+        android:entryValues="@array/entryvalues_emoticons"
+        android:defaultValue="@array/default_values_emoticons"/>
+
+    <EditTextPreference
+        android:key="custom_emoticons_key"
+        android:title="Add your own emoticons!"
+        android:dialogTitle="Enter emoticons, separating each with a comma."
+        android:persistent="true"
+        android:defaultValue=""
+        />
+
 </PreferenceScreen>

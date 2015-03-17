@@ -1,16 +1,20 @@
 package com.radiance.chatstats;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.radiance.chatstats.SMS.Status;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Set;
 
 //Static Class
 //Static Class
 public class Analytics {
-    public static final String[] EMOTICONS = {":p", ":)", ";)", "<3", ":D", "</3"};
+    public static String[] EMOTICONS = {":p", ":)", ";)", "<3", ":D", "</3"};
     //Dictionaries
     private static ArrayList<String> commonWords;
     //Variables
@@ -22,10 +26,33 @@ public class Analytics {
     private StatPoint responseTime;
     private ArrayList<DateFrequency> dateFrequencies;
     private StatPoint[] hourFrequencies;
+    private MainActivity mainActivity;
 
-
-    public Analytics(ConversationThread c) {
+    public Analytics(ConversationThread c, MainActivity mainActivity) {
         this.c = c;
+        this.mainActivity = mainActivity;
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mainActivity);
+        String[] checkboxEmoticons = sharedPref.getStringSet("emoticons_key", null).toArray(new String[0]);
+        ArrayList<String> customEmoticonsSet = new ArrayList<String>(Arrays.asList(sharedPref.getString("custom_emoticons_key",null).split("\\s*,\\s*")));
+        String [] customEmoticons;
+
+        for (int i = 0; i < customEmoticonsSet.size(); i++)
+        {
+            customEmoticonsSet.set(i,customEmoticonsSet.get(i).trim());
+        }
+        customEmoticonsSet.remove("");
+        customEmoticons = customEmoticonsSet.toArray(new String[0]);
+
+        Log.d("TAG", Arrays.toString(checkboxEmoticons));
+        Log.d("TAG", Arrays.toString(customEmoticons));
+
+        EMOTICONS = new String[checkboxEmoticons.length + customEmoticons.length];
+        System.arraycopy(checkboxEmoticons, 0, EMOTICONS, 0, checkboxEmoticons.length);
+        System.arraycopy(customEmoticons, 0, EMOTICONS, checkboxEmoticons.length, customEmoticons.length);
+
+        Log.d("TAG",Arrays.toString(EMOTICONS));
+
         emoticonCount = calcEmoticonCount();
         sentAndReceived = calcSentAndReceived();
 
@@ -208,7 +235,7 @@ public class Analytics {
             int hour = helper.get(Calendar.HOUR_OF_DAY);
             Status status = current.getStatus();
 
-            Log.d("TAG", "Hour: " + hour);
+            //Log.d("TAG", "Hour: " + hour);
 
             if (status == Status.RECEIVED)
                 temp[hour].incrementReceived();
@@ -218,7 +245,7 @@ public class Analytics {
 
         for (int i = 0; i < temp.length; i++)
         {
-            Log.d("freq", i + " o clock: " + temp[i]);
+            //Log.d("freq", i + " o clock: " + temp[i]);
         }
         return temp;
     }

@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 
 import com.dd.CircularProgressButton;
@@ -24,13 +26,12 @@ public class LoadingFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private OnErrorListener nListener;
     private int cursorsFinished;
-    private ImageView logoImage;
+    private ImageView loadingScreen;
     private ArrayList<String> address;
     private ConversationThread conversationThread;
     private ArrayList<Conversation> messages;
     private Analytics analytics;
-    private int phoneNumIndex = 0; //Which phone number??????
-    private CircularProgressButton analyticsLoadingButton;
+    private int phoneNumIndex = 0; //Which phone number?
 
     public LoadingFragment() {
         // Required empty public constructor
@@ -63,18 +64,13 @@ public class LoadingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_loading, container, false);
-        //logoImage = (ImageView) view.findViewById((R.id.logoImage));
-        analyticsLoadingButton = (CircularProgressButton) view.findViewById(R.id.analyticsLoadingText);
-        analyticsLoadingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (analyticsLoadingButton.getProgress() != 100){}
-                else {
-                    mListener.onLoadingFinished(analytics, contact);
-                }
-            }
-        });
-
+        loadingScreen = (ImageView) view.findViewById(R.id.loadingScreen);
+        loadingScreen.setImageResource(R.drawable.loadingscreen);
+        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.5f);
+                    anim.setDuration(1000);
+                    anim.setRepeatCount(10);
+                    anim.setRepeatMode(Animation.REVERSE);
+                    loadingScreen.startAnimation(anim);
         return view;
     }
 
@@ -121,8 +117,6 @@ public class LoadingFragment extends Fragment {
                 @Override
                 public void run() {
                     //logoImage.setImageResource(R.drawable.logoimage);
-                    analyticsLoadingButton.setIndeterminateProgressMode(true);
-                    analyticsLoadingButton.setProgress(50);
                     /*AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                     anim.setDuration(1000);
                     anim.setRepeatCount(10);
@@ -148,13 +142,12 @@ public class LoadingFragment extends Fragment {
                     }
                 });
             } else {
-                analytics = new Analytics(conversationThread);
+                analytics = new Analytics(conversationThread, (MainActivity) getActivity());
 
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        analyticsLoadingButton.setProgress(100);
-                        analyticsLoadingButton.callOnClick();
+                        mListener.onLoadingFinished(analytics, contact);
                     }
                 });
             }

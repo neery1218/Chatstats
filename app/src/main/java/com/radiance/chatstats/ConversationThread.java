@@ -106,7 +106,7 @@ public class ConversationThread {//holds array of conversations
         {
             double delay = (double)(messages.get(i+1).getDate() - messages.get(i).getDate());
             stats.addValue(delay);
-            Log.d("TAG", delay + "");
+            //Log.d("TAG", delay + "");
         }
 
         long responseThreshold = (long) stats.getPercentile(50);
@@ -179,7 +179,7 @@ public class ConversationThread {//holds array of conversations
             }
 
             temp = new Conversation(new ArrayList<Response>(responses.subList(begin, end + 1)));
-            Log.d("TAG",temp.toString());
+            //Log.d("TAG",temp.toString());
             conversations.add(temp);
 
             begin = end + 1;

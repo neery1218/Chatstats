@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="entries_emoticons">
+        <item>:)</item>
+        <item>:(</item>
+        <item>&lt;3</item>
+        <item>:P</item>
+        <item>:D</item>
+        <item>:/</item>
+    </string-array>
+
+    <string-array name="entryvalues_emoticons">
+        <item>:)</item>
+        <item>:(</item>
+        <item>&lt;3</item>
+        <item>:P</item>
+        <item>:D</item>
+        <item>:/</item>
+    </string-array>
+
+    <string-array name="default_values_emoticons">
+        <item>:)</item>
+        <item>:(</item>
+        <item>&lt;3</item>
+        <item>:P</item>
+        <item>:D</item>
+    </string-array>
+</resources>

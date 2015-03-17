@@ -3,6 +3,7 @@ package com.radiance.chatstats;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,6 +33,8 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         contactsFragment = new ContactsFragment();//initializing first fragment being used
 
@@ -73,15 +76,11 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        /*if (id == R.id.action_settings) {
-           *//* getFragmentManager().beginTransaction()
-                    .replace(android.R.id.content, new SettingsFragment())
-                    .commit();*//*
-            *//*getFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new SettingsFragment())
-                    .commit();*//*
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this,SettingsActivity.class);
+            startActivity(settingsIntent);
             return true;
-        }*/
+        }
 
         return super.onOptionsItemSelected(item);
     }
