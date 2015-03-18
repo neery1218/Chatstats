@@ -14,9 +14,11 @@ import java.util.Set;
 //Static Class
 //Static Class
 public class Analytics {
-    public static String[] EMOTICONS = {":p", ":)", ";)", "<3", ":D", "</3"};
     //Dictionaries
-    private static ArrayList<String> commonWords;
+    public static String[] EMOTICONS;
+    //Future features
+    //private static ArrayList<String> commonWords;
+
     //Variables
     private ConversationThread c;
     private ArrayList<StatPoint> emoticonCount;
@@ -24,19 +26,25 @@ public class Analytics {
     private StatPoint avgMessageLengthWords;
     private StatPoint initiateCount;
     private StatPoint responseTime;
-    private ArrayList<DateFrequency> dateFrequencies;
     private StatPoint[] hourFrequencies;
     private MainActivity mainActivity;
+    //Future features
+    //private ArrayList<DateFrequency> dateFrequencies;
 
-    public Analytics(ConversationThread c, MainActivity mainActivity) {
+    public Analytics(ConversationThread c, MainActivity mainActivity)
+    {
+        //Passes in reference to main activity, conversation thread to perform algorithms on
         this.c = c;
         this.mainActivity = mainActivity;
 
+        //Retrieves shared preferences
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mainActivity);
+        //Retrieve selectable emoticons
         String[] checkboxEmoticons = sharedPref.getStringSet("emoticons_key", null).toArray(new String[0]);
+        //Retrieve customized emoticon set, split into arrays by comma
         ArrayList<String> customEmoticonsSet = new ArrayList<String>(Arrays.asList(sharedPref.getString("custom_emoticons_key",null).split("\\s*,\\s*")));
         String [] customEmoticons;
-
+        //Trims leading and trailing spaces, casts to array
         for (int i = 0; i < customEmoticonsSet.size(); i++)
         {
             customEmoticonsSet.set(i,customEmoticonsSet.get(i).trim());
@@ -44,15 +52,14 @@ public class Analytics {
         customEmoticonsSet.remove("");
         customEmoticons = customEmoticonsSet.toArray(new String[0]);
 
-        Log.d("TAG", Arrays.toString(checkboxEmoticons));
-        Log.d("TAG", Arrays.toString(customEmoticons));
-
+        //Concatenates checkbox emoticons and custom emoticons to get emoticon array
         EMOTICONS = new String[checkboxEmoticons.length + customEmoticons.length];
         System.arraycopy(checkboxEmoticons, 0, EMOTICONS, 0, checkboxEmoticons.length);
         System.arraycopy(customEmoticons, 0, EMOTICONS, checkboxEmoticons.length, customEmoticons.length);
 
-        Log.d("TAG",Arrays.toString(EMOTICONS));
+        //Log.d("TAG",Arrays.toString(EMOTICONS));
 
+        //Calculates statistics
         emoticonCount = calcEmoticonCount();
         sentAndReceived = calcSentAndReceived();
 
@@ -63,9 +70,11 @@ public class Analytics {
         hourFrequencies = calcHourFrequencies();
     }
 
+    //Getters
     public StatPoint[] getHourFrequencies() {
         return hourFrequencies;
     }
+
     public ArrayList<StatPoint> getBigThree() {//used by mainActivity to send to StatsFragment
         ArrayList<StatPoint> bigThree = new ArrayList<StatPoint>();
         bigThree.add(avgMessageLengthWords);
@@ -102,6 +111,7 @@ public class Analytics {
         return c.getNumConversations();
     }
 
+    //Searches for occurrences of a string array, whether regex is turned on can be selected
     public ArrayList<StatPoint> searchFor(String[] str, Boolean regex) {
         ArrayList<StatPoint> temp = new ArrayList<StatPoint>();
         for (int i = 0; i < str.length; i++) {
@@ -110,14 +120,14 @@ public class Analytics {
         return temp;
     }
 
-    public StatPoint searchFor(String s, Boolean regex) // initializes used to search the SMS messages for a passed string
+    //Searches for occurrences of a string, whether regex is turned on can be selected
+    public StatPoint searchFor(String s, Boolean regex)
     {
-
         ArrayList<SMS> searchArray = c.getMessages();
         int S = 0, R = 0;
 
-        for (int i = 0; i < searchArray.size(); i++) {
-
+        for (int i = 0; i < searchArray.size(); i++)
+        {
             if (searchArray.get(i).getStatus() == Status.SENT)// checks enum for type of message
                 S += searchArray.get(i).getNumOf(s, regex);
             else
@@ -127,14 +137,14 @@ public class Analytics {
         return (new StatPoint(S, R));
     }
 
-    public StatPoint calcSentAndReceived() // initializes amount of sent messages vs received
-    {// maybe responses instead?
+    public StatPoint calcSentAndReceived() // initializes amount of sent messages vs received messages
+    {
         int S = c.getSent().size();
         int R = c.getReceived().size();
         return (new StatPoint(S, R));
     }
 
-    public StatPoint calcAvgMessageLengthWords() // initializes the average message length
+    public StatPoint calcAvgMessageLengthWords() //calculates average sent message length vs received message length
     {
         double S = 0.0, R = 0.0;
 
@@ -155,7 +165,7 @@ public class Analytics {
         }
 
         S /= sentSize;
-        R /= receivedSize;// maybe truncate it at some point? decimals mean nothing
+        R /= receivedSize;
 
         return (new StatPoint(S, R));
     }
@@ -165,16 +175,19 @@ public class Analytics {
         return searchFor(EMOTICONS, false);
     }
 
-    public StatPoint calcInitiateCount() // initializes the amount of initiations per user
+    public StatPoint calcInitiateCount() //calulates number of conversations started by the user
     {
         ArrayList<Conversation> conversations = c.getConversations();
 
         int S = 0, R = 0;
 
         for (int i = 0; i < conversations.size(); i++) {
-            if (conversations.get(i).getInitiator() == Status.RECEIVED) {
+            if (conversations.get(i).getInitiator() == Status.RECEIVED)
+            {
                 R++;
-            } else {
+            }
+            else
+            {
                 S++;
             }
         }
@@ -193,7 +206,7 @@ public class Analytics {
         double responsesSent = 0.0, responsesReceived = 0.0;
 
         for (int i = 0; i < conversations.size(); i++) {
-            temp = conversations.get(i).getConversation();// returns arrayList of responses. i know, confusing af
+            temp = conversations.get(i).getConversation();
             if (temp.get(0).getStatus() == Status.SENT)
                 responsesSent++;
             else
@@ -210,17 +223,18 @@ public class Analytics {
             }
         }
 
-        Log.v("Time", "" + timeSent + "    " + timeReceived);
-        timeSent /= (responsesSent);//returns it in seconds right
-        timeReceived /= (responsesReceived);// responsesSent = sentSize, we're duplicating code here
+        timeSent /= (responsesSent);//returns it in seconds
+        timeReceived /= (responsesReceived);
 
         return new StatPoint(timeSent, timeReceived);//uses statpoint object
     }
 
-    private StatPoint[] calcHourFrequencies ()
+    private StatPoint[] calcHourFrequencies () //Computes number of messages sent at different hours of the day
     {
         ArrayList<SMS> messages = c.getMessages();
         Calendar helper = Calendar.getInstance();
+
+        //Array with length 24, one for each hour of the day
         StatPoint[] temp = new StatPoint[24];
         for (int i = 0; i < temp.length; i++)
         {
@@ -235,18 +249,12 @@ public class Analytics {
             int hour = helper.get(Calendar.HOUR_OF_DAY);
             Status status = current.getStatus();
 
-            //Log.d("TAG", "Hour: " + hour);
-
             if (status == Status.RECEIVED)
                 temp[hour].incrementReceived();
             else
                 temp[hour].incrementSent();
         }
 
-        for (int i = 0; i < temp.length; i++)
-        {
-            //Log.d("freq", i + " o clock: " + temp[i]);
-        }
         return temp;
     }
 

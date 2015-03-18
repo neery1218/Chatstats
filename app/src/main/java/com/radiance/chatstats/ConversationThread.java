@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ConversationThread {//holds array of conversations
-    //TODO improve retrieving method
-    //TODO shorten matchAddress() method
-    //TODO initializeConversation method is terrible
 
     private ArrayList<SMS> messages;
     private ArrayList<SMS> sent;
@@ -53,13 +50,6 @@ public class ConversationThread {//holds array of conversations
             initializeConversations();
         }
     }
-
-
-    public void adjustToDate()
-    {
-
-    }
-
     public boolean isEmpty() {return empty;}
 
     public ArrayList<SMS> getMessages() {
@@ -106,24 +96,9 @@ public class ConversationThread {//holds array of conversations
         {
             double delay = (double)(messages.get(i+1).getDate() - messages.get(i).getDate());
             stats.addValue(delay);
-            //Log.d("TAG", delay + "");
         }
 
-        long responseThreshold = (long) stats.getPercentile(50);
-        /*double mean = stats.getMean(), median = stats.getPercentile(50), std = stats.getStandardDeviation();
-
-        for (int i = 5; i < 100; i+=5)
-        {
-            if (stats.getPercentile(i)>60000)
-            Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/60000 + " minutes");
-
-            else
-            Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/1000 + " seconds");
-        }
-
-        Log.d("TAG","MEAN: "+mean);
-        Log.d("TAG","STDEV: "+std);
-        Log.d("TAG","THRESHOLD: "+conversationThreshold);*/
+        long responseThreshold = Math.min((long) stats.getPercentile(50), 1800*1000);
 
         while (end != messages.size() - 1) {
             end = begin;
@@ -138,7 +113,6 @@ public class ConversationThread {//holds array of conversations
                 key = messages.get(end + 1).getStatus();
             }
 
-            //Log.v("Flag", "(" + begin + ", " + end);
             begin = end + 1;
         }
 
@@ -156,21 +130,8 @@ public class ConversationThread {//holds array of conversations
         {
             double delay = (double)(responses.get(i+1).getDateStart() - responses.get(i).getDateEnd());
             stats.addValue(delay);
-            //og.d("TAG", delay + "");
         }
-        long conversationThreshold = (long) stats.getPercentile(90);
-
-        /*for (int i = 5; i < 100; i+=5)
-        {
-            if (stats.getPercentile(i)>24*60*60*1000)
-            Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/(24*60*60*1000) + " days");
-            else if (stats.getPercentile(i)>60*60*1000)
-                Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/(60*60*1000) + " hours");
-            else if (stats.getPercentile(i)>60*1000)
-                Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/(60*1000) + " minutes");
-            else
-                Log.d("TAG", i + "th percentile: " + stats.getPercentile(i)/1000 + " seconds");
-        }*/
+        long conversationThreshold = Math.min((long) stats.getPercentile(90), 7200*1000);
 
         while (end != responses.size() - 1) {
             end = begin;
@@ -189,7 +150,6 @@ public class ConversationThread {//holds array of conversations
     private boolean matchAddress(String temp, String key)//checks if two addresses are the same
     {
         //Processes temp to get rid of brackets and stuff
-        // Log.d("TAG", "FIRST: " + temp + "SECOND" + key);
         String tempProcessed = "";
         String keyProcessed = "";
         for (int i = 0; i < temp.length(); i++)//remove all non-digit characters ( ')',')','+','-')
