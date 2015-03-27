@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -148,7 +147,6 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
 
     @Override
     public void onError() {
-        Log.d("TAG", "ERROR");
         ErrorDialog errorDialog = new ErrorDialog();
         errorDialog.show(fragmentManager, "TAG");
         fragmentManager = getSupportFragmentManager();
@@ -166,7 +164,6 @@ public class MainActivity extends ActionBarActivity implements StatsFragment.OnT
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.v("destroy", "destroy");
     }
 
     @Override

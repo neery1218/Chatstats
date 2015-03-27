@@ -1,7 +1,5 @@
 package com.radiance.chatstats;
 
-import android.util.Log;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.regex.Pattern;

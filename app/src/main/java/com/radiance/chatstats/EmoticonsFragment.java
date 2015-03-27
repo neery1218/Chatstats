@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +42,6 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
     }
 
     public void setRadarChart() {
-        //Title
-        Log.d("TAG", emoticons.toString());
         radarChart.setDescription("");
 
         //Defines properties of the web
@@ -125,7 +122,6 @@ public class EmoticonsFragment extends Fragment implements FragmentLifeCycle {
                 }
         );*/
 
-        Log.v("max", "" + max);
         radarChart.getYAxis().setValueFormatter(new MaxValueFormatter());
         //TODO have a scale textview
 

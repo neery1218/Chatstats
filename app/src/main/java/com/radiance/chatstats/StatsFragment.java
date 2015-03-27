@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,6 @@ public class StatsFragment extends Fragment {
 
     public static void setLayoutColor(String color) {
         layout.setBackgroundColor(Color.parseColor(color));
-        Log.v("color", color);
     }
 
     public static StatsFragment newInstance() {

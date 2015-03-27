@@ -2,8 +2,6 @@ package com.radiance.chatstats;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
 import com.radiance.chatstats.SMS.Status;
 
 import java.util.ArrayList;

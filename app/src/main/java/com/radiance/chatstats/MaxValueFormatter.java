@@ -1,7 +1,5 @@
 package com.radiance.chatstats;
 
-import android.util.Log;
-
 import com.github.mikephil.charting.utils.ValueFormatter;
 
 /**
@@ -20,7 +18,6 @@ public class MaxValueFormatter implements ValueFormatter {
 
     @Override
     public String getFormattedValue(float value) {
-        Log.v("value", "" + value);
         if (value > max)
             max = (int) value;
         return "";

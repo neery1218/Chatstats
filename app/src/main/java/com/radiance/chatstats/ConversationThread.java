@@ -5,7 +5,6 @@ package com.radiance.chatstats;
  */
 
 import android.database.Cursor;
-import android.util.Log;
 
 import com.radiance.chatstats.SMS.Status;
 
