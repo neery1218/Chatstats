@@ -20,51 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dd6ab29-ab38-4ee4-8784-c7824199b9e5" name="Default" comment="">
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\Analytics.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/Analytics.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\Contact.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/Contact.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\ContactAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/ContactAdapter.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\ContactPhoneNumberDialog.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/ContactPhoneNumberDialog.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\ContactsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/ContactsFragment.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\Conversation.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/Conversation.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\ConversationThread.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/ConversationThread.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\DateFrequency.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/DateFrequency.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\EmoticonsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/EmoticonsFragment.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\ErrorDialog.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/ErrorDialog.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\FragmentLifeCycle.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/FragmentLifeCycle.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\HourFrequencyFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/HourFrequencyFragment.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\InitiateCountFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/InitiateCountFragment.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\LoadingFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/LoadingFragment.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/MainActivity.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\MaxValueFormatter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/MaxValueFormatter.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\MessageLengthFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/MessageLengthFragment.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\MyPagerAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/MyPagerAdapter.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\PhoneNumberAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/PhoneNumberAdapter.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\Response.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/Response.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\ResponseTimeFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/ResponseTimeFragment.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\SMS.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/SMS.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\SettingsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/SettingsActivity.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\SettingsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/SettingsFragment.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\StatPoint.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/StatPoint.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\StatsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/StatsFragment.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\StatsPagerAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/StatsPagerAdapter.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\SummaryFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/SummaryFragment.java" />
-      <change type="MOVED" beforePath="C:\Users\Richard\workspace\Chatstats\app\src\main\java\com\radiance\chatstats\TotalMessagesFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/radianceTOPS/chatstats/TotalMessagesFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_contact_phone_number.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_contact_phone_number.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_contacts_grid.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_contacts_grid.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_contacts_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_contacts_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_emoticons.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_emoticons.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_error_dialog.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_error_dialog.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_hour_frequency.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_hour_frequency.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_initiate_count.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_initiate_count.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_message_length.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_message_length.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_response_time.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_response_time.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_settings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_stats.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_stats.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_summary.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_summary.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_total_messages.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_total_messages.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_settings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Chatstats.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -2094,20 +2050,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21124361" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3270869" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3492334" sideWeight="0.49848714" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25553662" sideWeight="0.54462934" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3270869" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3270869" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45655876" sideWeight="0.7390318" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45655876" sideWeight="0.26096824" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2122,7 +2079,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="92" y="92" width="1182" height="544" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
