@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:fillViewport="true"
     android:focusable="false"
-    tools:context="com.radiance.chatstats.EmoticonsFragment">
+    tools:context="com.radianceTOPS.chatstats.EmoticonsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

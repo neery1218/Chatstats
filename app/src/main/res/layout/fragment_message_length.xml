@@ -8,7 +8,7 @@
     android:focusable="false"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.radiance.chatstats.MessageLengthFragment">
+    tools:context="com.radianceTOPS.chatstats.MessageLengthFragment">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:background="#ffff7066"
         android:orientation="vertical"
-        tools:context="com.radiance.chatstats.MessageLengthFragment">
+        tools:context="com.radianceTOPS.chatstats.MessageLengthFragment">
 
         <TextView
             android:id="@+id/titleView"
